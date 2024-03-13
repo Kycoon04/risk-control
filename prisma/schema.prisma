@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model TL_Answers {
+  id         Int        @id @default(autoincrement())
+  user       Int
+  option     Int
+  answer     String     @db.VarChar(100)
+  TL_Options TL_Options @relation(fields: [option], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "as_optionfk")
+  TL_Users   TL_Users   @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "as_userfk")
+
+  @@index([option], map: "as_optionfk_idx")
+  @@index([user], map: "as_userfk_idx")
+}
+
+model TL_DeparXforms {
+  id              Int             @id @default(autoincrement())
+  department      Int
+  forms           Int
+  TL_Departaments TL_Departaments @relation(fields: [department], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ds_deparmentfk")
+  TL_forms        TL_forms        @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ds_formsfk")
+
+  @@index([department], map: "ds_deparmentfk_idx")
+  @@index([forms], map: "ds_forms_idx")
+}
+
+model TL_Departaments {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(45)
+  description    String           @db.VarChar(45)
+  TL_DeparXforms TL_DeparXforms[]
+  TL_Unit        TL_Unit[]
+  TL_Users       TL_Users[]
+}
+
+model TL_Options {
+  id           Int          @id @default(autoincrement())
+  option       String       @db.VarChar(45)
+  question     Int
+  TL_Answers   TL_Answers[]
+  TL_Questions TL_Questions @relation(fields: [question], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "os_question")
+
+  @@index([question], map: "os_question_idx")
+}
+
+model TL_Questions {
+  id          Int          @id @default(autoincrement())
+  question    String       @db.VarChar(45)
+  description String       @db.VarChar(45)
+  section     Int
+  TL_Options  TL_Options[]
+  TL_Sections TL_Sections  @relation(fields: [section], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "qs_section")
+
+  @@index([section], map: "qs_section_idx")
+}
+
+model TL_Roles {
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(45)
+  active        Int             @db.TinyInt
+  TL_UserXRoles TL_UserXRoles[]
+}
+
+model TL_Sections {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(45)
+  description  String         @db.VarChar(45)
+  forms        Int?
+  TL_Questions TL_Questions[]
+  TL_forms     TL_forms?      @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ss_forms")
+
+  @@index([forms], map: "ss_forms_idx")
+}
+
+model TL_Unit {
+  id              Int             @id @default(autoincrement())
+  name            String          @db.VarChar(45)
+  description     String          @db.VarChar(45)
+  departaments    Int
+  TL_Departaments TL_Departaments @relation(fields: [departaments], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ut_departamentsfk")
+
+  @@index([departaments], map: "ut_departamentsfk_idx")
+}
+
+model TL_UserXRoles {
+  id       Int      @id
+  user     Int
+  role     Int
+  TL_Roles TL_Roles @relation(fields: [role], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rolfk")
+  TL_Users TL_Users @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userfk")
+
+  @@index([user], map: "UserFK_idx")
+  @@index([role], map: "rolfk_idx")
+}
+
+model TL_Users {
+  id              Int             @id @default(autoincrement())
+  name            String          @db.VarChar(45)
+  second_name     String          @db.VarChar(45)
+  surname         String          @db.VarChar(45)
+  second_surname  String          @db.VarChar(45)
+  email           String          @unique(map: "email_UNIQUE") @db.VarChar(60)
+  password        String          @db.VarChar(45)
+  phone_number    String          @unique(map: "phone_number_UNIQUE") @db.VarChar(45)
+  nickname        String          @unique(map: "nickname_UNIQUE") @db.VarChar(45)
+  identification  String          @unique(map: "identification_UNIQUE") @db.VarChar(45)
+  create_account  String          @db.VarChar(45)
+  department      Int
+  TL_Answers      TL_Answers[]
+  TL_UserXRoles   TL_UserXRoles[]
+  TL_Departaments TL_Departaments @relation(fields: [department], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "us_deparmentfk")
+
+  @@index([department], map: "us_deparmentfk_idx")
+}
+
+model TL_forms {
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(45)
+  state          Int              @db.TinyInt
+  inicialperiod  DateTime         @db.Date
+  finalperiod    DateTime         @db.Date
+  TL_DeparXforms TL_DeparXforms[]
+  TL_Sections    TL_Sections[]
+}
