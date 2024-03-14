@@ -9,9 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-radial": "radial-gradient(at bottom right, var(--tw-gradient-stops))",
+        "gradient-conic":  "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
         dark: '#232A3C',
@@ -24,13 +23,21 @@ const config: Config = {
           900: '#0a0a0a',
           800: '#333539',
           600:'#494c4f',
-          200: '#e1dede',
+          200: '#30363D',
+          100:'#D9D9D9'
         },
         orange:{ 
           600: '#e1500c',
           400: '#ff6117',
           500:'#F45C15',
+          
         },
+        purple:{
+          1000:"#120D17",
+          700:"#150f1a",
+          500:"#27173F",
+          400:'#422171'
+        }
       },
     },
   },

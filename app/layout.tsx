@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./ui/globals.css";
-import { montserrat } from './ui/fonts';
+import { poppins } from './ui/fonts';
 
 export const metadata: Metadata = {
   title: "Control de riesgoW",
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>{children}</body>
+      <body className={poppins.className}>{children}</body>
     </html>
   );
 }

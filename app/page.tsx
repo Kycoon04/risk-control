@@ -1,73 +1,46 @@
 "use client";
 import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Field from './components/Field';
+import Standard_button from './components/Button';
+import { useRouter } from 'next/navigation';
+import  { loginValidation} from '@/validationSchema/auth';
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    active: 0,
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'active' ? parseInt(value, 10) : value,
-    });
-  };
+  const logOut = () => {}
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const { handleSubmit, register, formState: { errors } } = loginValidation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const response = await fetch('/api/roles', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        setIsSuccess(true);
-      } else {
-        console.error('Error al crear el rol:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error al enviar la solicitud:', error);
-    }
-    setIsLoading(false);
-  };
 
+  const submitForm = (values: any) => {
+    console.log("form values", values)
+  }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Nombre del rol"
-          required
-          className='text-black'
-        />
-        <input
-          type="number"
-          name="active"
-          value={formData.active}
-          onChange={handleChange}
-          placeholder="Activo (0 o 1)"
-          required
-          className='text-black'
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          disabled={isLoading || isSuccess}
-        >
-          {isLoading ? 'Cargando...' : isSuccess ? 'Éxito' : 'Crear Rol'}
-        </button>
-      </form>
+    <main className="flex min-h-screen flex-col p-4 items-center bg-gradient-radial rounded-lg from-purple-500 via-purple-700 to-purple-1000">
+      <div className='bg-gray-200 rounded-3xl py-5 drop-shadow-lg m-11 flex flex-col items-center w-[30%]'>
+        <div className="flex justify-center bg-gray-100 rounded-full mb-5">
+          <Image className='m-6' src='/login/userbasic.png' alt="Screenshots of the dashboard " width={60} height={60} />
+        </div>
+        <h2 className="text-center text-3xl font-semibold text-white">
+          {'Login'}
+        </h2>
+        <p className="mt-5 text-center text-sm text-black dark:text-white">
+          {'¿No tienes una cuenta aún?'} {'  '}
+          <Link href="/register" className="font-medium text-purple-300 hover:text-purple-1000">
+            {'Registrate'}
+          </Link>
+        </p>
+        <div className="flex flex-col items-center my-4 w-full">
+          <Field text_Field={username} setText_Field={setUsername} titule={'Email:'} type={"text"} register={register} error={errors.email} name={"email"}></Field>
+
+          <Field text_Field={password} setText_Field={setPassword} titule={'Password:'} type={"Password"} register={register} error={errors.password} name={"password"}></Field>
+          <Standard_button fuction={handleSubmit(submitForm)} titule={"Login"} width={"350px"}></Standard_button>
+        </div>
+      </div>
     </main>
   );
 }
