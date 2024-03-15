@@ -3,7 +3,7 @@ import "./ui/globals.css";
 import { poppins } from './ui/fonts';
 
 export const metadata: Metadata = {
-  title: "Control de riesgoW",
+  title: "Control de riesgo",
   description: "Control de registro para una entidad publica 2024",
 };
 
