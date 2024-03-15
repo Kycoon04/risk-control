@@ -5,7 +5,8 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/flowbite/**/*.js"
+    "./node_modules/flowbite/**/*.js",
+    './node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
     extend: {
@@ -25,7 +26,11 @@ const config: Config = {
           800: '#333539',
           600: '#494c4f',
           200: '#30363D',
-          100: '#D9D9D9'
+          100: '#D9D9D9',
+          50: '#B8B8B8'
+        },
+        blue: {
+          1000: '#161B22',
         },
         orange: {
           600: '#e1500c',
