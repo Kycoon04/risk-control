@@ -1,5 +1,5 @@
 "use client"
-import { Navbar } from 'flowbite-react';
+import { Navbar, Button } from 'flowbite-react';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 export default function UserNavBar() {
@@ -15,7 +15,7 @@ export default function UserNavBar() {
     return (
         <div className="container ">
         <Navbar fluid rounded className=" bg-transparent">
-            <Navbar.Brand href="/home_page" >
+            <Navbar.Brand href="/" >
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between  p-4">
                     <div className="text-white items-center mx-8">
                         <h1 className=" text-5xl font-semibold">SCI</h1>
@@ -30,7 +30,7 @@ export default function UserNavBar() {
                 <Navbar.Brand>
                     <div className="relative">
                         <button
-                            className="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                            className="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                             Sevri
                             <svg className="w-2.5 h-2.5 ms-2.5 transition-transform" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
@@ -42,7 +42,7 @@ export default function UserNavBar() {
                     <div className="relative hover:text-black">
                         <button
                             onClick={toggleDropdown}
-                            className="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                            className="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                             Control de madurez
                             <svg className={`w-2.5 h-2.5 ms-2.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
@@ -72,7 +72,7 @@ export default function UserNavBar() {
                 <Navbar.Brand>
                     <div className="relative">
                         <button
-                            className="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                            className="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                             Autoevaluación
                             <svg className='w-2.5 h-2.5 ms-2.5 transition-transform aria-hidden="true" xmlns="http://www.w3.org/2000/svg' fill="none" viewBox="0 0 10 6">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
