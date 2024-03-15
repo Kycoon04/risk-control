@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import getParams from "../functions/getParams";
+import getParams from "@/app/api/functions/getParams";
 import { QueryOptions } from "@/app/types";
 import { TL_Departaments } from "@prisma/client";
 
@@ -45,10 +45,10 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const identification = getParams(_req.url, { identification:"" }).identification;
+        const id = parseInt(getParams(_req.url, { id: 0 }).id);
         const response = await prisma.tL_Users.findUnique({
             where: {
-                identification:identification
+                id: id
             }
         });
         if (response) {
@@ -63,10 +63,10 @@ export async function GET(_req: Request) {
 
 export async function DELETE(_request: Request) {
     try {
-        const identification = getParams(_request.url, { identification:"" }).identification;
+        const id = parseInt(getParams(_request.url, { id: 0 }).id);
         const deletedUser = await prisma.tL_Users.delete({
             where: {
-                identification:identification
+                id:id
             },
         });
 
