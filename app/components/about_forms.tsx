@@ -1,7 +1,4 @@
 "use client";
-import Card from './card'
-import Link from 'next/link';
-import { FaPen } from "react-icons/fa6";
 import Preview_Section from "./preview_section";
 const Componente: React.FC = () => {
     return (
@@ -10,11 +7,11 @@ const Componente: React.FC = () => {
                 {'Modulo de madurez'}
             </h1>
             <div className='m-5'>
-                <Preview_Section titule='Ambiente' percent='50' />
-                <Preview_Section titule='Riesgos' percent='80' />
-                <Preview_Section titule='Actividades' percent='50' />
-                <Preview_Section titule='Sistemas' percent='40' />
-                <Preview_Section titule='Seguimiento' percent='24' />
+                <Preview_Section titule='Ambiente' percent={50} />
+                <Preview_Section titule='Riesgos' percent={40} />
+                <Preview_Section titule='Actividades' percent={75} />
+                <Preview_Section titule='Sistemas' percent={50} />
+                <Preview_Section titule='Seguimiento' percent={50} />
             </div>
         </div>
     );
