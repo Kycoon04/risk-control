@@ -85,7 +85,6 @@ model TL_Unit {
   id              Int               @id @default(autoincrement())
   name            String            @db.VarChar(45)
   description     String            @db.VarChar(45)
-  departaments    Int
   TL_Departaments TL_Departaments[]
 }
 
