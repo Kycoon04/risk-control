@@ -19,7 +19,7 @@ export async function POST(req: Request) {
             data: {
                 name:data.name,
                 description:data.description,
-                //unit:data.unit,
+                unit:data.unit
             },
         });
         return NextResponse.json(newDepartment);

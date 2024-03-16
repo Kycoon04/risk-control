@@ -36,10 +36,10 @@ model TL_Departaments {
   description    String           @db.VarChar(45)
   unit           Int
   TL_DeparXforms TL_DeparXforms[]
-  TL_Unit        TL_Unit          @relation(fields: [unit], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ds_unitfk")
+  TL_Unit        TL_Unit          @relation(fields: [unit], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "unitfk")
   TL_Users       TL_Users[]
 
-  @@index([unit], map: "ds_unitfk_idx")
+  @@index([unit], map: "unitfk_idx")
 }
 
 model TL_Options {
@@ -89,7 +89,7 @@ model TL_Unit {
 }
 
 model TL_UserXRoles {
-  id       Int      @id
+  id       Int      @id @default(autoincrement())
   user     Int
   role     Int
   TL_Roles TL_Roles @relation(fields: [role], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rolfk")
