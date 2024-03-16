@@ -8,8 +8,6 @@ import { TL_Departaments } from "@prisma/client";
 interface CreateUnitData {
     name:string;
     description:string;
-    departments:number;
-
 }
 
 export async function POST(req: Request) {
@@ -19,7 +17,6 @@ export async function POST(req: Request) {
             data: {
                 name:data.name,
                 description:data.description,
-                departaments:data.departments,
             },
         });
         return NextResponse.json(newUnit);
