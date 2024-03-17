@@ -21,18 +21,18 @@ const Componente: React.FC = () => {
       <div className='flex flex-wrap md:flex-1'>
         <div className='w-full md:w-[45%] m-5'>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center'>Promedio de respuestas</p>
+            <p className='text-center text-white'>Promedio de respuestas</p>
           </div>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center'>Por sección</p>
+            <p className='text-center text-white'>Por sección</p>
           </div>
         </div>
         <div className='w-full md:w-[45%] m-5'>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center'>Nivel obtenido</p>
+            <p className='text-center text-white'>Nivel obtenido</p>
           </div>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center'>Por departamento</p>
+            <p className='text-center text-white'>Por departamento</p>
           </div>
         </div>
       </div>

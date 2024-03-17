@@ -1,15 +1,41 @@
 "use client";
 import { useState } from 'react';
+import React from "react";
 import Question from './question';
+import Pagination from '@mui/material/Pagination';
+
 interface Forms {
     titule: string;
 }
 const Componente: React.FC<Forms> = ({ titule }) => {
 
+    const QuestionsPerPage = 1;
     const [isOpen, setIsOpen] = useState(false);
+    const [page, setPage] = React.useState(1)
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
+    };
+
+    const questionData = [
+        { id: 1, text: 'Compromiso', question: '¿Cuál es tu color favorito?', options: ["Rojo", "Azul", "Verde", "negro"] },
+        { id: 2, text: 'Ética', question: '¿Cuál es tu animal favorito?', options: ["Rojo", "Azul", "Verde", "negro"] },
+        { id: 3, text: 'Personal', question: '¿Cuál es tu comida favorita?', options: ["Rojo", "Azul", "Verde", "negro"] },
+        { id: 4, text: 'Estructura', question: '¿Cuál es tu comida favorita?', options: ["Rojo", "Azul", "Verde", "negro"] },
+    ];
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    }
+
+    const renderQuestions = () => {
+        const startIndex = (page - 1) * QuestionsPerPage;
+        const endIndex = startIndex + QuestionsPerPage;
+
+        const questions = [];
+        for (let i = startIndex; i < Math.min(endIndex, questionData.length); i++) {
+            questions.push(<Question options={questionData[i].options} question={questionData[i].question} titule={questionData[i].text} key={i} />);
+        }
+        return questions;
     };
 
     return (
@@ -30,25 +56,29 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                                 className="py-2 text-sm text-gray-700 dark:text-gray-400"
                                 aria-labelledby="dropdownLargeButton">
                                 <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Riesgo</a>
                                 </li>
                                 <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Actividades</a>
                                 </li>
                                 <li>
-                                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sistemas</a>
+                                </li>
+                                <li>
+                                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Seguimiento</a>
                                 </li>
                             </ul>
-                            <div className="py-1">
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"> Sign out</a>
-                            </div>
                         </div>)}
                 </div>
-                <div className='m-5'>
-                <Question/>
-                <Question/>
-                <Question/>
-                <Question/>
+                <div className='m-5 items-center flex-col flex '>
+                    {renderQuestions()}
+                    <Pagination className='m-5 bg-white rounded-lg p-2'
+                        count={Math.ceil(questionData.length / QuestionsPerPage)}
+                        page={page}
+                        onChange={handleChange}
+                        showFirstButton
+                        showLastButton
+                        size="large"/>
                 </div>
             </div>
         </div>
