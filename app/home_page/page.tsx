@@ -4,7 +4,10 @@ import Admin_global from '../components/admin_homepage'
 import User_global from '../components/about_forms'
 import Forms_page from '../components/forms_page'
 import Section from '../components/section'
+import { useAuthStore } from '@/provider/store';
 export default function Home() {
+  const log = useAuthStore(state => state.logged)
+  console.log(log)
   const router = useRouter();
   const submitForm = (values: any) => {
     console.log("form values", values)
