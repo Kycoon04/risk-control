@@ -44,7 +44,7 @@ model TL_Departaments {
 
 model TL_Options {
   id           Int          @id @default(autoincrement())
-  option       String       @db.VarChar(45)
+  option       String       @db.VarChar(500)
   question     Int
   TL_Answers   TL_Answers[]
   TL_Questions TL_Questions @relation(fields: [question], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "os_question")
@@ -54,8 +54,8 @@ model TL_Options {
 
 model TL_Questions {
   id          Int          @id @default(autoincrement())
-  question    String       @db.VarChar(45)
-  description String       @db.VarChar(45)
+  question    String       @db.VarChar(60)
+  description String       @db.VarChar(500)
   section     Int
   TL_Options  TL_Options[]
   TL_Sections TL_Sections  @relation(fields: [section], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "qs_section")
@@ -73,7 +73,7 @@ model TL_Roles {
 model TL_Sections {
   id           Int            @id @default(autoincrement())
   name         String         @db.VarChar(45)
-  description  String         @db.VarChar(45)
+  description  String         @db.VarChar(1000)
   forms        Int?
   TL_Questions TL_Questions[]
   TL_forms     TL_forms?      @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ss_forms")
@@ -106,11 +106,9 @@ model TL_Users {
   surname         String          @db.VarChar(45)
   second_surname  String          @db.VarChar(45)
   email           String          @unique(map: "email_UNIQUE") @db.VarChar(60)
-  password        String          @db.VarChar(45)
   phone_number    String          @unique(map: "phone_number_UNIQUE") @db.VarChar(45)
   nickname        String          @unique(map: "nickname_UNIQUE") @db.VarChar(45)
   identification  String          @unique(map: "identification_UNIQUE") @db.VarChar(45)
-  create_account  String          @db.VarChar(45)
   department      Int
   TL_Answers      TL_Answers[]
   TL_UserXRoles   TL_UserXRoles[]
