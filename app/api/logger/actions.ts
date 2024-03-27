@@ -1,4 +1,5 @@
 'use server'
+
 export const postLogger = async (param: params): Promise<boolean> => {
     try {
         const response = await fetch('https://riskcontrol-logger.vercel.app/api/logger', {
@@ -26,6 +27,7 @@ export const postLogger = async (param: params): Promise<boolean> => {
         return false;
     }
 };
+
 interface params {
     usuario:string,
     transaction_type: string,
