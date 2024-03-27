@@ -1,5 +1,5 @@
 'use server'
-export const post = async (param: params): Promise<boolean> => {
+export const postLogger = async (param: params): Promise<boolean> => {
     try {
         const response = await fetch('https://riskcontrol-logger.vercel.app/api/logger', {
             method: 'POST',
