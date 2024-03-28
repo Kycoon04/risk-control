@@ -4,5 +4,5 @@ export const config={
     scopes:[
         'User.Read'
     ],
-    authority:'https://login.microsoftonline.com/common/'
-};
+    authority:'https://login.microsoftonline.com/f6f7a71d-15d6-4e04-8f93-607826b3b8fc'
+  };
