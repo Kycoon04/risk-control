@@ -1,16 +1,19 @@
 "use client";
 import Preview_Section from "./preview_section";
-import {Form, useAuthStore} from "@/provider/store"
+import {Section, useAuthStore} from "@/provider/store"
 import React, { useState, useEffect } from "react";
 import { fectSections } from "./actions";
+import Spinner from "./Spinner";
 
 const Componente: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const forms = useAuthStore(state => state.form);
-    const [sections, setSections] = useState<Form[]>([]);
+    const [sections, setSections] = useState<Section[]>([]);
+    
     const param = {
-        forms : 1,
+        id: "",
+        forms : forms?.id,
         name : "",
         description : ""
     }
@@ -25,18 +28,18 @@ const Componente: React.FC = () => {
         fetchData();
     }, []);
 
-    console.log(sections)
     return (
         <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md justify-center'>
             <h1 className="text-center text-4xl font-extrabold text-white m-10 mb-5">
                 {'Modulo de madurez'}
             </h1>
             <div className='m-5'>
-                <Preview_Section titule='Ambiente' percent={50} />
-                <Preview_Section titule='Riesgos' percent={40} />
-                <Preview_Section titule='Actividades' percent={75} />
-                <Preview_Section titule='Sistemas' percent={50} />
-                <Preview_Section titule='Seguimiento' percent={50} />
+                {isLoading && <Spinner/>}
+                {!isLoading && (
+                    sections.map(form => (
+                        <Preview_Section key={form.id}  titule={form.name} complete="Sin completar" />
+                    ))
+                )}
             </div>
         </div>
     );

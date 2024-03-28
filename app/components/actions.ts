@@ -13,9 +13,10 @@ export async function fetchForms() {
 }
 
 interface params {
+  id: string,
   name: string,
   description: string,
-  forms: number,
+  forms: number | undefined,
 };
 
 export const fectSections = async (param: params) => {
@@ -23,11 +24,12 @@ export const fectSections = async (param: params) => {
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")
   ).toString();
-  console.log(queryParams.toString())
-  const res = await fetch(`/api/sections?${queryParams}`, {
+  console.log(`/api/sections/[id]?${queryParams}`)
+  const res = await fetch(`/api/sections/[id]?${queryParams}`, {
     cache: "no-store",
   });
   const data = await res.json();
+  console.log("registros: ",data)
   return {
     props: {
       data,

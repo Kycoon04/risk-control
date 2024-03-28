@@ -38,13 +38,14 @@ export async function GET(_req: Request) {
                 where: {
                     name: name,
                     description: description,
-                    forms: forms,
+                    forms: parseInt(forms, 10),
                 },
             };
             let loggers;
             loggers = await prisma.tL_Sections.findMany({where: whereCondition.where});
         return NextResponse.json(loggers);
     } catch (error) {
+        console.log("hola",error)
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

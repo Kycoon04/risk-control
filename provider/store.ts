@@ -23,14 +23,21 @@ export interface Form {
     inicialperiod: Date;
     finalperiod: Date;
 }
-
+export interface Section {
+    id:string,
+    name: string,
+    description: string,
+    forms: number,
+  };
 type AuthStore = {
     logged: boolean;
     user: User | null;
     form: Form | null;
+    section: Section | null;
     changeLogged: ()=> void;
     setUser:(newUser:User) => void;
     setForm:(newForm:Form) => void;
+    setSection:(newSection:Section) => void;
 }
 
 export const useAuthStore = create<AuthStore>()(persist(
@@ -38,6 +45,7 @@ export const useAuthStore = create<AuthStore>()(persist(
         logged: false,
         user: null,
         form: null,
+        section:null,
         changeLogged: () => {
             set((state) => ({
                 logged: !state.logged
@@ -48,7 +56,8 @@ export const useAuthStore = create<AuthStore>()(persist(
                 user: newUser
             }))
         },
-        setForm: (newForm: Form) => set({ form: newForm })
+        setForm: (newForm: Form) => set({ form: newForm }),
+        setSection: (newSection: Section) => set({ section: newSection })
     }),
     {
         name: "auth-storage", 
