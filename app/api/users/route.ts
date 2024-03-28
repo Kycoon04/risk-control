@@ -11,11 +11,9 @@ interface CreateUserData {
     surname: string;
     second_surname: string;
     email: string;
-    password: string;
     phone_number: string;
     nickname: string;
     identification: string;
-    create_account: string;
     department: number;
 }
 
@@ -29,11 +27,9 @@ export async function POST(req: Request) {
                 surname:  data.surname,
                 second_surname: data.second_surname,
                 email:  data.email,
-                password:  data.password,
                 phone_number: data.phone_number,
                 nickname:  data.nickname,
                 identification:  data.identification,
-                create_account: data.create_account,
                 department:  data.department,
             },
         });

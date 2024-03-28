@@ -1,38 +1,41 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
 const loginSchema = Yup.object({
-    email:Yup.string().email("Please enter valid email").required("Please fill this field"),
-    password: Yup.string().required("Please fill this field").min(6,"Please minimum 6 characters")
+    email: Yup.string().email("Por favor, introduce un correo electrónico válido").required("Por favor, completa este campo"),
+    password: Yup.string().required("Por favor, completa este campo").min(6, "Por favor, mínimo 6 caracteres")
 })
 
 export const loginValidation = () => useForm({
-    resolver:yupResolver(loginSchema)
+    resolver: yupResolver(loginSchema)
 });
 
 
 const registerSchema = Yup.object({
-    email:Yup.string().email("Please enter valid email").required("Please fill this field"),
-    password: Yup.string().required("Please fill this field").min(6,"Please minimum 6 characters"),
-    cnfPassword: Yup.string().required("Please fill this field").oneOf([Yup.ref('password')],"Enter password not matched"),
-    name: Yup.string().required("Please fill this field"),
-    Lastname: Yup.string().required("Please fill this field"),
-    Username: Yup.string().required("Please fill this field").min(8,"Please minimum 8 characters"),
-    phone: Yup.string().required("Please fill this field").min(8,"Please minimum 8 characters"),
+    nickname: Yup.string().required("Por favor, completa este campo"),
+    name: Yup.string().required("Por favor, completa este campo"),
+    second_name: Yup.string().required("Por favor, completa este campo"),
+    surname: Yup.string().required("Por favor, completa este campo"),
+    second_surname: Yup.string().required("Por favor, completa este campo"),
+    email: Yup.string().email("Por favor, introduce un correo electrónico válido").required("Por favor, completa este campo"),
+    phone_number: Yup.string().required("Por favor, completa este campo").min(8, "Por favor, mínimo 8 caracteres"),
+    identification: Yup.string().required("Por favor, completa este campo").min(4, "Por favor, mínimo 4 caracteres"),
+    password: Yup.string().required("Por favor, completa este campo").min(6, "Por favor, mínimo 6 caracteres"),
+    cnfPassword: Yup.string().required("Por favor, completa este campo").oneOf([Yup.ref('password')], "Las contraseñas no coinciden"),
 });
 
 export const registerValidation = () => useForm({
-    resolver:yupResolver(registerSchema)
+    resolver: yupResolver(registerSchema)
 });
 
 const ChangeSchema = Yup.object({
-    name: Yup.string().required("Please fill this field"),
-    Lastname: Yup.string().required("Please fill this field"),
-    Username: Yup.string().required("Please fill this field").min(8,"Please minimum 8 characters"),
-    phone: Yup.string().required("Please fill this field").min(8,"Please minimum 8 characters"),
+    name: Yup.string().required("Por favor, completa este campo"),
+    Lastname: Yup.string().required("Por favor, completa este campo"),
+    Username: Yup.string().required("Por favor, completa este campo").min(8, "Por favor, mínimo 8 caracteres"),
+    phone: Yup.string().required("Por favor, completa este campo").min(8, "Por favor, mínimo 8 caracteres"),
 });
 
 export const ChangeValidation = () => useForm({
-    resolver:yupResolver(ChangeSchema)
+    resolver: yupResolver(ChangeSchema)
 });

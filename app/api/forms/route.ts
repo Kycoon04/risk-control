@@ -31,12 +31,7 @@ export async function POST(req: Request) {
 }
 export async function GET(_req: Request) {
     try {
-        const name = getParams(_req.url, { name:"" }).name;
-        const response = await prisma.tL_forms.findMany({
-            where: {
-                name:name
-            }
-        });
+        const response = await prisma.tL_forms.findMany();
         if (response) {
             return NextResponse.json(response);
         }
