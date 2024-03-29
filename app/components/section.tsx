@@ -4,56 +4,41 @@ import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
 import { useAuthStore } from '@/provider/store';
-import { fectQuestion } from './actions';
+import { fectOptions, fectQuestion } from './actions';
 import Spinner from './Spinner';
 
 interface Forms {
     titule: string | undefined;
 }
-interface Param {
+interface ParamQuestions {
     id: string;
     question: string;
     description: string;
     section: string | undefined;
 }
+interface ParamOptions {
+    id: string;
+    option: string;
+    question: string | undefined;
+}
+interface FetchedOptions {
+    props: {
+        data: ParamOptions[];
+    };
+}
 const Componente: React.FC<Forms> = ({ titule }) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
-    const [question, setQuestion] = useState<Param[]>([]);
-
-
-    const param: Param = {
-        id: "",
-        question: "",
-        description: "",
-        section: section?.id,
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            const fetchedSections = await fectQuestion(param);
-            setQuestion(fetchedSections.props.data);
-            setIsLoading(false);
-        };
-        fetchData();
-    }, []);
-
-
-    const QuestionsPerPage = 1;
+    const [question, setQuestion] = useState<ParamQuestions[]>([]);
+    const [allOptions, setAllOptions] = useState<ParamOptions[][]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [page, setPage] = React.useState(1)
-
+    const [page, setPage] = React.useState(1);
+    const QuestionsPerPage = 1;
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-    const questionData = question.map((q) => ({
-        id: q.id,
-        text: q.question,
-        question: q.description,
-        options: ["Rojo", "Azul", "Verde", "negro"],
-    }));
+
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     }
@@ -68,6 +53,44 @@ const Componente: React.FC<Forms> = ({ titule }) => {
         }
         return questions;
     };
+
+    const paramQuestion: ParamQuestions = {
+        id: "",
+        question: "",
+        description: "",
+        section: section?.id,
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            const fetchedSections = await fectQuestion(paramQuestion);
+            setQuestion(fetchedSections.props.data);
+            
+            const fetchedOptionsPromises = fetchedSections.props.data.map(async (q: ParamQuestions) => {
+                const paramOptions: ParamOptions = {
+                    id: "",
+                    option: "",
+                    question: q.id,
+                };
+                const fetchedOptions = await fectOptions(paramOptions);
+                return fetchedOptions.props.data;
+            });
+            const fetchedOptions = await Promise.all(fetchedOptionsPromises);
+            setAllOptions(fetchedOptions);
+            setIsLoading(false);
+        };
+        fetchData();
+    }, []);
+    
+    const questionData = question.map((q, index) => {
+        const optionsForQuestion = allOptions[index] || [];
+        return {
+            id: q.id,
+            text: q.question,
+            question: q.description,
+            options: optionsForQuestion.map(option => option.option),
+        };
+    });
 
     return (
         <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md justify-center items-center flex'>
