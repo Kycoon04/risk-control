@@ -30,19 +30,24 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const id = parseInt(getParams(_req.url, { id: 0 }).id);
-        const response = await prisma.tL_Questions.findUnique({
-            where: {
-                id: id
-            }
-        });
-        if (response) {
-            return NextResponse.json(response);
-        }
-        return new NextResponse("Not found", { status: 404 });
-
+        const object = { id: 0, question: "", description: "", section: 0} 
+        const url = _req.url
+        const parameters = getParams(url, object)
+        const {id, question,description, section} = parameters
+        console.log(parameters)
+        const whereCondition = {
+                where: {
+                    id: id,
+                    question: question,
+                    description: description,
+                    section: section,
+                },
+            };
+            let loggers;
+            loggers = await prisma.tL_Questions.findMany({where: whereCondition.where});
+        return NextResponse.json(loggers);
     } catch (error) {
-        return new NextResponse("Unauthorized", { status: 401 });
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
 

@@ -36,3 +36,28 @@ export const fectSections = async (param: params) => {
     }
   }
 }
+
+interface paramsQuestion {
+  id: string,
+  question: string,
+  description: string,
+  section: string | undefined,
+};
+
+export const fectQuestion = async (param: paramsQuestion) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  console.log(`/api/questions/[id]?${queryParams}`)
+  const res = await fetch(`/api/questions/[id]?${queryParams}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  console.log("registros: ",data)
+  return {
+    props: {
+      data,
+    }
+  }
+}

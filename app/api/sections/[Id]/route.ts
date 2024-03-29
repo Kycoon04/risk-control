@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const object = { name: "", description: "", forms: ""} 
+        const object = { name: "", description: "", forms: 0} 
         const url = _req.url
         const parameters = getParams(url, object)
         const { name,description, forms} = parameters
@@ -38,14 +38,13 @@ export async function GET(_req: Request) {
                 where: {
                     name: name,
                     description: description,
-                    forms: parseInt(forms, 10),
+                    forms: forms,
                 },
             };
             let loggers;
             loggers = await prisma.tL_Sections.findMany({where: whereCondition.where});
         return NextResponse.json(loggers);
     } catch (error) {
-        console.log("hola",error)
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

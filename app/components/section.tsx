@@ -1,13 +1,45 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
+import { useAuthStore } from '@/provider/store';
+import { fectQuestion } from './actions';
+import Spinner from './Spinner';
 
 interface Forms {
-    titule: string;
+    titule: string | undefined;
+}
+interface Param {
+    id: string;
+    question: string;
+    description: string;
+    section: string | undefined;
 }
 const Componente: React.FC<Forms> = ({ titule }) => {
+
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const section = useAuthStore((state) => state.section);
+    const [question, setQuestion] = useState<Param[]>([]);
+
+
+    const param: Param = {
+        id: "",
+        question: "",
+        description: "",
+        section: section?.id,
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            const fetchedSections = await fectQuestion(param);
+            setQuestion(fetchedSections.props.data);
+            setIsLoading(false);
+        };
+        fetchData();
+    }, []);
+
 
     const QuestionsPerPage = 1;
     const [isOpen, setIsOpen] = useState(false);
@@ -16,13 +48,12 @@ const Componente: React.FC<Forms> = ({ titule }) => {
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-
-    const questionData = [
-        { id: 1, text: 'Compromiso', question: '¿Cuál es tu color favorito?', options: ["Rojo", "Azul", "Verde", "negro"] },
-        { id: 2, text: 'Ética', question: '¿Cuál es tu animal favorito?', options: ["Rojo", "Azul", "Verde", "negro"] },
-        { id: 3, text: 'Personal', question: '¿Cuál es tu comida favorita?', options: ["Rojo", "Azul", "Verde", "negro"] },
-        { id: 4, text: 'Estructura', question: '¿Cuál es tu comida favorita?', options: ["Rojo", "Azul", "Verde", "negro"] },
-    ];
+    const questionData = question.map((q) => ({
+        id: q.id,
+        text: q.question,
+        question: q.description,
+        options: ["Rojo", "Azul", "Verde", "negro"],
+    }));
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     }
@@ -71,14 +102,18 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                         </div>)}
                 </div>
                 <div className='m-5 items-center flex-col flex '>
-                    {renderQuestions()}
+                    {isLoading ? (
+                        <Spinner />
+                    ) : (
+                        renderQuestions()
+                    )}
                     <Pagination className='m-5 bg-white rounded-lg p-2'
                         count={Math.ceil(questionData.length / QuestionsPerPage)}
                         page={page}
                         onChange={handleChange}
                         showFirstButton
                         showLastButton
-                        size="large"/>
+                        size="large" />
                 </div>
             </div>
         </div>
