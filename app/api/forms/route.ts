@@ -1,8 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
-import { QueryOptions } from "@/app/types";
-import { TL_Departaments } from "@prisma/client";
 import { Logger,postLogger } from '../logger/actions';
 
 interface CreateFormsData {
@@ -16,6 +14,7 @@ interface CreateFormsData {
 export async function POST(req: Request) {
     try {
         const data: CreateFormsData = await req.json();
+        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") ;
         const newForms = await prisma.tL_forms.create({
             data: {
                 name: data.name,
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
             transaction_type: "POST",
             role: "Admin",
             transaction: "POST FORMS",
-            ip: "192.168.10.1",
+            ip: clientIp || "192.168",
             date: new Date().toISOString(),
         }
         await postLogger(logger);
@@ -42,13 +41,14 @@ export async function POST(req: Request) {
 export async function GET(_req: Request) {
     try {
         const response = await prisma.tL_forms.findMany();
+        const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for") ;
         const logger : Logger = {
             id: "",
             usuario: "Kycoon04",
             transaction_type: "GET",
             role: "Admin",
             transaction: "GET FORMS",
-            ip: "192.168.10.1",
+            ip: clientIp || "192.168",
             date: new Date().toISOString(),
         }
         await postLogger(logger);
@@ -71,13 +71,14 @@ export async function DELETE(_request: Request) {
                 identification:identification
             },
         });
+        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for") ;
         const logger : Logger = {
             id: "",
             usuario: "Kycoon04",
             transaction_type: "DELETE",
             role: "Admin",
             transaction: "DELETE FORMS",
-            ip: "192.168.10.1",
+            ip: clientIp || "192.168",
             date: new Date().toISOString(),
         }
         await postLogger(logger);

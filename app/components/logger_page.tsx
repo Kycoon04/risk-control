@@ -73,11 +73,9 @@ const Componente: React.FC = () => {
             const filteredLoggers = unfilteredLoggers.filter(logger => {
                 return Object.keys(filters).every(key => {
                     if (key === "date") {
-                        const filterDate = filters.date || "";
-                        return (
-                            filterDate === "" ||
-                            new Date(logger.date).toISOString().includes(filterDate)
-                        );
+                        const filterDate = filters.date ? new Date(filters.date).toISOString().split('T')[0] : "";
+                        const loggerDate = new Date(logger.date).toISOString().split('T')[0];
+                        return filterDate === "" || loggerDate === filterDate;
                     }
                     return logger[key as keyof Logger]
                         .toLowerCase()
@@ -86,7 +84,7 @@ const Componente: React.FC = () => {
             });
             setLoggers(filteredLoggers);
         };
-
+    
         applyFilters();
     }, [filters, unfilteredLoggers]);
 
