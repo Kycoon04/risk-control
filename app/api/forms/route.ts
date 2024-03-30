@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
 import { QueryOptions } from "@/app/types";
 import { TL_Departaments } from "@prisma/client";
-
+import { Logger,postLogger } from '../logger/actions';
 
 interface CreateFormsData {
     name: string;
@@ -24,6 +24,16 @@ export async function POST(req: Request) {
                 finalperiod:data.finalperiod,
             },
         });
+        const logger : Logger = {
+            id: "",
+            usuario: "Kycoon04",
+            transaction_type: "POST",
+            role: "Admin",
+            transaction: "POST FORMS",
+            ip: "192.168.10.1",
+            date: new Date().toISOString(),
+        }
+        await postLogger(logger);
         return NextResponse.json(newForms);
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 });
@@ -32,6 +42,17 @@ export async function POST(req: Request) {
 export async function GET(_req: Request) {
     try {
         const response = await prisma.tL_forms.findMany();
+        const logger : Logger = {
+            id: "",
+            usuario: "Kycoon04",
+            transaction_type: "GET",
+            role: "Admin",
+            transaction: "GET FORMS",
+            ip: "192.168.10.1",
+            date: new Date().toISOString(),
+        }
+        await postLogger(logger);
+        console.log(response);
         if (response) {
             return NextResponse.json(response);
         }
@@ -50,6 +71,16 @@ export async function DELETE(_request: Request) {
                 identification:identification
             },
         });
+        const logger : Logger = {
+            id: "",
+            usuario: "Kycoon04",
+            transaction_type: "DELETE",
+            role: "Admin",
+            transaction: "DELETE FORMS",
+            ip: "192.168.10.1",
+            date: new Date().toISOString(),
+        }
+        await postLogger(logger);
 
         return NextResponse.json(deletedUser);
     } catch (error) {

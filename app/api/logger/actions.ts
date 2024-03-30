@@ -28,7 +28,7 @@ export const postLogger = async (param: Logger): Promise<boolean> => {
     }
 };
 
-interface Logger {
+export interface Logger {
     id:string;
     usuario:string,
     transaction_type: string,
