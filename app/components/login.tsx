@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Standard_button from './Button';
 import { useRouter } from 'next/navigation';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { config } from '@/Config';
-
+import { fectUser } from './actions';
+import { User, useAuthStore } from '@/provider/store';
 interface LoginProps {
   scopes?: string[];
 }
@@ -24,7 +25,17 @@ const publicClientApplication = new PublicClientApplication({
 
 const App: React.FC = () => {
   const router = useRouter();
-  let  isAuthenticated = false;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const setUser = useAuthStore(state => state.setUser);
+
+  const fetchData = async (props: User) => {
+    setIsLoading(true);
+    const fetchedForms = await fectUser(props);
+    setIsLoading(false);
+    return fetchedForms.props.data;
+  };
+
+  let isAuthenticated = false;
   useEffect(() => {
     const initializeMsal = async () => {
       try {
@@ -38,12 +49,26 @@ const App: React.FC = () => {
 
   const login = async (props?: LoginProps) => {
     try {
-      const account = await publicClientApplication.loginPopup({
-        scopes: props?.scopes || config.scopes,
-        prompt: 'select_account',
-      });
-      isAuthenticated = true;
-      console.log('Login successful:', account);
+       const account = await publicClientApplication.loginPopup({
+         scopes: props?.scopes || config.scopes,
+         prompt: 'select_account',
+       });
+      const user = await fetchData({
+        id: "",
+        name: "",
+        second_name: "",
+        surname: "",
+        second_surname: "",
+        email: account.account.username,
+        phone_number: "",
+        nickname: "",
+        identification: "",
+        department: ""
+      })
+      if (user[0] != undefined) {
+        isAuthenticated = true;
+        setUser(user[0]);
+      }
     } catch (err) {
       console.error('Login error:', err);
       isAuthenticated = false;
@@ -60,7 +85,6 @@ const App: React.FC = () => {
       if (isAuthenticated) {
         router.push("/home_page");
       } else {
-        console.log(isAuthenticated)
         alert('Error Inicio de Sesión aaaaaa');
       }
     } catch (error) {

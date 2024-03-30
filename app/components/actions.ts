@@ -1,4 +1,5 @@
 'use client'
+import {User} from '@/provider/store';
 
 export async function fetchForms() {
   const res = await fetch('/api/forms', {
@@ -107,6 +108,20 @@ export const postUser = async (name:string,second_name:string,surname:string,sec
     console.error('Error de red', error);
     return false;
 }
+}
 
-
-};
+export const fectUser = async (param: User) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  const res = await fetch(`/api/users/[id]?${queryParams}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}

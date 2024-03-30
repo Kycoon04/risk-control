@@ -1,19 +1,16 @@
 import {create} from "zustand";
 import { persist } from "zustand/middleware";
 export interface User{
-    id:number;
+    id:string;
     name :string;
     second_name :string;
     surname:string;
     second_surname:string;
     email:string;
-    password:string;
     phone_number:string;
     nickname:string;
     identification:string;
-    create_account:string;
-    department:number;
-    role:string;
+    department:string;
 }
 
 export interface Form {
