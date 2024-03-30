@@ -79,3 +79,34 @@ export const fectOptions = async (param: paramsOptions) => {
     }
   }
 }
+export const postUser = async (name:string,second_name:string,surname:string,second_surname:string,email:string,identification:string,nickname:string, phone_number:string): Promise<boolean> =>{
+  try {
+    const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: name,
+            second_name: second_name,
+            surname:surname,
+            second_surname:second_surname,
+            email:email,
+            identification:identification,
+            nickname:nickname, 
+            phone_number:phone_number
+        })
+    });
+
+    if (response.ok) {
+        return true;
+    } else {
+        return false;
+    }
+} catch (error) {
+    console.error('Error de red', error);
+    return false;
+}
+
+
+};

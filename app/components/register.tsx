@@ -6,6 +6,7 @@ import Standard_button from './Button';
 import { registerValidation } from '@/validationSchema/auth';
 import { useRouter } from 'next/navigation';
 import PhoneNumberValidation from './International_Phone';
+import {postUser} from './actions'
 
 const Header = () => {
     const [nickname, setNickname] = useState('');
@@ -22,7 +23,13 @@ const Header = () => {
     const { handleSubmit, register, formState: { errors } } = registerValidation();
     const router = useRouter();
 
-    const submitForm = (values: any) => {
+    const submitForm = async () => {
+        if(await postUser(name,second_name,surname,second_surname,email,identification,nickname,phone_number)){
+            alert('Usuario registrado')
+            router.push("/home_page");
+        }else{
+            alert('Error de registro');
+        }
     }
 
     return (
@@ -34,20 +41,20 @@ const Header = () => {
                 {'Inicio de sesión'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full">
-                <Field text_Field={name} setText_Field={setName} titule={'Nombre:'} type={"text"} register={register} error={errors.name} name={"email"}></Field>
-                <Field text_Field={second_name} setText_Field={setSecond_name} titule={'Segundo nombre:'} type={"text"} register={register} error={errors.second_name} name={"password"}></Field>
-                <Field text_Field={surname} setText_Field={setSurname} titule={'Primer apellido:'} type={"text"} register={register} error={errors.surname} name={"password"}></Field>
-                <Field text_Field={second_surname} setText_Field={setSecond_surname} titule={'Segundo apellido:'} type={"text"} register={register} error={errors.second_surname} name={"password"}></Field>
-                <Field text_Field={email} setText_Field={setEmail} titule={'Email:'} type={"text"} register={register} error={errors.email} name={"password"}></Field>
-                <Field text_Field={identification} setText_Field={setIdentification} titule={'Cédula:'} type={"text"} register={register} error={errors.identification} name={"password"}></Field>
-                <Field text_Field={nickname} setText_Field={setNickname} titule={'Nombre de usuario:'} type={"text"} register={register} error={errors.nickname} name={"password"}></Field>
-                <Field text_Field={password} setText_Field={setPassword} titule={'Contraseña:'} type={"Password"} register={register} error={errors.password} name={"password"}></Field>
-                <Field text_Field={cfn_password} setText_Field={setCfn_password} titule={'Confirmar contraseña:'} type={"Password"} register={register} error={errors.cnfPassword} name={"password"}></Field>
-                <PhoneNumberValidation phone={phone_number} setPhone={setPhone_number} register={register} error={errors.phone_number} name={"phone"} />
+                <Field text_Field={name} setText_Field={setName} titule={'Nombre:'} type={"text"} register={register} error={errors.name} name={"name"}></Field>
+                <Field text_Field={second_name} setText_Field={setSecond_name} titule={'Segundo nombre:'} type={"text"} register={register} error={errors.second_name} name={"second_name"}></Field>
+                <Field text_Field={surname} setText_Field={setSurname} titule={'Primer apellido:'} type={"text"} register={register} error={errors.surname} name={"surname"}></Field>
+                <Field text_Field={second_surname} setText_Field={setSecond_surname} titule={'Segundo apellido:'} type={"text"} register={register} error={errors.second_surname} name={"second_surname"}></Field>
+                <Field text_Field={email} setText_Field={setEmail} titule={'Email:'} type={"text"} register={register} error={errors.email} name={"email"}></Field>
+                <Field text_Field={identification} setText_Field={setIdentification} titule={'Cédula:'} type={"text"} register={register} error={errors.identification} name={"identification"}></Field>
+                <Field text_Field={nickname} setText_Field={setNickname} titule={'Nombre de usuario:'} type={"text"} register={register} error={errors.nickname} name={"nickname"}></Field>
+                <PhoneNumberValidation phone={phone_number} setPhone={setPhone_number} register={register} error={errors.phone_number} name={"phone_number"} />
             </div>
             <Standard_button fuction={handleSubmit(submitForm)} titule={"Crear cuenta"} width={"350px"}></Standard_button>
         </div>
     );
 
 }
+//<Field text_Field={password} setText_Field={setPassword} titule={'Contraseña:'} type={"Password"} register={register} error={errors.password} name={"password"}></Field>
+//<Field text_Field={cfn_password} setText_Field={setCfn_password} titule={'Confirmar contraseña:'} type={"Password"} register={register} error={errors.cnfPassword} name={"cnfPassword"}></Field> 
 export default Header;
