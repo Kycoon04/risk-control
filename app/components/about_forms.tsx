@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fectSections } from "./actions";
+import { fetchSections } from "./actions";
 import Spinner from "./Spinner";
 import Preview_Section from "./preview_section";
 import { Section, useAuthStore } from "@/provider/store";
@@ -19,7 +19,7 @@ const Componente: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fectSections(param);
+            const fetchedSections = await fetchSections(param);
             setSections(fetchedSections.props.data);
             setIsLoading(false);
         };

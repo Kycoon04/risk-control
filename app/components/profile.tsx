@@ -1,7 +1,6 @@
 "use client";
 import { useAuthStore } from '@/provider/store';
 import Standard_button from '../components/Button';
-import { BsPencilSquare } from "react-icons/bs";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Spinner from './Spinner';

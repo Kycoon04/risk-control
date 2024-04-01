@@ -1,14 +1,14 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Standard_button from './Button';
 import { useRouter } from 'next/navigation';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { config } from '@/Config';
-import { fectUser } from './actions';
-import { User, useAuthStore } from '@/provider/store';
+import { fetchUsers, fetchUserRole, fetchRole } from './actions';
+import { User, RoleXUser, useAuthStore } from '@/provider/store';
 import { ToastContainer } from 'react-toastify';
-import { Error, Success } from './alerts';
+import { Error } from './alerts';
 import 'react-toastify/dist/ReactToastify.css';
 
 interface LoginProps {
@@ -28,16 +28,23 @@ const publicClientApplication = new PublicClientApplication({
 });
 
 const App: React.FC = () => {
+  let isAuthenticated = false;
   const router = useRouter();
   const setUser = useAuthStore(state => state.setUser);
-  const logged = useAuthStore(state => state.logged);
   const changelogged = useAuthStore(state => state.changeLogged);
-  const fetchData = async (props: User) => {
-    const fetchedForms = await fectUser(props);
+  const setRol = useAuthStore(state => state.setRol);
+
+  const fetchUser = async (props: User) => {
+    const fetchedForms = await fetchUsers(props);
     return fetchedForms.props.data;
   };
+  
+  const fetchUserRol = async (props: RoleXUser) => {
+    const fetchedRoleXUser = await fetchUserRole(props);
+    const fetchedRole = await fetchRole(fetchedRoleXUser.props.data[0].role);
+    return fetchedRole.props.data;
+  };
 
-  let isAuthenticated = false;
   useEffect(() => {
     const initializeMsal = async () => {
       try {
@@ -49,13 +56,13 @@ const App: React.FC = () => {
     initializeMsal();
   }, []);
 
-  const login = async (props?: LoginProps) => {
+  async function login(props?: LoginProps) {
     try {
       const account = await publicClientApplication.loginPopup({
-         scopes: props?.scopes || config.scopes,
-         prompt: 'select_account',
-       }); 
-      const user = await fetchData({
+        scopes: props?.scopes || config.scopes,
+        prompt: 'select_account',
+      });
+      const user = await fetchUser({
         id: "",
         name: "",
         second_name: "",
@@ -66,9 +73,15 @@ const App: React.FC = () => {
         nickname: "",
         identification: "",
         department: ""
-      })
-      if (user[0] != undefined) {
+      });
+      if (user[0]) {
         isAuthenticated = true;
+        const role = await fetchUserRol({
+          id: "",
+          user: user[0].id,
+          role: ""
+        });
+        setRol(role.name);
         changelogged();
         setUser(user[0]);
       }
@@ -76,11 +89,7 @@ const App: React.FC = () => {
       console.error('Login error:', err);
       isAuthenticated = false;
     }
-  };
-
-  const logout = async () => {
-    await publicClientApplication.logout();
-  };
+  }
 
   const submitForm = async () => {
     try {

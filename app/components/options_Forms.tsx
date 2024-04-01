@@ -1,18 +1,21 @@
 "use client";
-import Link from 'next/link';
-import { FaPen } from "react-icons/fa6";
 
+interface ButtonProps {
+    fuction: () => void;
+    titule: string;
+    width: string;
+    selected?: boolean;
+}
 
-import {button} from '@/lib/definitions';
-
-const Componente: React.FC<button> =({fuction,titule,width})=>{
+const Standard_button: React.FC<ButtonProps> = ({ fuction, titule, width, selected }) => {
     return (
         <button
-            className={`relative inline-flex mb-8 hover:bg-purple-450 m-3 p-2 w-[${width}] justify-start text-white me-2 
-            overflow-hidden text-sm font-light rounded-sm group bg-purple-400`}
+            className={`relative inline-flex mb-8 hover:bg-purple-450 ${selected ? 'hover:bg-purple-600' : 'hover:bg-purple-450'} m-3 p-2 w-[${width}] justify-start text-white me-2 
+            overflow-hidden text-sm font-light rounded-sm group ${selected ? 'bg-purple-600' : 'bg-purple-400'}`} 
             onClick={fuction}>
             {titule}
         </button>
     );
 }
-export default Componente;
+
+export default Standard_button;

@@ -4,7 +4,7 @@ import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
 import { useAuthStore } from '@/provider/store';
-import { fectOptions, fectQuestion } from './actions';
+import { fetchOptions, fetchQuestion } from './actions';
 import Spinner from './Spinner';
 
 interface Forms {
@@ -21,19 +21,15 @@ interface ParamOptions {
     option: string;
     question: string | undefined;
 }
-interface FetchedOptions {
-    props: {
-        data: ParamOptions[];
-    };
-}
 const Componente: React.FC<Forms> = ({ titule }) => {
-
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
-    const [question, setQuestion] = useState<ParamQuestions[]>([]);
+    const [questions, setQuestions] = useState<ParamQuestions[]>([]);
     const [allOptions, setAllOptions] = useState<ParamOptions[][]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = React.useState(1);
+
     const QuestionsPerPage = 1;
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -43,36 +39,57 @@ const Componente: React.FC<Forms> = ({ titule }) => {
         setPage(value);
     }
 
+    const handleButtonClick = (questionId: string, option: string) => {
+        setSelectedOptions(prevState => ({
+            ...prevState,
+            [questionId]: option
+        }));
+        console.log(selectedOptions)
+    };
     const renderQuestions = () => {
         const startIndex = (page - 1) * QuestionsPerPage;
         const endIndex = startIndex + QuestionsPerPage;
-
-        const questions = [];
-        for (let i = startIndex; i < Math.min(endIndex, questionData.length); i++) {
-            questions.push(<Question options={questionData[i].options} question={questionData[i].question} titule={questionData[i].text} key={i} />);
-        }
-        return questions;
+        const Options = [];
+        const renderedQuestions = questions
+            .slice(startIndex, endIndex)
+            .map((q, index) => {
+                const questionIndex = (page - 1) * QuestionsPerPage + index;
+                const optionsForQuestion = questionIndex < questionData.length ? questionData[questionIndex].options : [];
+                return (
+                    <Question
+                        key={q.id}
+                        options={optionsForQuestion}
+                        question={q.question}
+                        titule={q.description}
+                        selectedOption={selectedOptions[q.id] || null} 
+                        onButtonClick={(option) => handleButtonClick(q.id, option)} 
+                    />
+                );
+            });
+        
+        return renderedQuestions;
     };
 
-    const paramQuestion: ParamQuestions = {
-        id: "",
-        question: "",
-        description: "",
-        section: section?.id,
-    };
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fectQuestion(paramQuestion);
-            setQuestion(fetchedSections.props.data);
-            
+            const paramQuestion: ParamQuestions = {
+                id: "",
+                question: "",
+                description: "",
+                section: section?.id,
+            };
+
+            const fetchedSections = await fetchQuestion(paramQuestion);
+            setQuestions(fetchedSections.props.data);
+
             const fetchedOptionsPromises = fetchedSections.props.data.map(async (q: ParamQuestions) => {
                 const paramOptions: ParamOptions = {
                     id: "",
                     option: "",
                     question: q.id,
                 };
-                const fetchedOptions = await fectOptions(paramOptions);
+                const fetchedOptions = await fetchOptions(paramOptions);
                 return fetchedOptions.props.data;
             });
             const fetchedOptions = await Promise.all(fetchedOptionsPromises);
@@ -80,9 +97,9 @@ const Componente: React.FC<Forms> = ({ titule }) => {
             setIsLoading(false);
         };
         fetchData();
-    }, []);
+    }, [section]);
     
-    const questionData = question.map((q, index) => {
+    const questionData = questions.map((q, index) => {
         const optionsForQuestion = allOptions[index] || [];
         return {
             id: q.id,
@@ -91,7 +108,6 @@ const Componente: React.FC<Forms> = ({ titule }) => {
             options: optionsForQuestion.map(option => option.option),
         };
     });
-
     return (
         <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md justify-center items-center flex'>
             <div className='bg-gray-200 w-[90%] m-10 p-5 rounded-3xl flex flex-col items-center justify-center'>
@@ -130,17 +146,19 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     ) : (
                         renderQuestions()
                     )}
-                    <Pagination className='m-5 bg-white rounded-lg p-2'
-                        count={Math.ceil(questionData.length / QuestionsPerPage)}
+                    <Pagination
+                        className='m-5 bg-white rounded-lg p-2'
+                        count={Math.ceil(questions.length / QuestionsPerPage)}
                         page={page}
                         onChange={handleChange}
                         showFirstButton
                         showLastButton
-                        size="large" />
+                        size="large"
+                    />
                 </div>
             </div>
         </div>
-    );
+        );
 }
 
 export default Componente;

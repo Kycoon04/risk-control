@@ -1,5 +1,5 @@
 'use client'
-import {User} from '@/provider/store';
+import {User,RoleXUser} from '@/provider/store';
 
 export async function fetchForms() {
   const res = await fetch('/api/forms', {
@@ -20,7 +20,7 @@ interface params {
   forms: number | undefined,
 };
 
-export const fectSections = async (param: params) => {
+export const fetchSections = async (param: params) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")
@@ -43,7 +43,7 @@ interface paramsQuestion {
   section: string | undefined,
 };
 
-export const fectQuestion = async (param: paramsQuestion) => {
+export const fetchQuestion = async (param: paramsQuestion) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")
@@ -65,7 +65,7 @@ interface paramsOptions {
   question:string | undefined;
 };
 
-export const fectOptions = async (param: paramsOptions) => {
+export const fetchOptions = async (param: paramsOptions) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")
@@ -110,12 +110,41 @@ export const postUser = async (name:string,second_name:string,surname:string,sec
 }
 }
 
-export const fectUser = async (param: User) => {
+export const fetchUsers = async (param: User) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")
   ).toString();
   const res = await fetch(`/api/users/[id]?${queryParams}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}
+
+
+export const fetchUserRole = async (param: RoleXUser) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  console.log(queryParams)
+  const res = await fetch(`/api/rolesxusers?${queryParams}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}
+export const fetchRole = async (param: string) => {
+  const res = await fetch(`/api/roles?id=${param}`, {
     cache: "no-store",
   });
   const data = await res.json();
