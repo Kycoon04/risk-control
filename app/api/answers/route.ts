@@ -1,15 +1,10 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { QueryOptions } from "@/app/types";
-import { TL_Departaments } from "@prisma/client";
-
 
 interface CreateAnswerData {
     user: number;
     option:number;
-    answer:string;
-
 }
 
 export async function POST(req: Request) {
@@ -19,11 +14,11 @@ export async function POST(req: Request) {
             data: {
                 user: data.user,
                 option:data.option,
-                answer:data.answer,
             },
         });
         return NextResponse.json(newAnswer);
     } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

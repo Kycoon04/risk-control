@@ -4,8 +4,9 @@ import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
 import { useAuthStore } from '@/provider/store';
-import { fetchOptions, fetchQuestion } from './actions';
+import { fetchOptions, fetchQuestion, postAnswer } from './actions';
 import Spinner from './Spinner';
+import Standard_button from './Button';
 
 interface Forms {
     titule: string | undefined;
@@ -21,11 +22,12 @@ interface ParamOptions {
     option: string;
     question: string | undefined;
 }
-interface Options {
-    id: string;
-    option: string;
+interface Answers {
+    user: string | undefined;
+    option: string | null;
 }
 const Componente: React.FC<Forms> = ({ titule }) => {
+    const User = useAuthStore(state => state.user);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
     const [questions, setQuestions] = useState<ParamQuestions[]>([]);
@@ -42,6 +44,17 @@ const Componente: React.FC<Forms> = ({ titule }) => {
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     }
+    const postanswers = async () => {
+        for (const option of Object.values(selectedOptions)) {
+            console.log(User?.id,option)
+            const paramanswer: Answers = {
+                user: User?.id,
+                option: option
+            };
+            const response = await postAnswer(paramanswer);
+            console.log(response);
+        }
+    };
 
     const handleButtonClick = (questionId: string, optionSelect: string) => {
         setSelectedOptions(prevState => ({
@@ -63,19 +76,19 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     id,
                     option: optionsForQuestion.option[index]
                 }));
-                
+
                 return (
                     <Question
                         key={q.id}
                         options={mappedOptions}
                         question={q.question}
                         titule={q.description}
-                        selectedOption={selectedOptions[q.id] || null} 
-                        onButtonClick={(option) => handleButtonClick(q.id, option)} 
+                        selectedOption={selectedOptions[q.id] || null}
+                        onButtonClick={(option) => handleButtonClick(q.id, option)}
                     />
                 );
             });
-        
+
         return renderedQuestions;
     };
 
@@ -113,7 +126,7 @@ const Componente: React.FC<Forms> = ({ titule }) => {
             id: q.id,
             text: q.question,
             question: q.description,
-            options :{
+            options: {
                 id: optionsForQuestion.map(option => option.id),
                 option: optionsForQuestion.map(option => option.option),
             }
@@ -157,19 +170,28 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     ) : (
                         renderQuestions()
                     )}
-                    <Pagination
-                        className='m-5 bg-white rounded-lg p-2'
-                        count={Math.ceil(questions.length / QuestionsPerPage)}
-                        page={page}
-                        onChange={handleChange}
-                        showFirstButton
-                        showLastButton
-                        size="large"
-                    />
+                    <div className='flex flex-col'>
+                        <Pagination
+                            className='mt-5 bg-white rounded-lg p-2'
+                            count={Math.ceil(questions.length / QuestionsPerPage)}
+                            page={page}
+                            onChange={handleChange}
+                            showFirstButton
+                            showLastButton
+                            size="large"
+                        />
+                        {page === Math.ceil(questions.length / QuestionsPerPage) && (
+                            <Standard_button
+                                fuction={postanswers}
+                                titule="Enviar"
+                                width={"400px"}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
-        );
+    );
 }
 
 export default Componente;

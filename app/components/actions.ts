@@ -1,5 +1,5 @@
 'use client'
-import {User,RoleXUser} from '@/provider/store';
+import { User, RoleXUser } from '@/provider/store';
 
 export async function fetchForms() {
   const res = await fetch('/api/forms', {
@@ -10,6 +10,33 @@ export async function fetchForms() {
     props: {
       data,
     }
+  }
+}
+interface Answers {
+  user: string | undefined;
+  option: string | null;
+}
+export const postAnswer = async (param: Answers): Promise<boolean> => {
+  try {
+    const response = await fetch('/api/answers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user: param.user,
+        option: param.option,
+      })
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error de red', error);
+    return false;
   }
 }
 
@@ -61,8 +88,8 @@ export const fetchQuestion = async (param: paramsQuestion) => {
 
 interface paramsOptions {
   id: string
-  option:string
-  question:string | undefined;
+  option: string
+  question: string | undefined;
 };
 
 export const fetchOptions = async (param: paramsOptions) => {
@@ -80,34 +107,34 @@ export const fetchOptions = async (param: paramsOptions) => {
     }
   }
 }
-export const postUser = async (name:string,second_name:string,surname:string,second_surname:string,email:string,identification:string,nickname:string, phone_number:string): Promise<boolean> =>{
+export const postUser = async (name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string): Promise<boolean> => {
   try {
     const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name,
-            second_name: second_name,
-            surname:surname,
-            second_surname:second_surname,
-            email:email,
-            identification:identification,
-            nickname:nickname, 
-            phone_number:phone_number
-        })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        second_name: second_name,
+        surname: surname,
+        second_surname: second_surname,
+        email: email,
+        identification: identification,
+        nickname: nickname,
+        phone_number: phone_number
+      })
     });
 
     if (response.ok) {
-        return true;
+      return true;
     } else {
-        return false;
+      return false;
     }
-} catch (error) {
+  } catch (error) {
     console.error('Error de red', error);
     return false;
-}
+  }
 }
 
 export const fetchUsers = async (param: User) => {
