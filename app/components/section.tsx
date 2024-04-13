@@ -21,6 +21,10 @@ interface ParamOptions {
     option: string;
     question: string | undefined;
 }
+interface Options {
+    id: string;
+    option: string;
+}
 const Componente: React.FC<Forms> = ({ titule }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
@@ -39,26 +43,31 @@ const Componente: React.FC<Forms> = ({ titule }) => {
         setPage(value);
     }
 
-    const handleButtonClick = (questionId: string, option: string) => {
+    const handleButtonClick = (questionId: string, optionSelect: string) => {
         setSelectedOptions(prevState => ({
             ...prevState,
-            [questionId]: option
+            [questionId]: optionSelect
         }));
-        console.log(selectedOptions)
+        console.log(selectedOptions);
     };
     const renderQuestions = () => {
         const startIndex = (page - 1) * QuestionsPerPage;
         const endIndex = startIndex + QuestionsPerPage;
-        const Options = [];
         const renderedQuestions = questions
             .slice(startIndex, endIndex)
             .map((q, index) => {
                 const questionIndex = (page - 1) * QuestionsPerPage + index;
-                const optionsForQuestion = questionIndex < questionData.length ? questionData[questionIndex].options : [];
+                const optionsForQuestion = questionIndex < questionData.length ? questionData[questionIndex].options : { id: [], option: [] };
+
+                const mappedOptions = optionsForQuestion.id.map((id, index) => ({
+                    id,
+                    option: optionsForQuestion.option[index]
+                }));
+                
                 return (
                     <Question
                         key={q.id}
-                        options={optionsForQuestion}
+                        options={mappedOptions}
                         question={q.question}
                         titule={q.description}
                         selectedOption={selectedOptions[q.id] || null} 
@@ -98,14 +107,16 @@ const Componente: React.FC<Forms> = ({ titule }) => {
         };
         fetchData();
     }, [section]);
-    
     const questionData = questions.map((q, index) => {
         const optionsForQuestion = allOptions[index] || [];
         return {
             id: q.id,
             text: q.question,
             question: q.description,
-            options: optionsForQuestion.map(option => option.option),
+            options :{
+                id: optionsForQuestion.map(option => option.id),
+                option: optionsForQuestion.map(option => option.option),
+            }
         };
     });
     return (

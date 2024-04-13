@@ -1,11 +1,13 @@
 "use client";
-import { useState } from 'react';
 import Standard_button from './options_Forms';
 
 interface Field {
     titule: string;
     question: string;
-    options: string[];
+    options: {
+        id: string;
+        option: string;
+    }[];
     selected?: boolean;
     selectedOption: string | null;
     onButtonClick: (option: string) => void;
@@ -27,10 +29,10 @@ const Componente: React.FC<Field> = ({ question, titule, options, selectedOption
                 {options.map((option, index) => (
                     <Standard_button
                         key={index}
-                        fuction={() => onButtonClick(option)}
-                        titule={option}
+                        fuction={() => onButtonClick(option.id)}
+                        titule={option.option}
                         width={"400px"}
-                        selected={option === selectedOption}
+                        selected={option.id === selectedOption}
                     />
                 ))}
             </div>
