@@ -8,6 +8,7 @@ interface CreateFormsData {
     state:number;
     incialperiod:Date;
     finalperiod:Date;
+    complete: string;
 
 }
 
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
                 state:data.state,
                 inicialperiod:data.incialperiod,
                 finalperiod:data.finalperiod,
+                complete: data.complete
             },
         });
         const logger : Logger = {
