@@ -1,16 +1,13 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { QueryOptions } from "@/app/types";
-import { TL_Departaments } from "@prisma/client";
-
 
 interface CreateFormsData {
     name: string;
-    state:number;
-    incialperiod:Date;
-    finalperiod:Date;
-
+    state: number;
+    incialperiod: Date;
+    finalperiod: Date;
+    complete: string;
 }
 
 export async function POST(req: Request) {
@@ -19,9 +16,10 @@ export async function POST(req: Request) {
         const newForms = await prisma.tL_forms.create({
             data: {
                 name: data.name,
-                state:data.state,
-                inicialperiod:data.incialperiod,
-                finalperiod:data.finalperiod,
+                state: data.state,
+                inicialperiod: data.incialperiod,
+                finalperiod: data.finalperiod,
+                complete: data.complete
             },
         });
         return NextResponse.json(newForms);
@@ -53,7 +51,7 @@ export async function DELETE(_request: Request) {
         const id = parseInt(getParams(_request.url, { id: 0 }).id);
         const deletedForms = await prisma.tL_forms.delete({
             where: {
-                id:id
+                id: id
             },
         });
 
