@@ -9,7 +9,34 @@ interface CreateSectionData {
     name: string;
     description:string;
     forms:number;
+    complete:string;
+}
+interface UpdateSectionData {
+    id: number;
+    name: string;
+    description:string;
+    forms:number;
+    complete:string;
+}
 
+export async function PUT(req: Request) {
+    try {
+        const { id, name, description, forms, complete }: UpdateSectionData = await req.json();
+        const updatedSection = await prisma.tL_Sections.update({
+            where: {
+                id: id
+            },
+            data: {
+                name: name,
+                description: description,
+                forms: forms,
+                complete: complete,
+            },
+        });
+        return NextResponse.json(updatedSection);
+    } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
 }
 
 export async function POST(req: Request) {
@@ -20,6 +47,7 @@ export async function POST(req: Request) {
                 name:data.name,
                 description:data.description,
                 forms:data.forms,
+                complete:data.complete,
             },
         });
         return NextResponse.json(newSection);

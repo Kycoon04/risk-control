@@ -40,14 +40,41 @@ export const postAnswer = async (param: Answers): Promise<boolean> => {
   }
 }
 
-interface params {
-  id: string,
-  name: string,
-  description: string,
+export const putSection = async (param: paramsSection): Promise<boolean> => {
+  try {
+    const response = await fetch('/api/sections/[id]', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: param.id,
+        name: param.name,
+        description: param.description,
+        forms: param.forms,
+        complete: param.complete
+      })
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error de red', error);
+    return false;
+  }
+}
+interface paramsSection {
+  id: string | undefined,
+  name: string | undefined,
+  description: string | undefined,
   forms: number | undefined,
+  complete: string | undefined,
 };
 
-export const fetchSections = async (param: params) => {
+export const fetchSections = async (param: paramsSection) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")

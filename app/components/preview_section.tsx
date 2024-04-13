@@ -3,11 +3,7 @@ import { Section, useAuthStore } from '@/provider/store';
 import Link from 'next/link';
 import { FaPen } from "react-icons/fa6";
 
-interface Field extends Section{
-    complete: string;
-}
-
-const Componente: React.FC<Field> = ({complete,name,id,description,forms }) => {
+const Componente: React.FC<Section> = ({complete,name,id,description,forms }) => {
     const setSection = useAuthStore(state => state.setSection);
     const handleFormSelection = () => {
         const newSection: Section = {
@@ -15,6 +11,7 @@ const Componente: React.FC<Field> = ({complete,name,id,description,forms }) => {
             name: name,
             description: description,
             forms: forms,
+            complete:complete
         };
         setSection(newSection);
     };
@@ -30,11 +27,13 @@ const Componente: React.FC<Field> = ({complete,name,id,description,forms }) => {
                         <div className={`bg-purple-400 h-2.5 rounded-full w-[50%]`}></div>
                     </div>
                 </div>
-                <div className='bg-purple-400 rounded-3xl text-white' onClick={handleFormSelection}>
-                    <Link href='/home_page/forms/sections'>
-                        <FaPen className='text-4xl m-4' />
-                    </Link>
-                </div>
+                {complete !== "Completado" && (
+                    <div className='bg-purple-400 rounded-3xl text-white' onClick={handleFormSelection}>
+                        <Link href='/home_page/forms/sections'>
+                            <FaPen className='text-4xl m-4' /> 
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
 

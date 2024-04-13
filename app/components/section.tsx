@@ -4,13 +4,21 @@ import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
 import { useAuthStore } from '@/provider/store';
-import { fetchOptions, fetchQuestion, postAnswer } from './actions';
+import { fetchOptions, fetchQuestion, postAnswer,putSection } from './actions';
 import Spinner from './Spinner';
 import Standard_button from './Button';
+import { useRouter } from 'next/navigation';
 
 interface Forms {
     titule: string | undefined;
 }
+interface paramsSection {
+    id: string | undefined,
+    name: string | undefined,
+    description: string | undefined,
+    forms: number | undefined,
+    complete: string | undefined,
+  };
 interface ParamQuestions {
     id: string;
     question: string;
@@ -27,6 +35,7 @@ interface Answers {
     option: string | null;
 }
 const Componente: React.FC<Forms> = ({ titule }) => {
+    const router = useRouter();
     const User = useAuthStore(state => state.user);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
@@ -54,6 +63,15 @@ const Componente: React.FC<Forms> = ({ titule }) => {
             const response = await postAnswer(paramanswer);
             console.log(response);
         }
+        const SectionData: paramsSection = {
+            id:section?.id,
+            name:section?.name,
+            description:section?.description,
+            forms:section?.forms,
+            complete:"Completado"
+        }
+        await putSection(SectionData);
+        router.push("/home_page/forms");
     };
 
     const handleButtonClick = (questionId: string, optionSelect: string) => {

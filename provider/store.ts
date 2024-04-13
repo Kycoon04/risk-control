@@ -24,6 +24,7 @@ export interface Section {
     name: string,
     description: string,
     forms: number,
+    complete:string
 };
 export interface RoleXUser {
     id: string;

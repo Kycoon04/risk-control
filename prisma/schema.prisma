@@ -73,9 +73,10 @@ model TL_Sections {
   id           Int            @id @default(autoincrement())
   name         String         @db.VarChar(45)
   description  String         @db.VarChar(1000)
-  forms        Int?
+  forms        Int
+  complete     String         @db.VarChar(45)
   TL_Questions TL_Questions[]
-  TL_forms     TL_forms?      @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ss_forms")
+  TL_forms     TL_forms       @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ss_forms")
 
   @@index([forms], map: "ss_forms_idx")
 }
@@ -122,6 +123,7 @@ model TL_forms {
   state          Int              @db.TinyInt
   inicialperiod  DateTime         @db.Date
   finalperiod    DateTime         @db.Date
+  complete       String           @db.VarChar(45)
   TL_DeparXforms TL_DeparXforms[]
   TL_Sections    TL_Sections[]
 }
