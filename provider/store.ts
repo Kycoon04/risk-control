@@ -36,6 +36,23 @@ export interface Role {
     name: string;
     active: string;
 };
+export interface graphicData {
+    labels: string[];
+    datasets: {
+        label: string;
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        hoverBackgroundColor: string;
+        hoverBorderColor: string;
+        pointBackgroundColor?: string;
+        pointBorderColor?: string;
+        pointHoverBackgroundColor?: string;
+        pointHoverBorderColor?: string;
+        borderDash?: number[];
+        data: number[];
+    }[];
+}
 type AuthStore = {
     logged: boolean;
     rol: string;

@@ -5,7 +5,7 @@ import getParams from "@/app/api/functions/getParams";
 interface CreateOptionData {
     option:string;
     question:number;
-
+    score:number;
 }
 
 export async function POST(req: Request) {
@@ -15,6 +15,7 @@ export async function POST(req: Request) {
             data: {
                 option:data.option,
                 question:data.question,
+                score:data.score,
             },
         });
         return NextResponse.json(newOption);
@@ -24,16 +25,17 @@ export async function POST(req: Request) {
 }
 export async function GET(_req: Request) {
     try {
-        const object = {  id: 0,option:"", question:""} 
+        const object = {  id: 0,option:"", question:"",score:""} 
         const url = _req.url
         const parameters = getParams(url, object)
-        const {id, option,question} = parameters
+        const {id, option,question,score} = parameters
         console.log(parameters)
         const whereCondition = {
                 where: {
                     id: id,
                     option: option,
                     question: question,
+                    scroll: score
                 },
             };
             let loggers;

@@ -45,6 +45,7 @@ model TL_Options {
   id           Int          @id @default(autoincrement())
   option       String       @db.VarChar(500)
   question     Int
+  score        Int
   TL_Answers   TL_Answers[]
   TL_Questions TL_Questions @relation(fields: [question], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "os_question")
 

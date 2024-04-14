@@ -12,7 +12,8 @@ export async function fetchForms() {
     }
   }
 }
-interface Answers {
+export interface Answers {
+  id: string | undefined;
   user: string | undefined;
   option: string | null;
 }
@@ -199,6 +200,43 @@ export const fetchUserRole = async (param: RoleXUser) => {
 }
 export const fetchRole = async (param: string) => {
   const res = await fetch(`/api/roles?id=${param}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}
+interface paramsDepartXForms {
+  departament: number;
+  forms: number;
+  id: number;
+};
+
+export const fetchDepartXForms = async (param: paramsDepartXForms) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  const res = await fetch(`/api/deparxforms/[id]?${queryParams}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}
+
+export const fetchAnswers = async (param: Answers) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  const res = await fetch(`/api/answers?${queryParams}`, {
     cache: "no-store",
   });
   const data = await res.json();

@@ -28,19 +28,23 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const id = parseInt(getParams(_req.url, { id: 0 }).id);
-        const response = await prisma.tL_DeparXforms.findUnique({
-            where: {
-                id: id
-            }
-        });
-        if (response) {
-            return NextResponse.json(response);
-        }
-        return new NextResponse("Not found", { status: 404 });
-
+        const object = { id: 0, department: 0,forms: 0}; 
+        const url = _req.url;
+        const parameters = getParams(url, object)
+        const {id, department,forms} = parameters
+        console.log(parameters)
+        const whereCondition = {
+                where: {
+                    id: id,
+                    forms:forms,
+                    department:department
+                },
+            };
+            let loggers;
+            loggers = await prisma.tL_DeparXforms.findMany({where: whereCondition.where});
+        return NextResponse.json(loggers);
     } catch (error) {
-        return new NextResponse("Unauthorized", { status: 401 });
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
 
