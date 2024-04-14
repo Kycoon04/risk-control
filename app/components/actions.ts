@@ -13,7 +13,6 @@ export async function fetchForms() {
   }
 }
 export interface Answers {
-  id: string | undefined;
   user: string | undefined;
   option: string | null;
 }

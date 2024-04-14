@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { fetchSections, fetchAnswers, Answers } from "./actions";
+import { fetchSections, fetchAnswers, Answers,fetchOptions } from "./actions";
 import Spinner from "./Spinner";
 import Preview_Section from "./preview_section";
-import { Section, useAuthStore, graphicData } from "@/provider/store";
+import { Section, useAuthStore, graphicData,Options } from "@/provider/store";
 import Barchart from './graphics/Barchart';
 import Radarchart from './graphics/Radarchart';
 
@@ -12,6 +12,8 @@ const Componente: React.FC = () => {
     const user = useAuthStore((state) => state.user);
     const [sections, setSections] = useState<Section[]>([]);
     const [Answers, setAnswers] = useState<Answers[]>([]);
+    const [allOptions, setAllOptions] = useState<Options[]>([]);
+    const [ListaUnit, setListaUnit] = useState<Options[]>([]);
     const param = {
         id: "",
         forms: forms?.id,
@@ -19,10 +21,16 @@ const Componente: React.FC = () => {
         description: "",
         complete: "",
     };
-    const answer: Answers = {
+    const answer = {
         id: "",
         user: user?.id,
         option: "",
+    };
+    const options = {
+        id: "",
+        option: "",
+        question: "",
+        score: "",
     };
     useEffect(() => {
         const fetchData = async () => {
@@ -31,29 +39,42 @@ const Componente: React.FC = () => {
             setSections(fetchedSections.props.data);
             const fetchedAnswers = await fetchAnswers(answer)
             setAnswers(fetchedAnswers.props.data);
+            const userOptions = await fetchOptions(options);
+            setAllOptions(userOptions.props.data);
             setIsLoading(false);
         };
         fetchData();
     }, []);
 
-    const generateRandomData = (length: number): number[] => {
-        const data: number[] = [];
-        for (let i = 0; i < length; i++) {
-            data.push(Math.floor(Math.random() * 50) / 4); // Genera números aleatorios entre 0 y 100
-        }
-        return data;
-    };
-
     useEffect(() => {
-        let sectionNames: string[] = [];
-        for (let i = 0; i < sections.length; i++) {
-            sectionNames[i] = sections[i].name;
+        const generateRandomData = () => {
+            const data: number[] = [];
+            const nuevaLista = allOptions.filter(option => {
+                return Answers.some(answer => answer.option === option.id);
+            });
+            for (let i = 0; i < nuevaLista.length; i += 4) {
+                let sum = 0;
+                for (let j = 0; j < 4; j++) {
+                    sum += parseInt(nuevaLista[i + j].score, 10);
+                }
+                data.push(sum / 4);
+            }
+            console.log(data)
+            return data;
+        };
+
+        if (!isLoading) { // Solo generar los datos cuando isLoading es false
+            const sectionNames: string[] = sections.map(section => section.name);
+            setBarData(prevState => ({
+                ...prevState,
+                labels: sectionNames,
+                datasets: [{
+                    ...prevState.datasets[0],
+                    data: generateRandomData(),
+                }],
+            }));
         }
-        setBarData(prevState => ({
-            ...prevState,
-            labels: sectionNames,
-        }));
-    }, [sections]);
+    }, [isLoading, Answers, allOptions, sections]);
 
     const [barData, setBarData] = useState<graphicData>({
         labels: [],
@@ -70,7 +91,7 @@ const Componente: React.FC = () => {
                 pointHoverBackgroundColor: 'white', // Cambiar el color de los puntos al pasar el cursor a blanco
                 pointHoverBorderColor: 'white',
                 borderDash: [],
-                data: generateRandomData(5),
+                data: [],
             },
         ],
     });

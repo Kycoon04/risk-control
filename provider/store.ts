@@ -36,6 +36,12 @@ export interface Role {
     name: string;
     active: string;
 };
+export interface Options {
+    id: string;
+    option: string;
+    question: string | undefined;
+    score: string;
+};
 export interface graphicData {
     labels: string[];
     datasets: {

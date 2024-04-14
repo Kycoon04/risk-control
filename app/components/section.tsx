@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
-import { useAuthStore } from '@/provider/store';
+import { useAuthStore,Options } from '@/provider/store';
 import { fetchOptions, fetchQuestion, postAnswer,putSection } from './actions';
 import Spinner from './Spinner';
 import Standard_button from './Button';
@@ -25,11 +25,6 @@ interface ParamQuestions {
     description: string;
     section: string | undefined;
 }
-interface ParamOptions {
-    id: string;
-    option: string;
-    question: string | undefined;
-}
 interface Answers {
     user: string | undefined;
     option: string | null;
@@ -40,7 +35,7 @@ const Componente: React.FC<Forms> = ({ titule }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
     const [questions, setQuestions] = useState<ParamQuestions[]>([]);
-    const [allOptions, setAllOptions] = useState<ParamOptions[][]>([]);
+    const [allOptions, setAllOptions] = useState<Options[][]>([]);
     const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = React.useState(1);
@@ -124,10 +119,11 @@ const Componente: React.FC<Forms> = ({ titule }) => {
             setQuestions(fetchedSections.props.data);
 
             const fetchedOptionsPromises = fetchedSections.props.data.map(async (q: ParamQuestions) => {
-                const paramOptions: ParamOptions = {
+                const paramOptions: Options = {
                     id: "",
                     option: "",
                     question: q.id,
+                    score: "",
                 };
                 const fetchedOptions = await fetchOptions(paramOptions);
                 return fetchedOptions.props.data;
