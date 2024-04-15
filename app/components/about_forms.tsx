@@ -126,7 +126,10 @@ const Componente: React.FC = () => {
                         </div>
                     ) : (
                         sections.map((form) => (
-                            <Preview_Section key={form.id} id={form.id} name={form.name} description={form.description} forms={form.forms} complete={form.complete} />
+                            <Preview_Section key={form.id} id={form.id} name={form.name} description={form.description} forms={form.forms} complete={Answers.some(answer => answer.TL_Options.TL_Questions.section === form.id)
+                                ? 'Completado'
+                                : 'Sin Completar'
+                        } />
                         ))
                     )
                 )}

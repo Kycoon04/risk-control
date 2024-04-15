@@ -58,14 +58,6 @@ const Componente: React.FC<Forms> = ({ titule }) => {
             const response = await postAnswer(paramanswer);
             console.log(response);
         }
-        const SectionData: paramsSection = {
-            id:section?.id,
-            name:section?.name,
-            description:section?.description,
-            forms:section?.forms,
-            complete:"Completado"
-        }
-        await putSection(SectionData);
         router.push("/home_page/forms");
     };
 
