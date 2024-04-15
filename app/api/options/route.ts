@@ -35,8 +35,8 @@ export async function GET(_req: Request) {
                     id: id,
                     option: option,
                     question: question,
-                    scroll: score
-                },
+                    score: score
+                }
             };
             let loggers;
             loggers = await prisma.tL_Options.findMany({where: whereCondition.where});

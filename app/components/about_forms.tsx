@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { fetchSections, fetchAnswers, Answers,fetchOptions } from "./actions";
+import { fetchSections, fetchAnswers,FecthAnswers } from "./actions";
 import Spinner from "./Spinner";
 import Preview_Section from "./preview_section";
-import { Section, useAuthStore, graphicData,Options } from "@/provider/store";
+import { Section, useAuthStore, graphicData } from "@/provider/store";
 import Barchart from './graphics/Barchart';
 import Radarchart from './graphics/Radarchart';
 
@@ -11,9 +11,7 @@ const Componente: React.FC = () => {
     const forms = useAuthStore((state) => state.form);
     const user = useAuthStore((state) => state.user);
     const [sections, setSections] = useState<Section[]>([]);
-    const [Answers, setAnswers] = useState<Answers[]>([]);
-    const [allOptions, setAllOptions] = useState<Options[]>([]);
-    const [ListaUnit, setListaUnit] = useState<Options[]>([]);
+    const [Answers, setAnswers] = useState<FecthAnswers[]>([]);
     const param = {
         id: "",
         forms: forms?.id,
@@ -25,22 +23,27 @@ const Componente: React.FC = () => {
         id: "",
         user: user?.id,
         option: "",
+        TL_Options: {
+            id: "",
+            option: "",
+            question: "",
+            score: "",
+            TL_Questions:{
+                id: "",
+                question:"",
+                description:"",
+                section:"",
+            }
+        },
     };
-    const options = {
-        id: "",
-        option: "",
-        question: "",
-        score: "",
-    };
+
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             const fetchedSections = await fetchSections(param);
             setSections(fetchedSections.props.data);
             const fetchedAnswers = await fetchAnswers(answer)
-            setAnswers(fetchedAnswers.props.data);
-            const userOptions = await fetchOptions(options);
-            setAllOptions(userOptions.props.data);
+            setAnswers(fetchedAnswers.props.data);    
             setIsLoading(false);
         };
         fetchData();
@@ -48,22 +51,29 @@ const Componente: React.FC = () => {
 
     useEffect(() => {
         const generateRandomData = () => {
-            const data: number[] = [];
-            const nuevaLista = allOptions.filter(option => {
-                return Answers.some(answer => answer.option === option.id);
-            });
-            for (let i = 0; i < nuevaLista.length; i += 4) {
-                let sum = 0;
-                for (let j = 0; j < 4; j++) {
-                    sum += parseInt(nuevaLista[i + j].score, 10);
+            const sectionScores: { [section: string]: number[] } = {};
+            Answers.forEach(answer => {
+                const section = answer.TL_Options.TL_Questions.section;
+                if (section) {
+                    if (!sectionScores[section]) {
+                        sectionScores[section] = [];
+                    }
+                    sectionScores[section].push(parseInt(answer.TL_Options.score, 10));
                 }
-                data.push(sum / 4);
+            });
+            const sectionAverages: number[] = [];
+            for (const section in sectionScores) {
+                if (sectionScores.hasOwnProperty(section)) {
+                    const scores = sectionScores[section];
+                    const sum = scores.reduce((acc, score) => acc + score, 0);
+                    const average = sum / scores.length;
+                    sectionAverages.push(average);
+                }
             }
-            console.log(data)
-            return data;
+            return sectionAverages;
         };
-
-        if (!isLoading) { // Solo generar los datos cuando isLoading es false
+    
+        if (!isLoading && Answers.length > 0 && sections.length > 0) { // Verifica que todos los datos estén disponibles
             const sectionNames: string[] = sections.map(section => section.name);
             setBarData(prevState => ({
                 ...prevState,
@@ -74,7 +84,8 @@ const Componente: React.FC = () => {
                 }],
             }));
         }
-    }, [isLoading, Answers, allOptions, sections]);
+    }, [isLoading, Answers, sections]);
+
 
     const [barData, setBarData] = useState<graphicData>({
         labels: [],
@@ -104,7 +115,7 @@ const Componente: React.FC = () => {
                 {isLoading ? (
                     <Spinner />
                 ) : (
-                    sections.every(section => section.complete === "Completado") ? (
+                    Answers.length === 20 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
                             <div className="w-full sm:h-96 flex justify-center items-center">
                                 <Barchart data={barData} />

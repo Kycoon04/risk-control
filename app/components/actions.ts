@@ -94,7 +94,7 @@ interface paramsQuestion {
   id: string,
   question: string,
   description: string,
-  section: string | undefined,
+  section: string,
 };
 
 export const fetchQuestion = async (param: paramsQuestion) => {
@@ -117,6 +117,8 @@ interface paramsOptions {
   id: string
   option: string
   question: string | undefined;
+  score: string;
+  TL_Questions: paramsQuestion;
 };
 
 export const fetchOptions = async (param: paramsOptions) => {
@@ -229,8 +231,18 @@ export const fetchDepartXForms = async (param: paramsDepartXForms) => {
     }
   }
 }
-
-export const fetchAnswers = async (param: Answers) => {
+export interface FecthAnswers {
+  user: string | undefined;
+  option: string | null;
+  TL_Options: {
+    id: string
+    option: string
+    question: string | undefined;
+    score: string;
+    TL_Questions: paramsQuestion;
+  };
+}
+export const fetchAnswers = async (param: FecthAnswers) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")

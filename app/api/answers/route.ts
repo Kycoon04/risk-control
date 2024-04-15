@@ -29,18 +29,25 @@ export async function GET(_req: Request) {
         const url = _req.url
         const parameters = getParams(url, object)
         const {id, user,option} = parameters
-        console.log(parameters)
         const whereCondition = {
                 where: {
                     id: id,
                     option: option,
                     user: user,
                 },
+                include: {
+                    TL_Options: {
+                        include: {
+                            TL_Questions: true,
+                        },
+                    },
+                },
             };
             let loggers;
-            loggers = await prisma.tL_Answers.findMany({where: whereCondition.where});
+            loggers = await prisma.tL_Answers.findMany({where: whereCondition.where,include: whereCondition.include});
         return NextResponse.json(loggers);
     } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

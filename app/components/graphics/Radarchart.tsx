@@ -21,6 +21,7 @@ const radarOptions: ChartOptions<'radar'> = {
             },
             ticks: {
                 backdropColor: 'transparent',
+                stepSize: 20, // Incremento entre los ticks
             },
         },
     },
