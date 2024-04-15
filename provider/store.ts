@@ -41,6 +41,12 @@ export interface Options {
     option: string;
     question: string | undefined;
     score: string;
+    TL_Questions:{
+        id: "",
+        question:"",
+        description:"",
+        section:"",
+    };
 };
 export interface graphicData {
     labels: string[];
@@ -64,7 +70,7 @@ type AuthStore = {
     rol: string;
     user: User | null;
     form: Form | null;
-    section: Section | null;
+    section: Section;
     changeLogged: () => void;
     setUser: (newUser: User) => void;
     setForm: (newForm: Form) => void;
@@ -78,7 +84,13 @@ export const useAuthStore = create<AuthStore>()(persist(
         logged: false,
         user: null,
         form: null,
-        section: null,
+        section: {
+            id: "",
+            name: "",
+            description: "",
+            forms: 0,
+            complete:""
+        },
         changeLogged: () => {
             set((state) => ({
                 logged: !state.logged

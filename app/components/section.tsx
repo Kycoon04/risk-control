@@ -23,7 +23,7 @@ interface ParamQuestions {
     id: string;
     question: string;
     description: string;
-    section: string | undefined;
+    section: string;
 }
 interface Answers {
     user: string | undefined;
@@ -108,11 +108,12 @@ const Componente: React.FC<Forms> = ({ titule }) => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
+            const id = section.id;
             const paramQuestion: ParamQuestions = {
                 id: "",
                 question: "",
                 description: "",
-                section: section?.id,
+                section: id,
             };
 
             const fetchedSections = await fetchQuestion(paramQuestion);
@@ -124,6 +125,12 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     option: "",
                     question: q.id,
                     score: "",
+                    TL_Questions:{
+                        id: "",
+                        question:"",
+                        description:"",
+                        section:"",
+                    }
                 };
                 const fetchedOptions = await fetchOptions(paramOptions);
                 return fetchedOptions.props.data;
