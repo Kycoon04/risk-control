@@ -58,17 +58,17 @@ const App: React.FC = () => {
 
   async function login(props?: LoginProps) {
     try {
-      /*const account = await publicClientApplication.loginPopup({
+      const account = await publicClientApplication.loginPopup({
         scopes: props?.scopes || config.scopes,
         prompt: 'select_account',
-      });*/
+      });
       const user = await fetchUser({
         id: "",
         name: "",
         second_name: "",
         surname: "",
         second_surname: "",
-        email: "jomaval4@gmail.com"/*account.account.username*/,
+        email: account.account.username,
         phone_number: "",
         nickname: "",
         identification: "",
