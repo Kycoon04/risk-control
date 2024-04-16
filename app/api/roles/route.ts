@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
-import { QueryOptions } from "@/app/types";
 
 interface CreateRoleData {
     name: string;

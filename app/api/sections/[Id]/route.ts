@@ -1,9 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { QueryOptions } from "@/app/types";
-import { TL_Departaments } from "@prisma/client";
-
 
 interface CreateSectionData {
     name: string;

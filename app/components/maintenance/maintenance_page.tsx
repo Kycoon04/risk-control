@@ -6,11 +6,13 @@ const Componente: React.FC = () => {
             <h1 className="text-center text-4xl font-extrabold text-white m-10 mb-5">
                 {'Mantenimiento'}
             </h1>
-            <div className='m-5 grid grid-cols-1 sm:grid-cols-2'>
+            <div className='m-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'>
                 <Preview_maintenance titule='Formularios' url="/home_page/forms" icon="SiGoogleforms"/>
                 <Preview_maintenance titule='Secciones' url="/home_page/forms" icon="SiGooglemarketingplatform"/>
                 <Preview_maintenance titule='Preguntas' url="/home_page/forms" icon="BsFillQuestionSquareFill"/>
                 <Preview_maintenance titule='Usuarios' url="/home_page/forms" icon="RiUserSettingsFill"/>
+                <Preview_maintenance titule='Departamentos' url="/home_page/forms" icon="FaNetworkWired"/>
+                <Preview_maintenance titule='Roles' url="/home_page/forms" icon="MdOutlineWorkOutline"/>
             </div>
         </div>
     );

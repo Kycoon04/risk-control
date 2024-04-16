@@ -74,7 +74,7 @@ export interface Logger {
 export interface Field {
     titule: string;
     url: string;
-    icon: 'RiUserSettingsFill' | 'SiGoogleforms' | 'BsFillQuestionSquareFill' | 'SiGooglemarketingplatform';
+    icon: 'RiUserSettingsFill' | 'SiGoogleforms' | 'BsFillQuestionSquareFill' | 'SiGooglemarketingplatform' | 'FaNetworkWired' | 'MdOutlineWorkOutline';
 }
 export interface FieldQuestion {
     titule: string;

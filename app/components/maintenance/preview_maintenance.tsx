@@ -4,15 +4,18 @@ import { RiUserSettingsFill } from "react-icons/ri";
 import { SiGoogleforms } from "react-icons/si";
 import { BsFillQuestionSquareFill } from "react-icons/bs";
 import { SiGooglemarketingplatform } from "react-icons/si";
-
+import { FaNetworkWired } from "react-icons/fa6";
 import {Field} from '@/provider/types';
+import { MdOutlineWork } from "react-icons/md";
 const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
 
     const iconComponent =
-        icon === 'RiUserSettingsFill' ? <RiUserSettingsFill className='text-4xl m-4' /> :
-        icon === 'SiGoogleforms' ? <SiGoogleforms className='text-4xl m-4' /> :
-        icon === 'BsFillQuestionSquareFill' ? <BsFillQuestionSquareFill className='text-4xl m-4' /> :
-        icon === 'SiGooglemarketingplatform' ? <SiGooglemarketingplatform className='text-4xl m-4' /> :
+        icon === 'RiUserSettingsFill' ? <RiUserSettingsFill className='text-4xl text-white m-4' /> :
+        icon === 'SiGoogleforms' ? <SiGoogleforms className='text-4xl text-white m-4' /> :
+        icon === 'BsFillQuestionSquareFill' ? <BsFillQuestionSquareFill className='text-4xl text-white m-4' /> :
+        icon === 'SiGooglemarketingplatform' ? <SiGooglemarketingplatform className='text-4xl text-white m-4' /> :
+        icon === 'FaNetworkWired' ? <FaNetworkWired className='text-4xl text-white m-4' /> :
+        icon === 'MdOutlineWorkOutline' ? <MdOutlineWork className='text-4xl text-white m-4' /> :
         null;
 
     return (
