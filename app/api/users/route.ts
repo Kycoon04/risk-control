@@ -14,7 +14,7 @@ interface CreateUserData {
     phone_number: string;
     nickname: string;
     identification: string;
-    department: number;
+    department: string;
 }
 
 export async function POST(req: Request) {
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
                 phone_number: data.phone_number,
                 nickname:  data.nickname,
                 identification:  data.identification,
-                department:  data.department,
+                department:  parseInt(data.department,10),
             },
         });
         return NextResponse.json(newUser);

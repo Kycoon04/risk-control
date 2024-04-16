@@ -1,6 +1,6 @@
 "use client";
-import Admin_global from '../../components/admin_homepage'
-import About_forms from '../../components/about_forms'
+import Admin_global from '../../components/forms/admin_homepage'
+import About_forms from '../../components/forms/about_forms'
 import { useAuthStore } from '@/provider/store';
 export default function Home() {
   const rol = useAuthStore(state => state.rol);

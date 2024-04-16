@@ -1,10 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Preview_forms from "./preview_forms";
-import { fetchForms } from "./actions";
-import Spinner from "./Spinner";
-import {Form} from "@/provider/store"
-
+import { fetchForms } from "../actions/actions";
+import Spinner from "../notifications/Spinner";
+import {Form} from '@/provider/types';
 const Componente: React.FC = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true);

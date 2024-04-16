@@ -1,5 +1,5 @@
 'use client'
-import UserNavBar from '../components/UserNavBar';
+import UserNavBar from '../components/utils_comp/UserNavBar';
 
 export default function HomeLayout({
   children,

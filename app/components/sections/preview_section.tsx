@@ -1,8 +1,8 @@
 "use client";
-import { Section, useAuthStore } from '@/provider/store';
+import { useAuthStore } from '@/provider/store';
 import Link from 'next/link';
 import { FaPen } from "react-icons/fa6";
-
+import {Section} from '@/provider/types';
 const Componente: React.FC<Section> = ({complete,name,id,description,forms }) => {
     const setSection = useAuthStore(state => state.setSection);
     const handleFormSelection = () => {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { fetchSections, fetchAnswers,FecthAnswers } from "./actions";
-import Spinner from "./Spinner";
-import Preview_Section from "./preview_section";
-import { Section, useAuthStore, graphicData } from "@/provider/store";
-import Barchart from './graphics/Barchart';
-import Radarchart from './graphics/Radarchart';
-
+import { fetchSections, fetchAnswers} from "../actions/actions";
+import Spinner from "../notifications/Spinner";
+import Preview_Section from "../sections/preview_section";
+import { useAuthStore } from "@/provider/store";
+import Barchart from '../graphics/Barchart';
+import Radarchart from '../graphics/Radarchart';
+import { Section,graphicData } from '@/provider/types';
+import {FecthAnswers} from '@/provider/types';
 const Componente: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const forms = useAuthStore((state) => state.form);

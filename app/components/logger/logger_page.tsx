@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PreviewLogger from "./preview_logger";
-import { fectLogger } from "../api/logger/actions";
-import Spinner from "./Spinner";
+import { fectLogger } from "../../api/logger/actions";
+import Spinner from "../notifications/Spinner";
 import { IoSearch } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

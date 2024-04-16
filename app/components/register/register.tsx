@@ -1,13 +1,16 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Field from './Field';
-import Standard_button from './Button';
+import Field from '../utils_forms/Field';
+import Standard_button from '../utils_forms/Button';
 import { registerValidation } from '@/validationSchema/auth';
 import { useRouter } from 'next/navigation';
-import PhoneNumberValidation from './International_Phone';
-import {postUser} from './actions'
-
+import PhoneNumberValidation from '../utils_forms/International_Phone';
+import { postUser, fetchDepartment} from '../actions/actions'
+import ChoiseBox from './selectDepart';
+import { ToastContainer } from 'react-toastify';
+import {ParamDepartment} from '@/provider/types';
+import { Error,Success } from '../notifications/alerts';
 const Header = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
@@ -17,28 +20,39 @@ const Header = () => {
     const [email, setEmail] = useState('');
     const [phone_number, setPhone_number] = useState('');
     const [identification, setIdentification] = useState('');
-    const [department, setDepartment] = useState('');
-    const [password, setPassword] = useState('');
-    const [cfn_password, setCfn_password] = useState('');
-    const { handleSubmit, register, formState: { errors } } = registerValidation();
     const router = useRouter();
-
+    const [departments, setDepartments] = useState<ParamDepartment[]>([]);
+    const [departmentId, setDepartmentId] = useState('');
+    const { handleSubmit, register, formState: { errors } } = registerValidation();
     const submitForm = async () => {
-        if(await postUser(name,second_name,surname,second_surname,email,identification,nickname,phone_number)){
-            alert('Usuario registrado')
-            router.push("/home_page");
-        }else{
-            alert('Error de registro');
+        console.log('Registrando usuario') 
+        if (await postUser(departmentId,name, second_name, surname, second_surname, email, identification, nickname, phone_number)) {
+            Success('Usuario registrado');
+        } else {
+            console.log('Error de registro')
+            Error("Error de registro");
         }
     }
-
+    useEffect(() => {
+        const initialize = async () => {
+            const departments: ParamDepartment = {
+                id: "",
+                name: "",
+                description: "",
+                unit: ""
+            }
+            const fetchedDepartment = await fetchDepartment(departments);
+            setDepartments(fetchedDepartment.props.data);
+        };
+        initialize();
+    }, []);
     return (
         <div className='bg-gray-200 rounded-3xl py-5 drop-shadow-lg m-11 flex flex-col items-center pr-7 pl-7'>
             <div className="flex justify-center bg-gray-100 rounded-full mb-5">
                 <Image className='m-6' src='/login/userbasic.png' alt="Screenshots of the dashboard " width={60} height={60} />
             </div>
             <h2 className="text-center text-3xl font-semibold text-white">
-                {'Inicio de sesión'}
+                {'Registro de usuario'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full">
                 <Field text_Field={name} setText_Field={setName} titule={'Nombre:'} type={"text"} register={register} error={errors.name} name={"name"}></Field>
@@ -48,13 +62,13 @@ const Header = () => {
                 <Field text_Field={email} setText_Field={setEmail} titule={'Email:'} type={"text"} register={register} error={errors.email} name={"email"}></Field>
                 <Field text_Field={identification} setText_Field={setIdentification} titule={'Cédula:'} type={"text"} register={register} error={errors.identification} name={"identification"}></Field>
                 <Field text_Field={nickname} setText_Field={setNickname} titule={'Nombre de usuario:'} type={"text"} register={register} error={errors.nickname} name={"nickname"}></Field>
+                <ChoiseBox departments={departments} selectedDepartment={departmentId} onChange={setDepartmentId}/>
                 <PhoneNumberValidation phone={phone_number} setPhone={setPhone_number} register={register} error={errors.phone_number} name={"phone_number"} />
             </div>
             <Standard_button fuction={handleSubmit(submitForm)} titule={"Crear cuenta"} width={"350px"}></Standard_button>
+            <ToastContainer />
         </div>
     );
 
 }
-//<Field text_Field={password} setText_Field={setPassword} titule={'Contraseña:'} type={"Password"} register={register} error={errors.password} name={"password"}></Field>
-//<Field text_Field={cfn_password} setText_Field={setCfn_password} titule={'Confirmar contraseña:'} type={"Password"} register={register} error={errors.cnfPassword} name={"cnfPassword"}></Field> 
 export default Header;

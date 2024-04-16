@@ -66,7 +66,7 @@ export default function UserNavBar() {
                                                     <a href="/home_page/logger" className="block px-4 py-2 hover:text-purple-400">Logger</a>
                                                 </li>
                                                 <li>
-                                                    <a href="home_page/create_account" className="block px-4 py-2 hover:text-purple-400">Crear cuenta</a>
+                                                    <a href="/home_page/create_account" className="block px-4 py-2 hover:text-purple-400">Crear cuenta</a>
                                                 </li>
                                             </>
                                         )}

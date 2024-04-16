@@ -1,9 +1,9 @@
 "use client";
 import { useAuthStore } from '@/provider/store';
-import Standard_button from '../components/Button';
+import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Spinner from './Spinner';
+import Spinner from '../notifications/Spinner';
 
 const Componente: React.FC = () => {
     const router = useRouter();

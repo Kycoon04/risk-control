@@ -21,8 +21,6 @@ const registerSchema = Yup.object({
     email: Yup.string().email("Por favor, introduce un correo electrónico válido").required("Por favor, completa este campo"),
     phone_number: Yup.string().required("Por favor, completa este campo").min(8, "Por favor, mínimo 8 caracteres"),
     identification: Yup.string().required("Por favor, completa este campo").min(4, "Por favor, mínimo 4 caracteres"),
-    password: Yup.string().required("Por favor, completa este campo").min(6, "Por favor, mínimo 6 caracteres"),
-    cnfPassword: Yup.string().required("Por favor, completa este campo").oneOf([Yup.ref('password')], "Las contraseñas no coinciden"),
 });
 
 export const registerValidation = () => useForm({

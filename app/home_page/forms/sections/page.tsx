@@ -1,6 +1,5 @@
 "use client";
-import { useRouter } from 'next/navigation';
-import Section from '@/app/components/section'
+import Section from '@/app/components/sections/section'
 import { useAuthStore } from '@/provider/store';
 export default function Home() {
   const section = useAuthStore((state) => state.section);

@@ -3,31 +3,15 @@ import { useEffect, useState } from 'react';
 import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
-import { useAuthStore,Options } from '@/provider/store';
-import { fetchOptions, fetchQuestion, postAnswer,putSection } from './actions';
-import Spinner from './Spinner';
-import Standard_button from './Button';
+import { useAuthStore} from '@/provider/store';
+import { fetchOptions, fetchQuestion, postAnswer} from '../actions/actions';
+import Spinner from '../notifications/Spinner';
+import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
+import {Options,ParamQuestions,Answers} from '@/provider/types';
 
 interface Forms {
     titule: string | undefined;
-}
-interface paramsSection {
-    id: string | undefined,
-    name: string | undefined,
-    description: string | undefined,
-    forms: number | undefined,
-    complete: string | undefined,
-  };
-interface ParamQuestions {
-    id: string;
-    question: string;
-    description: string;
-    section: string;
-}
-interface Answers {
-    user: string | undefined;
-    option: string | null;
 }
 const Componente: React.FC<Forms> = ({ titule }) => {
     const router = useRouter();

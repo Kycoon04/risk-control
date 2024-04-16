@@ -1,5 +1,6 @@
 'use client'
-import { User, RoleXUser } from '@/provider/store';
+import {User, RoleXUser,Answers,paramsSection,ParamQuestions,paramsOptions,
+  ParamDepartment,paramsDepartXForms,FecthAnswers} from '@/provider/types';
 
 export async function fetchForms() {
   const res = await fetch('/api/forms', {
@@ -11,10 +12,6 @@ export async function fetchForms() {
       data,
     }
   }
-}
-export interface Answers {
-  user: string | undefined;
-  option: string | null;
 }
 export const postAnswer = async (param: Answers): Promise<boolean> => {
   try {
@@ -39,7 +36,6 @@ export const postAnswer = async (param: Answers): Promise<boolean> => {
     return false;
   }
 }
-
 export const putSection = async (param: paramsSection): Promise<boolean> => {
   try {
     const response = await fetch('/api/sections/[id]', {
@@ -66,14 +62,6 @@ export const putSection = async (param: paramsSection): Promise<boolean> => {
     return false;
   }
 }
-interface paramsSection {
-  id: string | undefined,
-  name: string | undefined,
-  description: string | undefined,
-  forms: number | undefined,
-  complete: string | undefined,
-};
-
 export const fetchSections = async (param: paramsSection) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
@@ -89,15 +77,7 @@ export const fetchSections = async (param: paramsSection) => {
     }
   }
 }
-
-interface paramsQuestion {
-  id: string,
-  question: string,
-  description: string,
-  section: string,
-};
-
-export const fetchQuestion = async (param: paramsQuestion) => {
+export const fetchQuestion = async (param: ParamQuestions) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")
@@ -112,15 +92,6 @@ export const fetchQuestion = async (param: paramsQuestion) => {
     }
   }
 }
-
-interface paramsOptions {
-  id: string
-  option: string
-  question: string | undefined;
-  score: string;
-  TL_Questions: paramsQuestion;
-};
-
 export const fetchOptions = async (param: paramsOptions) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
@@ -136,7 +107,22 @@ export const fetchOptions = async (param: paramsOptions) => {
     }
   }
 }
-export const postUser = async (name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string): Promise<boolean> => {
+export const fetchDepartment = async (param: ParamDepartment) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  const res = await fetch(`/api/departments?${queryParams}`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}
+export const postUser = async (department: string, name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string): Promise<boolean> => {
   try {
     const response = await fetch('/api/users', {
       method: 'POST',
@@ -144,6 +130,7 @@ export const postUser = async (name: string, second_name: string, surname: strin
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        department: department,
         name: name,
         second_name: second_name,
         surname: surname,
@@ -165,7 +152,6 @@ export const postUser = async (name: string, second_name: string, surname: strin
     return false;
   }
 }
-
 export const fetchUsers = async (param: User) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
@@ -181,8 +167,6 @@ export const fetchUsers = async (param: User) => {
     }
   }
 }
-
-
 export const fetchUserRole = async (param: RoleXUser) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
@@ -210,12 +194,6 @@ export const fetchRole = async (param: string) => {
     }
   }
 }
-interface paramsDepartXForms {
-  departament: number;
-  forms: number;
-  id: number;
-};
-
 export const fetchDepartXForms = async (param: paramsDepartXForms) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
@@ -230,17 +208,6 @@ export const fetchDepartXForms = async (param: paramsDepartXForms) => {
       data,
     }
   }
-}
-export interface FecthAnswers {
-  user: string | undefined;
-  option: string | null;
-  TL_Options: {
-    id: string
-    option: string
-    question: string | undefined;
-    score: string;
-    TL_Questions: paramsQuestion;
-  };
 }
 export const fetchAnswers = async (param: FecthAnswers) => {
   const queryParams = new URLSearchParams(

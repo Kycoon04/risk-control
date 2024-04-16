@@ -5,12 +5,7 @@ import { SiGoogleforms } from "react-icons/si";
 import { BsFillQuestionSquareFill } from "react-icons/bs";
 import { SiGooglemarketingplatform } from "react-icons/si";
 
-interface Field {
-    titule: string;
-    url: string;
-    icon: 'RiUserSettingsFill' | 'SiGoogleforms' | 'BsFillQuestionSquareFill' | 'SiGooglemarketingplatform';
-}
-
+import {Field} from '@/provider/types';
 const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
 
     const iconComponent =

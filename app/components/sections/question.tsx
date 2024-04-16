@@ -1,19 +1,8 @@
 "use client";
-import Standard_button from './options_Forms';
+import Standard_button from '../forms/options_Forms';
+import {FieldQuestion} from '@/provider/types';
 
-interface Field {
-    titule: string;
-    question: string;
-    options: {
-        id: string;
-        option: string;
-    }[];
-    selected?: boolean;
-    selectedOption: string | null;
-    onButtonClick: (option: string) => void;
-}
-
-const Componente: React.FC<Field> = ({ question, titule, options, selectedOption, onButtonClick }) => {
+const Componente: React.FC<FieldQuestion> = ({ question, titule, options, selectedOption, onButtonClick }) => {
     return (
         <div className='bg-gray-1000 w-full rounded-3xl'>
             <h2 className='p-5 font-light text-2xl text-white'>

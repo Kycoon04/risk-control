@@ -3,8 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { FaPen } from 'react-icons/fa';
 import { FaWpforms } from 'react-icons/fa';
-import {Form, useAuthStore} from "@/provider/store"
-
+import {useAuthStore} from "@/provider/store"
+import {Form} from '@/provider/types';
 interface ComponenteProps extends Form {
     url: string;
     complete: string;

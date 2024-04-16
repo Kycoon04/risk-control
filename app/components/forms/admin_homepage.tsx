@@ -1,5 +1,5 @@
 "use client";
-import Card from './card'
+import Card from '../utils_comp/card'
 const Componente: React.FC = () => {
   return (
     <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md'>

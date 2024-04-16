@@ -1,15 +1,16 @@
 "use client";
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import Standard_button from './Button';
+import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { config } from '@/Config';
-import { fetchUsers, fetchUserRole, fetchRole } from './actions';
-import { User, RoleXUser, useAuthStore } from '@/provider/store';
+import { fetchUsers, fetchUserRole, fetchRole } from '../actions/actions';
+import { useAuthStore } from '@/provider/store';
 import { ToastContainer } from 'react-toastify';
-import { Error } from './alerts';
+import { Error } from '../notifications/alerts';
 import 'react-toastify/dist/ReactToastify.css';
+import { RoleXUser, User } from '@/provider/types';
 
 interface LoginProps {
   scopes?: string[];
@@ -58,17 +59,17 @@ const App: React.FC = () => {
 
   async function login(props?: LoginProps) {
     try {
-      const account = await publicClientApplication.loginPopup({
+      /*const account = await publicClientApplication.loginPopup({
         scopes: props?.scopes || config.scopes,
         prompt: 'select_account',
-      });
+      });*/
       const user = await fetchUser({
         id: "",
         name: "",
         second_name: "",
         surname: "",
         second_surname: "",
-        email: account.account.username,
+        email: "jose.valverde.valverde@est.una.ac.cr" /*account.account.username*/,
         phone_number: "",
         nickname: "",
         identification: "",
