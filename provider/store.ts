@@ -14,11 +14,11 @@ type AuthStore = {
     setRol: (newRol: string) => void;
 }
 export interface Form {
-    id: number;
+    id: string;
     name: string;
-    state: number;
-    inicialperiod: Date;
-    finalperiod: Date;
+    state: string;
+    inicialperiod: string;
+    finalperiod: string;
 }
 export const useAuthStore = create<AuthStore>()(persist(
     (set) => ({
