@@ -5,7 +5,7 @@ import Preview_Section from "../sections/preview_section";
 import { useAuthStore } from "@/provider/store";
 import Barchart from '../graphics/Barchart';
 import Radarchart from '../graphics/Radarchart';
-import { Section,graphicData } from '@/provider/types';
+import { Section,graphicData,paramsSection } from '@/provider/types';
 import {FecthAnswers} from '@/provider/types';
 const Componente: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -13,9 +13,9 @@ const Componente: React.FC = () => {
     const user = useAuthStore((state) => state.user);
     const [sections, setSections] = useState<Section[]>([]);
     const [Answers, setAnswers] = useState<FecthAnswers[]>([]);
-    const param = {
+    const param: paramsSection = {
         id: "",
-        forms: forms?.id,
+        forms: forms?.id?.toString(),
         name: "",
         description: "",
         complete: "",

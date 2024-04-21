@@ -21,7 +21,7 @@ export interface Section {
     id: string,
     name: string,
     description: string,
-    forms: number,
+    forms: string,
     complete: string
 };
 export interface RoleXUser {
@@ -101,7 +101,7 @@ export interface paramsSection {
     id: string | undefined,
     name: string | undefined,
     description: string | undefined,
-    forms: number | undefined,
+    forms: string | undefined,
     complete: string | undefined,
 };
 export interface paramsOptions {
