@@ -11,11 +11,11 @@ export interface User {
     department: string;
 }
 export interface Form {
-    id: number;
+    id: string;
     name: string;
-    state: number;
-    inicialperiod: Date;
-    finalperiod: Date;
+    state: string;
+    inicialperiod: string;
+    finalperiod: string;
 }
 export interface Section {
     id: string,

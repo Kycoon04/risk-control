@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthStore>()(persist(
             id: "",
             name: "",
             description: "",
-            forms: 0,
+            forms: "",
             complete:""
         },
         changeLogged: () => {
