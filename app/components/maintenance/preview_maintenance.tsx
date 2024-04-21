@@ -20,16 +20,16 @@ const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
 
     return (
         <div className='cursor-pointer'>
+            <Link href={url}>
             <div className='bg-gray-200 m-3 p-3 flex flex-col rounded-3xl items-center justify-center hover:scale-105'>
                 <h2 className='text-2xl sm:text-center text-white text-center m-5'>
                     {titule}
                 </h2>
                 <div className='bg-purple-400 flex gap-5 rounded-3xl text-white cursor-pointer justify-center'>
-                    <Link href={url}>
                     {iconComponent}
-                    </Link>
                 </div>
             </div>
+            </Link>
         </div>
     );
 };
