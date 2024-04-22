@@ -76,14 +76,17 @@ export async function GET(_req: Request) {
 
 export async function DELETE(_request: Request) {
     try {
-        const id = parseInt(getParams(_request.url, { id: 0 }).id);
-        const deleteSection= await prisma.tL_Sections.delete({
+        const object = { id: 0 };
+        const url = _request.url;
+        const parameters = getParams(url, object)
+        const { id } = parameters
+        const deletedUser = await prisma.tL_Sections.delete({
             where: {
-                id:id
+                id: id
             },
         });
 
-        return NextResponse.json(deleteSection);
+        return NextResponse.json(deletedUser);
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 });
     }

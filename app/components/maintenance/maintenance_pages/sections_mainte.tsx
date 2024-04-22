@@ -2,9 +2,10 @@
 import { Section,paramsSection } from "@/provider/types";
 import SectionCard from "../maintenance_cards/section_card";
 import { useEffect, useState } from "react";
-import { fetchSections } from "../../actions/actions_sections/actions";
+import { deleteSection, fetchSections } from "../../actions/actions_sections/actions";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
+import { Success,Error } from "../../notifications/alerts";
 
 const SectionMaintenance: React.FC = () => {
     const param = {
@@ -57,7 +58,19 @@ const SectionMaintenance: React.FC = () => {
         };
         applyFilters();
     }, [filters, unfiltered]);
+    const handleDeleteSection = async (userId: string) => {
+        console.log(userId)
+        const deletionResult = await deleteSection(parseInt(userId, 10));
 
+        if (deletionResult) {
+            Success('Sección eliminado correctamente')
+            const fetchedSections = await fetchSections(param);
+            setSection(fetchedSections.props.data);
+            setUnfiltered(fetchedSections.props.data);
+        } else {
+            Error('Error al intentar eliminar el sección');
+        }
+    };
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-2xl items-center justify-center'>
             <h2 className='text-2xl sm:text-center text-white text-center m-5'>
@@ -67,7 +80,7 @@ const SectionMaintenance: React.FC = () => {
             {isLoading ? (
                 <Spinner />) : (
                 sections.map((section) => (
-                    <SectionCard key={section.id} prompt_one="Nombre:" prompt_two="Id:" prompt_three="Completado:" {...section} />
+                    <SectionCard key={section.id} prompt_one="Nombre:" prompt_two="Id:" handleDeleteSection={handleDeleteSection} prompt_three="Completado:" {...section} />
                 )))}
         </div>
     );

@@ -14,3 +14,20 @@ import {paramsSection} from '@/provider/types';
       }
     }
   }
+
+  export const deleteSection = async (sectionId: number): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/sections/[id]?id=${sectionId}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
+    }
+  }

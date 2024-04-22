@@ -46,3 +46,20 @@ export const fetchUsers = async (param: User) => {
       }
     }
   }
+
+export const deleteUser = async (userId: number): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/users/[id]?id=${userId}`, {
+        method: 'DELETE',
+      });
+  
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
+    }
+  }
