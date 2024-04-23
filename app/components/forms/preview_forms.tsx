@@ -3,8 +3,9 @@ import React from 'react';
 import Link from 'next/link';
 import { FaPen } from 'react-icons/fa';
 import { FaWpforms } from 'react-icons/fa';
-import {useAuthStore} from "@/provider/store"
-import {Form} from '@/provider/types';
+import { useAuthStore } from "@/provider/store"
+import { Form } from '@/provider/types';
+import { FaEye } from "react-icons/fa";
 interface ComponenteProps extends Form {
     url: string;
     complete: string;
@@ -33,11 +34,20 @@ const Componente: React.FC<ComponenteProps> = ({ id, name, state, inicialperiod,
                 <div className='bg-gray-1000 w-full rounded-3xl p-2 justify-start flex'>
                     <h3 className='ml-4  text-center sm:text-left'> {complete}</h3>
                 </div>
-                <div className='bg-purple-400 rounded-3xl text-white' onClick={handleFormSelection}>
-                    <Link href={url}>
-                        <FaPen className='text-4xl m-4 tex-white' />
-                    </Link>
-                </div>
+                {complete === "Completado" ? (
+                    // Si complete es "Completado"
+                    <div className='bg-purple-400 rounded-3xl text-white' onClick={handleFormSelection}>
+                        <Link href={url}>
+                            <FaEye className='text-4xl m-4 tex-white' />
+                        </Link>
+                    </div>
+                ) : (
+                    <div className='bg-gray-400 rounded-3xl text-white' onClick={handleFormSelection}>
+                        <Link href={url}>
+                            <FaPen className='text-4xl m-4 tex-white' />
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     );

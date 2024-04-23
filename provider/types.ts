@@ -134,3 +134,15 @@ export interface FecthAnswers {
       TL_Questions: ParamQuestions;
     };
   }
+  export interface SectionXUser {
+    id: string;
+    section:string;
+    user:string | undefined;
+    complete:string;
+  }
+  export interface FormsXUser {
+    id: string;
+    Forms:string| undefined;
+    User:string | undefined;
+    complete:string;
+  }

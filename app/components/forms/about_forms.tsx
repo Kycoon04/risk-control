@@ -5,14 +5,17 @@ import Preview_Section from "../sections/preview_section";
 import { useAuthStore } from "@/provider/store";
 import Barchart from '../graphics/Barchart';
 import Radarchart from '../graphics/Radarchart';
-import { Section,graphicData,paramsSection } from '@/provider/types';
+import { Section,SectionXUser,graphicData,paramsSection, FormsXUser } from '@/provider/types';
 import {FecthAnswers} from '@/provider/types';
+import { fetchSectionXUser } from '../actions/actions_sectionxuser/actions';
+import {fetchFormXUser,putFormsXUser} from '../actions/actions_formsxuser/actions';
 const Componente: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const forms = useAuthStore((state) => state.form);
     const user = useAuthStore((state) => state.user);
     const [sections, setSections] = useState<Section[]>([]);
     const [Answers, setAnswers] = useState<FecthAnswers[]>([]);
+    const [sectionxuser, setSectionxuser] = useState<SectionXUser[]>([]);
     const param: paramsSection = {
         id: "",
         forms: forms?.id?.toString(),
@@ -37,14 +40,33 @@ const Componente: React.FC = () => {
             }
         },
     };
-
+    const sectionXuser = {
+        id:"",
+        section:"",
+        user:user?.id,
+        complete:"",
+    };
+    const formsXuser = {
+        id: "",
+        Forms: forms?.id,
+        User:user?.id,
+        complete:"",
+    }
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             const fetchedSections = await fetchSections(param);
             setSections(fetchedSections.props.data);
             const fetchedAnswers = await fetchAnswers(answer)
-            setAnswers(fetchedAnswers.props.data);    
+            setAnswers(fetchedAnswers.props.data);
+            const fetchedsectionxuser = await fetchSectionXUser(sectionXuser);
+            setSectionxuser(fetchedsectionxuser.props.data); 
+            const fecthedformsxuser = await fetchFormXUser(formsXuser);
+            if(sections.every(section => sectionxuser.some(sxu => sxu.section === section.id && sxu.complete === 'Completado')) && fecthedformsxuser.props.data[0].complete !== "Completado"){
+                formsXuser.complete = "Completado";
+                console.log(formsXuser)
+                await putFormsXUser(formsXuser);
+            }
             setIsLoading(false);
         };
         fetchData();
@@ -116,7 +138,7 @@ const Componente: React.FC = () => {
                 {isLoading ? (
                     <Spinner />
                 ) : (
-                    Answers.length === 20 ? (
+                    sections.every(section => sectionxuser.some(sxu => sxu.section === section.id && sxu.complete === 'Completado')) ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
                             <div className="w-full sm:h-96 flex justify-center items-center">
                                 <Barchart data={barData} />
@@ -127,7 +149,7 @@ const Componente: React.FC = () => {
                         </div>
                     ) : (
                         sections.map((form) => (
-                            <Preview_Section key={form.id} id={form.id} name={form.name} description={form.description} forms={form.forms} complete={Answers.some(answer => answer.TL_Options.TL_Questions.section === form.id)
+                            <Preview_Section key={form.id} id={form.id} name={form.name} description={form.description} forms={form.forms} complete={sectionxuser.some(sxu => sxu.section === form.id && sxu.complete === 'Completado')
                                 ? 'Completado'
                                 : 'Sin Completar'
                         } />

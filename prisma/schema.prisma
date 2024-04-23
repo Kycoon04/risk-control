@@ -71,13 +71,14 @@ model TL_Roles {
 }
 
 model TL_Sections {
-  id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(45)
-  description  String         @db.VarChar(1000)
-  forms        Int
-  complete     String         @db.VarChar(45)
-  TL_Questions TL_Questions[]
-  TL_forms     TL_forms       @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ss_forms")
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(45)
+  description     String            @db.VarChar(1000)
+  forms           Int
+  complete        String            @db.VarChar(45)
+  TL_Questions    TL_Questions[]
+  TL_SectionXUser TL_SectionXUser[]
+  TL_forms        TL_forms          @relation(fields: [forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ss_forms")
 
   @@index([forms], map: "ss_forms_idx")
 }
@@ -101,19 +102,21 @@ model TL_UserXRoles {
 }
 
 model TL_Users {
-  id              Int             @id @default(autoincrement())
-  name            String          @db.VarChar(45)
-  second_name     String          @db.VarChar(45)
-  surname         String          @db.VarChar(45)
-  second_surname  String          @db.VarChar(45)
-  email           String          @unique(map: "email_UNIQUE") @db.VarChar(60)
-  phone_number    String          @unique(map: "phone_number_UNIQUE") @db.VarChar(45)
-  nickname        String          @unique(map: "nickname_UNIQUE") @db.VarChar(45)
-  identification  String          @unique(map: "identification_UNIQUE") @db.VarChar(45)
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(45)
+  second_name     String            @db.VarChar(45)
+  surname         String            @db.VarChar(45)
+  second_surname  String            @db.VarChar(45)
+  email           String            @unique(map: "email_UNIQUE") @db.VarChar(60)
+  phone_number    String            @unique(map: "phone_number_UNIQUE") @db.VarChar(45)
+  nickname        String            @unique(map: "nickname_UNIQUE") @db.VarChar(45)
+  identification  String            @unique(map: "identification_UNIQUE") @db.VarChar(45)
   department      Int
   TL_Answers      TL_Answers[]
+  TL_FormXUser    TL_FormXUser[]
+  TL_SectionXUser TL_SectionXUser[]
   TL_UserXRoles   TL_UserXRoles[]
-  TL_Departaments TL_Departaments @relation(fields: [department], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "us_deparmentfk")
+  TL_Departaments TL_Departaments   @relation(fields: [department], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "us_deparmentfk")
 
   @@index([department], map: "us_deparmentfk_idx")
 }
@@ -126,5 +129,30 @@ model TL_forms {
   finalperiod    DateTime         @db.Date
   complete       String           @db.VarChar(45)
   TL_DeparXforms TL_DeparXforms[]
+  TL_FormXUser   TL_FormXUser[]
   TL_Sections    TL_Sections[]
+}
+
+model TL_FormXUser {
+  id       Int      @id @default(autoincrement())
+  User     Int
+  Forms    Int
+  complete String   @db.VarChar(45)
+  TL_forms TL_forms @relation(fields: [Forms], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fxu_FkForms")
+  TL_Users TL_Users @relation(fields: [User], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fxu_FkUser")
+
+  @@index([Forms], map: "fxu_FkForms_idx")
+  @@index([User], map: "fxu_FkUser_idx")
+}
+
+model TL_SectionXUser {
+  id          Int         @id @default(autoincrement())
+  section     Int
+  user        Int
+  complete    String?     @db.VarChar(45)
+  TL_Sections TL_Sections @relation(fields: [section], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sux_FkSection")
+  TL_Users    TL_Users    @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "sxu_FkUser")
+
+  @@index([section], map: "sux_FkSection_idx")
+  @@index([user], map: "sxu_FkUser_idx")
 }
