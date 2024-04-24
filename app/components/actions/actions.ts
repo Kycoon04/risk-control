@@ -1,6 +1,8 @@
 'use client'
-import {User, RoleXUser,Answers,paramsSection,ParamQuestions,paramsOptions,
-  ParamDepartment,paramsDepartXForms,FecthAnswers} from '@/provider/types';
+import {
+  User, RoleXUser, Answers, paramsSection, ParamQuestions, paramsOptions,
+  ParamDepartment, paramsDepartXForms, FecthAnswers
+} from '@/provider/types';
 
 export async function fetchForms() {
   const res = await fetch('/api/forms', {
@@ -122,7 +124,7 @@ export const fetchDepartment = async (param: ParamDepartment) => {
     }
   }
 }
-export const postUser = async (department: string, name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string): Promise<boolean> => {
+export const postUser = async (department: string, name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string) => {
   try {
     const response = await fetch('/api/users', {
       method: 'POST',
@@ -141,15 +143,9 @@ export const postUser = async (department: string, name: string, second_name: st
         phone_number: phone_number
       })
     });
-
-    if (response.ok) {
-      return true;
-    } else {
-      return false;
-    }
+    return response;
   } catch (error) {
     console.error('Error de red', error);
-    return false;
   }
 }
 export const fetchUsers = async (param: User) => {

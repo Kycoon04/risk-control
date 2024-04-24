@@ -180,8 +180,6 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                             count={Math.ceil(questions.length / QuestionsPerPage)}
                             page={page}
                             onChange={handleChange}
-                            showFirstButton
-                            showLastButton
                             size="large"
                         />
                         {page === Math.ceil(questions.length / QuestionsPerPage) && (

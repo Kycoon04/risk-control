@@ -5,6 +5,7 @@ import Spinner from "../notifications/Spinner";
 import { IoSearch } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Pagination } from "@mui/material";
 
 interface Logger {
     id: string;
@@ -30,6 +31,8 @@ const Componente: React.FC = () => {
         ip: "",
         date: ""
     });
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 6;
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -61,12 +64,11 @@ const Componente: React.FC = () => {
                 date: filters.date || ""
             };
             const fetchedSections = await fectLogger(filteredFilters);
-            setLoggers(fetchedSections.props.data);
             setUnfilteredLoggers(fetchedSections.props.data);
             setIsLoading(false);
         };
         fetchData();
-    }, []);
+    }, [filters]);
 
     useEffect(() => {
         const applyFilters = () => {
@@ -84,7 +86,7 @@ const Componente: React.FC = () => {
             });
             setLoggers(filteredLoggers);
         };
-    
+
         applyFilters();
     }, [filters, unfilteredLoggers]);
 
@@ -97,6 +99,14 @@ const Componente: React.FC = () => {
         const { name, value } = e.target;
         setFilters({ ...filters, [name]: value || "" });
     };
+
+    const changePage = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = loggers.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
         <div className="bg-blue-1000 w-90vw md:w-90 sm:w-90 m-10 rounded-md justify-center sm:mx-20">
@@ -170,23 +180,33 @@ const Componente: React.FC = () => {
                         )}
                     </div>
                 </div>
-                    {isLoading ? (
-                        <Spinner />
-                    ) : (
-                        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center">
-                            {loggers.map((logger) => (
-                                <PreviewLogger
-                                    key={logger.id}
-                                    usuario={logger.usuario}
-                                    transaction_type={logger.transaction_type}
-                                    role={logger.role}
-                                    transaction={logger.transaction}
-                                    ip={logger.ip}
-                                    date={logger.date}
-                                />
-                            ))}
-                        </div>
-                    )}
+                {isLoading ? (
+                    <Spinner />
+                ) : (
+                    <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center">
+                        {currentItems.map((logger) => (
+                            <PreviewLogger
+                                key={logger.id}
+                                usuario={logger.usuario}
+                                transaction_type={logger.transaction_type}
+                                role={logger.role}
+                                transaction={logger.transaction}
+                                ip={logger.ip}
+                                date={logger.date}
+                            />
+                        ))}
+                    </div>
+                )}
+                <div className="flex justify-center">
+                    <Pagination
+                        className='mt-5 bg-white rounded-lg p-2'
+                        count={Math.ceil(loggers.length / itemsPerPage)}
+                        page={currentPage}
+                        showFirstButton
+                        showLastButton
+                        onChange={(event, page) => changePage(page)}
+                    />
+                </div>
             </div>
         </div>
     );
