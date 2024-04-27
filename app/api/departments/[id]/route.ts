@@ -27,15 +27,16 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const object = {  id:0, name: "", description:""} 
+        const object = {  id:0, name: "", description:"",unit:0} 
         const url = _req.url
         const parameters = getParams(url, object)
-        const {name, description,id} = parameters
+        const {id,name, description,unit} = parameters
         const whereCondition = {
                 where: {
                     id: id,
                     description: description,
                     name: name,
+                    unit: unit,
                 },
             };
             let loggers;
@@ -49,7 +50,10 @@ export async function GET(_req: Request) {
 
 export async function DELETE(_request: Request) {
     try {
-        const id = parseInt(getParams(_request.url, { id: 0 }).id);
+        const object = { id: 0 };
+        const url = _request.url;
+        const parameters = getParams(url, object)
+        const { id } = parameters
         const deletedDepartment = await prisma.tL_Departaments.delete({
             where: {
                 id:id
