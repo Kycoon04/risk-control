@@ -6,12 +6,13 @@ import Standard_button from '../utils_forms/Button';
 import { registerValidation } from '@/validationSchema/auth';
 import { useRouter } from 'next/navigation';
 import PhoneNumberValidation from '../utils_forms/International_Phone';
-import { postUser, fetchDepartment} from '../actions/actions'
+import { postUser} from '../actions/actions'
 import ChoiseBox from './selectDepart';
 import { ToastContainer } from 'react-toastify';
 import {ParamDepartment,Role} from '@/provider/types';
 import { Error,Success } from '../notifications/alerts';
 import {fetchRoleAll,postRoleXUser } from '../actions/actions_roles/actions';
+import {fetchDepartment} from '../actions/actions_departments/actions'
 const Header = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
