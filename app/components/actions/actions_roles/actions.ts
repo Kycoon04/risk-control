@@ -68,3 +68,15 @@ export const deleteRole = async (roleId: number): Promise<boolean> => {
     return false;
   }
 }
+
+export const fetchRoleAll = async () => {
+  const res = await fetch(`/api/roles/[id]`, {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  return {
+    props: {
+      data,
+    }
+  }
+}

@@ -11,7 +11,7 @@ import ChoiseBox from './selectDepart';
 import { ToastContainer } from 'react-toastify';
 import {ParamDepartment,Role} from '@/provider/types';
 import { Error,Success } from '../notifications/alerts';
-import {fetchRole,postRoleXUser } from '../actions/actions_roles/actions';
+import {fetchRoleAll,postRoleXUser } from '../actions/actions_roles/actions';
 const Header = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
@@ -52,7 +52,7 @@ const Header = () => {
             }
             const fetchedDepartment = await fetchDepartment(departments);
             setDepartments(fetchedDepartment.props.data);
-            const fetchedRole = await fetchRole();
+            const fetchedRole = await fetchRoleAll();
             console.log(fetchedRole.props.data)
             setRoles(fetchedRole.props.data);
         };
