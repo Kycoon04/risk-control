@@ -13,6 +13,7 @@ const Componente: React.FC = () => {
                 <Preview_maintenance titule='Usuarios' url="/home_page/maintenance/mainte_users" icon="RiUserSettingsFill"/>
                 <Preview_maintenance titule='Departamentos' url="/home_page/maintenance/mainte_depart" icon="FaNetworkWired"/>
                 <Preview_maintenance titule='Roles' url="/home_page/maintenance/mainte_roles" icon="MdOutlineWorkOutline"/>
+                <Preview_maintenance titule='Unidades' url="/home_page/maintenance/mainte_units" icon="BsBuildingsFill"/>
             </div>
         </div>
     );

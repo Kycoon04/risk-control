@@ -7,6 +7,7 @@ import { SiGooglemarketingplatform } from "react-icons/si";
 import { FaNetworkWired } from "react-icons/fa6";
 import {Field} from '@/provider/types';
 import { MdOutlineWork } from "react-icons/md";
+import { BsBuildingsFill } from "react-icons/bs";
 const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
 
     const iconComponent =
@@ -16,6 +17,7 @@ const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
         icon === 'SiGooglemarketingplatform' ? <SiGooglemarketingplatform className='text-4xl text-white m-4' /> :
         icon === 'FaNetworkWired' ? <FaNetworkWired className='text-4xl text-white m-4' /> :
         icon === 'MdOutlineWorkOutline' ? <MdOutlineWork className='text-4xl text-white m-4' /> :
+        icon === 'BsBuildingsFill' ? <BsBuildingsFill className='text-4xl text-white m-4' /> :
         null;
 
     return (

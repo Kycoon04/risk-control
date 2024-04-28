@@ -24,19 +24,22 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const id = parseInt(getParams(_req.url, { id: 0 }).id);
-        const response = await prisma.tL_Unit.findUnique({
-            where: {
-                id: id
-            }
-        });
-        if (response) {
-            return NextResponse.json(response);
-        }
-        return new NextResponse("Not found", { status: 404 });
-
+        const object = {  id:0, name: "", description:""} 
+        const url = _req.url
+        const parameters = getParams(url, object)
+        const {id,name, description} = parameters
+            const whereCondition = {
+                where: {
+                    id: id,
+                    description: description,
+                    name: name,
+                },
+            };
+            let loggers;
+            loggers = await prisma.tL_Unit.findMany({where: whereCondition.where});
+            return NextResponse.json(loggers);
     } catch (error) {
-        return new NextResponse("Unauthorized", { status: 401 });
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
 

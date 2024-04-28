@@ -74,7 +74,7 @@ export interface Logger {
 export interface Field {
     titule: string;
     url: string;
-    icon: 'RiUserSettingsFill' | 'SiGoogleforms' | 'BsFillQuestionSquareFill' | 'SiGooglemarketingplatform' | 'FaNetworkWired' | 'MdOutlineWorkOutline';
+    icon: 'RiUserSettingsFill' | 'SiGoogleforms' | 'BsFillQuestionSquareFill' | 'SiGooglemarketingplatform' | 'FaNetworkWired' | 'MdOutlineWorkOutline' | 'BsBuildingsFill';
 }
 export interface FieldQuestion {
     titule: string;
@@ -145,4 +145,9 @@ export interface FecthAnswers {
     Forms:string| undefined;
     User:string | undefined;
     complete:string;
+  }
+  export interface ParamUnit{
+    id: string;
+    name:string;
+    description:string;
   }
