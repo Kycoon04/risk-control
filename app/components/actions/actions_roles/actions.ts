@@ -17,8 +17,8 @@ export const fetchUserRole = async (param: RoleXUser) => {
     }
   }
 }
-export const fetchRole = async () => {
-  const res = await fetch(`/api/roles/[Id]`, {
+export const fetchRole = async (param: string) => {
+  const res = await fetch(`/api/roles/[id]?id=${param}`, {
     cache: "no-store",
   });
   const data = await res.json();
@@ -40,6 +40,22 @@ export const postRoleXUser = async (param: RoleXUser): Promise<boolean> => {
         user: param.user,
         role: parseInt(param.role,10),
       })
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error de red', error);
+    return false;
+  }
+}
+export const deleteRole = async (roleId: number): Promise<boolean> => {
+  try {
+    const response = await fetch(`/api/roles/?id=${roleId}`, {
+      method: 'DELETE',
     });
 
     if (response.ok) {
