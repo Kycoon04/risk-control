@@ -1,5 +1,5 @@
 "use client";
-import { Section } from "@/provider/types";
+import { Section } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 

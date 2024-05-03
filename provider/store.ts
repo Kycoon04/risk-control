@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Section, User } from "./types";
+import { Section, User } from "@/types";
 type AuthStore = {
     logged: boolean;
     rol: string;

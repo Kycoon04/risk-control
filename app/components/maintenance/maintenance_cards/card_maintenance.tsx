@@ -1,5 +1,5 @@
 "use client";
-import { User } from "@/provider/types";
+import { User } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { deleteUser,fetchUsers  } from '../../actions/actions_users/actions';

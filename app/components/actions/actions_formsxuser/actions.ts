@@ -1,4 +1,4 @@
-import {FormsXUser} from '@/provider/types';
+import {FormsXUser} from '@/types';
 
 export const fetchFormXUser= async (param: FormsXUser) => {
     const queryParams = new URLSearchParams(

@@ -1,19 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
-
-interface CreateUserData {
-    name: string;
-    second_name: string;
-    surname: string;
-    second_surname: string;
-    email: string;
-    phone_number: string;
-    nickname: string;
-    identification: string;
-    department: string;
-}
-
+import {CreateUserData} from "@/types";
 export async function POST(req: Request) {
     try {
         const data: CreateUserData = await req.json();
@@ -27,7 +15,8 @@ export async function POST(req: Request) {
                 phone_number: data.phone_number,
                 nickname:  data.nickname,
                 identification:  data.identification,
-                department:  parseInt(data.department,10),
+                department:typeof data.department === 'string' ? parseInt(data.department,10):data.department, //Ask about this too, the original type was string
+
             },
         });
         return NextResponse.json(newUser);

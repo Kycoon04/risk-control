@@ -1,5 +1,5 @@
 'use server'
-
+import {Logger} from "@/types"
 export const postLogger = async (param: Logger): Promise<boolean> => {
     try {
         const response = await fetch('https://riskcontrol-logger.vercel.app/api/logger', {
@@ -26,16 +26,6 @@ export const postLogger = async (param: Logger): Promise<boolean> => {
         console.error('Error de red', error);
         return false;
     }
-};
-
-export interface Logger {
-    id:string;
-    usuario:string,
-    transaction_type: string,
-    role: string,
-    transaction: string,
-    ip: string,
-    date: string,
 };
 
 export const fectLogger = async (param: Logger) => {

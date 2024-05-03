@@ -1,5 +1,5 @@
 "use client";
-import { ParamQuestions } from "@/provider/types";
+import { ParamQuestions } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 

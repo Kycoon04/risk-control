@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Preview_forms from "./preview_forms";
 import { fetchForms } from "../actions/actions";
 import Spinner from "../notifications/Spinner";
-import { Form, FormsXUser } from '@/provider/types';
+import { Form, FormsXUser } from '@/types';
 import { fetchFormXUser } from '../actions/actions_formsxuser/actions';
 import { useAuthStore } from "@/provider/store";
 const Componente: React.FC = () => {

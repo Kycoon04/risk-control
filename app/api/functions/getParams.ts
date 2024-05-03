@@ -4,7 +4,6 @@ export default function getParams(url: string, objete: any) {
     for (const key in objete) {
         const param = searchParams.get(key)
         if (param) {
-            // Convertir a número si es un número
             params = { ...params, [key]:  isNaN(Number(param)) ? param : Number(param) }
         }
     }

@@ -10,7 +10,7 @@ import { useAuthStore } from '@/provider/store';
 import { ToastContainer } from 'react-toastify';
 import { Error } from '../notifications/alerts';
 import 'react-toastify/dist/ReactToastify.css';
-import { RoleXUser, User } from '@/provider/types';
+import { RoleXUser, User } from '@/types';
 
 interface LoginProps {
   scopes?: string[];
@@ -59,17 +59,17 @@ const App: React.FC = () => {
 
   async function login(props?: LoginProps) {
     try {
-      const account = await publicClientApplication.loginPopup({
-        scopes: props?.scopes || config.scopes,
-        prompt: 'select_account',
-      });
+        const account = await publicClientApplication.loginPopup({
+          scopes: props?.scopes || config.scopes,
+          prompt: 'select_account',
+        });
       const user = await fetchUser({
         id: "",
         name: "",
         second_name: "",
         surname: "",
         second_surname: "",
-        email: account.account.username,
+        email: account.account.username, //  account.account.username
         phone_number: "",
         nickname: "",
         identification: "",

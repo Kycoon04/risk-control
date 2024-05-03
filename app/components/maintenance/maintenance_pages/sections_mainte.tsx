@@ -1,5 +1,5 @@
 "use client";
-import { Section,paramsSection } from "@/provider/types";
+import { Section,paramsSection } from "@/types";
 import SectionCard from "../maintenance_cards/section_card";
 import { useEffect, useState } from "react";
 import { deleteSection, fetchSections } from "../../actions/actions_sections/actions";

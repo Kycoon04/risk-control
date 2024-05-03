@@ -1,17 +1,6 @@
 "use client";
 import React from 'react';
-
-interface ParamDepartment {
-    id:string;
-    name: string;
-}
-
-interface StandardChoiceBoxProps {
-    data: ParamDepartment[];
-    selectData: string;
-    onChange: (value: string) => void;
-    titule:string;
-}
+import { StandardChoiceBoxProps } from '@/types';
 
 const Standard_ChoiseBox: React.FC<StandardChoiceBoxProps> = ({ data, selectData, onChange ,titule}) => {
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
-import { ParamQuestions } from "@/provider/types";
+import { ParamQuestions } from "@/types";
 import { Success, Error } from "../../notifications/alerts";
 import { fetchQuestion, deleteQuestion } from "../../actions/actions_questions/actions";
 import QuestionCard from "../maintenance_cards/question_card";

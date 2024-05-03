@@ -1,18 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-
-interface CreateUserData {
-    name: string;
-    second_name: string;
-    surname: string;
-    second_surname: string;
-    email: string;
-    phone_number: string;
-    nickname: string;
-    identification: string;
-    department: number;
-}
+import {CreateUserData} from "@/types"
 
 export async function POST(req: Request) {
     try {

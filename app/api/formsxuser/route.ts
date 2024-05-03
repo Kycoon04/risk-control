@@ -1,14 +1,9 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
+import {CreateFormsXUserData} from "@/types";
 
 
-interface CreateFormsXUserData {
-    id: number;
-    Forms:number;
-    User:number;
-    complete:string;
-}
 
 export async function POST(req: Request) {
     try {

@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
+import {ComponentProps} from '@/types';
 
-interface ComponentProps<T> {
-    filters: Partial<T>;
-    setFilters: React.Dispatch<React.SetStateAction<Partial<T>>>;
-    clearFilters: () => void;
-}
 
-function Componente<T>(props: ComponentProps<T>) {
+function Component<T>(props: ComponentProps<T>) {
     const { filters, setFilters, clearFilters } = props;
     const [isOpen, setIsOpen] = useState(false);
 
@@ -72,4 +68,4 @@ function Componente<T>(props: ComponentProps<T>) {
     );
 }
 
-export default Componente;
+export default Component;

@@ -1,12 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
+import {CreateOptionData} from "@/types"
 
-interface CreateOptionData {
-    option:string;
-    question:number;
-    score:number;
-}
 
 export async function POST(req: Request) {
     try {

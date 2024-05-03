@@ -1,5 +1,5 @@
 "use client";
-import { User } from "@/provider/types";
+import { User } from "@/types";
 import UserCard from "../maintenance_cards/card_maintenance";
 import { useEffect, useState } from "react";
 import { fetchUsers, deleteUser } from "../../actions/actions_users/actions";

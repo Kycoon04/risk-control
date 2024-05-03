@@ -1,4 +1,4 @@
-import {User} from '@/provider/types';
+import {User} from '@/types';
 
 export const postUser = async (param: User): Promise<boolean> => {
     try {

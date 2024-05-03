@@ -1,5 +1,5 @@
 'use client'
-import {ParamUnit} from '@/provider/types';
+import {ParamUnit} from '@/types';
 export const fetchUnit = async (param: ParamUnit) => {
     const queryParams = new URLSearchParams(
       Object.entries(param)

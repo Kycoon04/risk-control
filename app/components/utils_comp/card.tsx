@@ -1,11 +1,7 @@
 "use client";
 import Image from 'next/image';
+import { Card } from '@/types';
 
-interface Card {
-    image: string;
-    titule: string;
-    subtitule:string;
-  }
 
 const Componente: React.FC<Card> = ({ image,titule,subtitule }) => {
   return (

@@ -1,5 +1,5 @@
 'use client'
-import {RoleXUser} from '@/provider/types';
+import {RoleXUser} from '@/types';
 
 export const fetchUserRole = async (param: RoleXUser) => {
   const queryParams = new URLSearchParams(

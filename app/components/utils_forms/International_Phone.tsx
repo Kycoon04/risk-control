@@ -2,14 +2,8 @@
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { ErrorOption } from "react-hook-form";
+import type { PhoneNumberValidationProps } from "@/types";
 
-interface PhoneNumberValidationProps {
-  phone: string;
-  setPhone: React.Dispatch<React.SetStateAction<string>>;
-  register:any,
-  error:undefined | ErrorOption
-  name:string
-}
 
 const PhoneNumberValidation: React.FC<PhoneNumberValidationProps> = ({ phone, setPhone ,register, error , name}) => {
   return (

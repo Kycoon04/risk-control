@@ -5,7 +5,7 @@ import { SiGoogleforms } from "react-icons/si";
 import { BsFillQuestionSquareFill } from "react-icons/bs";
 import { SiGooglemarketingplatform } from "react-icons/si";
 import { FaNetworkWired } from "react-icons/fa6";
-import {Field} from '@/provider/types';
+import {Field} from '@/types';
 import { MdOutlineWork } from "react-icons/md";
 import { BsBuildingsFill } from "react-icons/bs";
 const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {

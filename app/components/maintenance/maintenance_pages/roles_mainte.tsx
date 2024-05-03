@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
 import { Success, Error } from "../../notifications/alerts";
-import {Role} from "@/provider/types";
+import {Role} from "@/types";
 import {fetchRole, deleteRole} from "../../actions/actions_roles/actions";
 import RoleCard from "../maintenance_cards/role_card"
 const RolesMaintenance: React.FC = () => {

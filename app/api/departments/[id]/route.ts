@@ -1,13 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
+import {CreateDepartmentData} from "@/types";
 
-interface CreateDepartmentData {
-    name:string;
-    description:string;
-    unit:number;
-
-}
 
 export async function POST(req: Request) {
     try {

@@ -1,6 +1,6 @@
 "use client";
 import Standard_button from '../forms/options_Forms';
-import {FieldQuestion} from '@/provider/types';
+import {FieldQuestion} from '@/types';
 
 const Componente: React.FC<FieldQuestion> = ({ question, titule, options, selectedOption, onButtonClick }) => {
     return (

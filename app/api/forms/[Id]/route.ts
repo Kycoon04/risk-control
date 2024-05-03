@@ -1,14 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-
-interface CreateFormsData {
-    name: string;
-    state: number;
-    incialperiod: Date;
-    finalperiod: Date;
-    complete: string;
-}
+import {CreateFormsData} from "@/types"
 
 export async function POST(req: Request) {
     try {

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FaPen } from 'react-icons/fa';
 import { FaWpforms } from 'react-icons/fa';
 import { useAuthStore } from "@/provider/store"
-import { Form } from '@/provider/types';
+import { Form } from '@/types';
 import { FaEye } from "react-icons/fa";
 interface ComponenteProps extends Form {
     url: string;

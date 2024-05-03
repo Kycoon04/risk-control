@@ -1,4 +1,4 @@
-import {SectionXUser} from '@/provider/types';
+import {SectionXUser} from '@/types';
 
 export const fetchSectionXUser= async (param: SectionXUser) => {
     const queryParams = new URLSearchParams(

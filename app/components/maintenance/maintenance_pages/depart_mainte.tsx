@@ -1,5 +1,5 @@
 "use client";
-import { ParamDepartment } from "@/provider/types";
+import { ParamDepartment } from "@/types";
 import { useState, useEffect } from "react";
 import {fetchDepartment, deleteDepartment} from "../../actions/actions_departments/actions";
 import Spinner from "../../notifications/Spinner";

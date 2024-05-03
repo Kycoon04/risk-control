@@ -1,5 +1,5 @@
 "use client";
-import { Role } from "@/provider/types";
+import { Role } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { fetchUnit  } from '../../actions/actions_units/actions';

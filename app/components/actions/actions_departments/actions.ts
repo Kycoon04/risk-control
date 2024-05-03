@@ -1,4 +1,4 @@
-import {ParamDepartment} from '@/provider/types';
+import {ParamDepartment} from '@/types';
 
 export const fetchDepartment = async (param: ParamDepartment) => {
     const queryParams = new URLSearchParams(

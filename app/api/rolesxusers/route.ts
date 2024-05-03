@@ -1,12 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
+import {CreateRoleXUserData} from "@/types"
 
-interface CreateRoleXUserData {
-    id: number;
-    user: number;
-    role: number;
-}
 
 export async function POST(req: Request) {
     try {

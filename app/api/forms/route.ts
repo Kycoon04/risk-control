@@ -1,16 +1,14 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
-import { Logger,postLogger } from '../logger/actions';
+import { postLogger } from '../logger/actions';
+import {Logger, CreateFormsData} from "@/types";
+import {useAuthStore} from "@/provider/store";
 
-interface CreateFormsData {
-    name: string;
-    state:number;
-    incialperiod:Date;
-    finalperiod:Date;
-    complete: string;
+const  currentState = useAuthStore.getState();
+const userName = currentState.user?.name || "defaultUser";
+const userRol = currentState.rol;
 
-}
 
 export async function POST(req: Request) {
     try {
@@ -27,9 +25,9 @@ export async function POST(req: Request) {
         });
         const logger : Logger = {
             id: "",
-            usuario: "Kycoon04",
+            usuario: userName,
             transaction_type: "POST",
-            role: "Admin",
+            role: userRol,
             transaction: "POST FORMS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -46,9 +44,9 @@ export async function GET(_req: Request) {
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for") ;
         const logger : Logger = {
             id: "",
-            usuario: "Kycoon04",
+            usuario: userName,
             transaction_type: "GET",
-            role: "Admin",
+            role: userRol,
             transaction: "GET FORMS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -76,9 +74,9 @@ export async function DELETE(_request: Request) {
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for") ;
         const logger : Logger = {
             id: "",
-            usuario: "Kycoon04",
+            usuario: userName,
             transaction_type: "DELETE",
-            role: "Admin",
+            role: userRol,
             transaction: "DELETE FORMS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),

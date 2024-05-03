@@ -9,7 +9,7 @@ import PhoneNumberValidation from '../utils_forms/International_Phone';
 import { postUser} from '../actions/actions'
 import ChoiseBox from './selectDepart';
 import { ToastContainer } from 'react-toastify';
-import {ParamDepartment,Role} from '@/provider/types';
+import {ParamDepartment,Role} from '@/types';
 import { Error,Success } from '../notifications/alerts';
 import {fetchRoleAll,postRoleXUser } from '../actions/actions_roles/actions';
 import {fetchDepartment} from '../actions/actions_departments/actions'

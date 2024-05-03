@@ -1,5 +1,5 @@
 "use client";
-import { Form } from "@/provider/types";
+import { Form } from "@/types";
 import FormCard from "../maintenance_cards/form_card";
 import { useEffect, useState } from "react";
 import { deleteForms, fetchForms} from "../../actions/actions_forms/actions";

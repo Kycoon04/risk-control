@@ -1,5 +1,5 @@
 "use client";
-import {ParamUnit} from "@/provider/types";
+import {ParamUnit} from "@/types";
 import { useState, useEffect } from "react";
 import {fetchUnit, deleteUnit} from "../../actions/actions_units/actions";
 import Spinner from "../../notifications/Spinner";

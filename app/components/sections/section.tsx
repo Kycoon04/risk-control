@@ -8,7 +8,7 @@ import { fetchOptions, fetchQuestion, postAnswer} from '../actions/actions';
 import Spinner from '../notifications/Spinner';
 import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
-import {Options,ParamQuestions,Answers, SectionXUser} from '@/provider/types';
+import {Options,ParamQuestions,Answers, SectionXUser} from '@/types';
 import {putSectionXUser} from '../actions/actions_sectionxuser/actions';
 interface Forms {
     titule: string | undefined;
@@ -108,7 +108,7 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     option: "",
                     question: q.id,
                     score: "",
-                    TL_Questions:{
+                    TlQuestions:{
                         id: "",
                         question:"",
                         description:"",

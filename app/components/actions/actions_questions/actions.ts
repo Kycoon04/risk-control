@@ -1,5 +1,5 @@
 'use client'
-import { ParamQuestions} from '@/provider/types';
+import { ParamQuestions} from '@/types';
 
 export const fetchQuestion = async (param: ParamQuestions) => {
     const queryParams = new URLSearchParams(

@@ -5,8 +5,8 @@ import Preview_Section from "../sections/preview_section";
 import { useAuthStore } from "@/provider/store";
 import Barchart from '../graphics/Barchart';
 import Radarchart from '../graphics/Radarchart';
-import { Section,SectionXUser,graphicData,paramsSection, FormsXUser } from '@/provider/types';
-import {FecthAnswers} from '@/provider/types';
+import { Section,SectionXUser,graphicData,paramsSection, FormsXUser } from '@/types';
+import {FecthAnswers} from '@/types';
 import { fetchSectionXUser } from '../actions/actions_sectionxuser/actions';
 import {fetchFormXUser,putFormsXUser} from '../actions/actions_formsxuser/actions';
 const Componente: React.FC = () => {

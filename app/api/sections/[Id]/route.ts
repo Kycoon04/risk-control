@@ -1,20 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
+import {UpdateSectionData, CreateSectionData} from "@/types";
 
-interface CreateSectionData {
-    name: string;
-    description:string;
-    forms:number;
-    complete:string;
-}
-interface UpdateSectionData {
-    id: number;
-    name: string;
-    description:string;
-    forms:number;
-    complete:string;
-}
 
 export async function PUT(req: Request) {
     try {

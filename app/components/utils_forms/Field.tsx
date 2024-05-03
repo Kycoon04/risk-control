@@ -1,15 +1,7 @@
 "use client";
-import { ErrorOption } from "react-hook-form";
-interface Field {
-  type: string;
-  titule: string;
-  text_Field: string;
-  setText_Field: React.Dispatch<React.SetStateAction<string>>;
-  register: any,
-  error: undefined | ErrorOption
-  name: string
-}
-const Field: React.FC<Field> = ({ text_Field, setText_Field, titule, type, register, error, name }) => {
+import type { FieldComponentProps } from "@/types";
+
+const Field: React.FC<FieldComponentProps> = ({ text_Field, setText_Field, titule, type, register, error, name }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText_Field(event.target.value);
   };

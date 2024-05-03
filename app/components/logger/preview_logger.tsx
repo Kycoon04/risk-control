@@ -1,6 +1,6 @@
 "use client";
 
-import {Logger} from '@/provider/types';
+import {Logger} from '@/types';
 
 const Componente: React.FC<Logger> = ({ usuario, transaction_type, role, transaction, ip, date }) => {
     return (

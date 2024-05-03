@@ -1,8 +1,8 @@
 'use client'
 import {
-  User, RoleXUser, Answers, paramsSection, ParamQuestions, paramsOptions,
+  User, RoleXUser, Answers, paramsSection, ParamQuestions, Options,
   ParamDepartment, paramsDepartXForms, FecthAnswers
-} from '@/provider/types';
+} from '@/types';
 
 export async function fetchForms() {
   const res = await fetch('/api/forms', {
@@ -94,7 +94,7 @@ export const fetchQuestion = async (param: ParamQuestions) => {
     }
   }
 }
-export const fetchOptions = async (param: paramsOptions) => {
+export const fetchOptions = async (param: Options) => {
   const queryParams = new URLSearchParams(
     Object.entries(param)
       .filter(([_, value]) => value !== undefined && value !== "")

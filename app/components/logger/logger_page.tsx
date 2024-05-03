@@ -6,16 +6,9 @@ import { IoSearch } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Pagination } from "@mui/material";
+import { Logger } from "@/types";
 
-interface Logger {
-    id: string;
-    usuario: string;
-    transaction_type: string;
-    role: string;
-    transaction: string;
-    ip: string;
-    date: string;
-}
+
 
 const Componente: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -185,7 +178,8 @@ const Componente: React.FC = () => {
                 ) : (
                     <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center">
                         {currentItems.map((logger) => (
-                            <PreviewLogger
+                            <PreviewLogger //Ask about this
+                                id = ""
                                 key={logger.id}
                                 usuario={logger.usuario}
                                 transaction_type={logger.transaction_type}

@@ -1,5 +1,5 @@
 "use client";
-import { Form } from "@/provider/types";
+import { Form } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 

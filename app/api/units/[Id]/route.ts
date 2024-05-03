@@ -1,11 +1,8 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
+import {CreateUnitData} from "@/types"
 
-interface CreateUnitData {
-    name:string;
-    description:string;
-}
 
 export async function POST(req: Request) {
     try {
