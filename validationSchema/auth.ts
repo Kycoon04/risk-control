@@ -37,3 +37,14 @@ const ChangeSchema = Yup.object({
 export const ChangeValidation = () => useForm({
     resolver: yupResolver(ChangeSchema)
 });
+
+const validationSchema = Yup.object({
+    id: Yup.string().required("Por favor, completa este campo"),
+    name: Yup.string().required("Por favor, completa este campo"),
+    description: Yup.string().required("Por favor, completa este campo"),
+
+});
+
+export const Change = () => useForm({
+    resolver: yupResolver(validationSchema)
+});

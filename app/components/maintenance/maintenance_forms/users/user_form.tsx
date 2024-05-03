@@ -74,7 +74,7 @@ const User_Form: React.FC = () => {
     }, []);
     return (
         <>
-        <div className=' py-5 drop-shadow-lg m-11 flex flex-col items-center pr-7 pl-7' >
+        <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full">
                 <Field text_Field={name} setText_Field={setName} titule={'Nombre:'} type={"text"} register={register} error={errors.name} name={"name"}></Field>
                 <Field text_Field={second_name} setText_Field={setSecond_name} titule={'Segundo nombre:'} type={"text"} register={register} error={errors.second_name} name={"second_name"}></Field>

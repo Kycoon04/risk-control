@@ -1,9 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import {CreateUnitData} from "@/types"
-
-
+import {CreateUnitData, ParamUnit} from "@/types"
 export async function POST(req: Request) {
     try {
         const data: CreateUnitData = await req.json();
@@ -51,6 +49,26 @@ export async function DELETE(_request: Request) {
 
         return NextResponse.json(deleteUnit);
     } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+
+export async function PUT(_request: Request) {
+    try {
+        const data: ParamUnit = await _request.json();
+
+        const updatedUnit = await prisma.tL_Unit.update({
+            where: { id: typeof data.id === 'string' ? parseInt(data.id, 10) : data.id  },
+            data: {
+                id: typeof data.id === 'string' ? parseInt(data.id, 10): data.id,
+                name: data.name,
+                description: data.description,
+            },
+        });
+        
+        return NextResponse.json(updatedUnit);
+    } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

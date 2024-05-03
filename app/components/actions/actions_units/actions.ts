@@ -31,3 +31,21 @@ export const fetchUnit = async (param: ParamUnit) => {
       return false;
     }
   }
+  export const postUpdateUnit = async (id:string,name: string, description: string) => {
+    try {
+      const response = await fetch('/api/units/[id]', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id:id,
+          name: name,
+          description:description,
+        })
+      });
+      return response;
+    } catch (error) {
+      console.error('Error de red', error);
+    }
+  }

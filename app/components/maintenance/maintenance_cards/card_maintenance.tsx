@@ -3,10 +3,6 @@ import Link from 'next/link';
 import {RoleXUser, User } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';
-import { deleteUser,fetchUsers  } from '../../actions/actions_users/actions';
-import {Error,Success} from '../../notifications/alerts';
-import {fetchUserRole, fetchRole} from '@/app/components/actions/actions_roles/actions'
   
 interface Card extends User {
     prompt_one: string;
@@ -43,7 +39,7 @@ const UserCard: React.FC<Card> = (promp: Card) => {
             </div>
             <div className="w-full md:w-auto flex justify-center md:justify-start">
                 <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3'  onClick={onModifyClick}>
-                    <Link href={'/home_page/maintenance/mainte_users/maintenance_form'}>
+                    <Link href={'/home_page/maintenance/mainte_users/users_form'}>
                         <FaEdit className="text-white font text-4xl hover:text-slate-300" />
                     </Link>
                 </div>

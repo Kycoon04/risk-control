@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import { ParamUnit } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -9,11 +10,15 @@ interface Card extends ParamUnit {
     prompt_two: string;
     prompt_three: string;
     handleDeleteUnit: (unitId: string) => Promise<void>;
+    handleModifyUnit: (unit: ParamUnit) => Promise<void>;
 }
 
 const UnitCard: React.FC<Card> = (promp: Card) => {  
     const onDeleteClick = async () => {
         await promp.handleDeleteUnit(promp.id);
+      };
+      const onModifyClick = async () => {
+        await promp.handleModifyUnit(promp);
       };
     return (
         <div className="bg-blue-1000 w-full flex flex-wrap gap-5 my-2 rounded-md px-5 p-2 items-center">
@@ -30,8 +35,10 @@ const UnitCard: React.FC<Card> = (promp: Card) => {
                 <p>{promp.description}</p>
             </div>
             <div className="w-full md:w-auto flex justify-center md:justify-start">
-                <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3'>
-                    <FaEdit className="text-white font text-4xl hover:text-slate-300" />
+                <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onModifyClick}>
+                     <Link href={'/home_page/maintenance/mainte_units/units_form'}>
+                        <FaEdit className="text-white font text-4xl hover:text-slate-300" />
+                    </Link>
                 </div>
                 <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onDeleteClick}>
                     <MdDelete className="text-white font text-4xl hover:text-slate-300" />

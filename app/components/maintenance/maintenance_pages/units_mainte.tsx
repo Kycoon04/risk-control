@@ -5,6 +5,7 @@ import {fetchUnit, deleteUnit} from "../../actions/actions_units/actions";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
 import { Success, Error } from "../../notifications/alerts";
+import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/unit_storage';
 import UnitCard from "../maintenance_cards/unit_card"
 const UnitsMaintenance: React.FC = () => {
     const param: ParamUnit = {
@@ -16,6 +17,8 @@ const UnitsMaintenance: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamUnit[]>([]);
     const [filters, setFilters] = useState<Partial<ParamUnit>>(param);
+    const setUnit = useAuthStore(state => state.setUnit);
+
 
     const clearFilters = () => {
         setFilters(param);
@@ -65,6 +68,9 @@ const UnitsMaintenance: React.FC = () => {
             Error('Error al intentar eliminar la unidad');
         }
     };
+    const handleModifyUnit = async (unit: ParamUnit) => {
+        setUnit(unit);
+    };
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-3xl items-center justify-center'>
             <h2 className='text-2xl sm:text-center text-white text-center m-5'>
@@ -74,7 +80,7 @@ const UnitsMaintenance: React.FC = () => {
                 {isLoading ? (
                     <Spinner />) : (
                     units.map((unit) => (
-                        <UnitCard key={unit.id} prompt_one="Id:" prompt_two="Nombre:" prompt_three="Descripción:" handleDeleteUnit={handleDeleteUnit} {...unit} />
+                        <UnitCard key={unit.id} prompt_one="Id:" prompt_two="Nombre:" prompt_three="Descripción:" handleDeleteUnit={handleDeleteUnit} handleModifyUnit={handleModifyUnit} {...unit} />
              )))}
         </div>
     );
