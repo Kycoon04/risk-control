@@ -30,7 +30,55 @@ export const postUser = async (param: User): Promise<boolean> => {
       return false;
     }
   }
-
+  export const postDataUser = async (department: string, name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string) => {
+    try {
+      const response = await fetch('/api/users/[id]?id=${email}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          department: department,
+          name: name,
+          second_name: second_name,
+          surname: surname,
+          second_surname: second_surname,
+          email: email,
+          identification: identification,
+          nickname: nickname,
+          phone_number: phone_number
+        })
+      });
+      return response;
+    } catch (error) {
+      console.error('Error de red', error);
+    }
+  }
+  export const postUpdateUser = async (id:string,department: string, name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string) => {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id:id,
+          department: department,
+          name: name,
+          second_name: second_name,
+          surname: surname,
+          second_surname: second_surname,
+          email: email,
+          identification: identification,
+          nickname: nickname,
+          phone_number: phone_number
+        })
+      });
+      return response;
+    } catch (error) {
+      console.error('Error de red', error);
+    }
+  }
 export const fetchUsers = async (param: User) => {
     const queryParams = new URLSearchParams(
       Object.entries(param)

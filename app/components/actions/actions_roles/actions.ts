@@ -17,16 +17,13 @@ export const fetchUserRole = async (param: RoleXUser) => {
     }
   }
 }
-export const fetchRole = async (param: string) => {
-  const res = await fetch(`/api/roles/[id]?id=${param}`, {
+export const fetchRole = async (roleId: string) => {
+  const res = await fetch(`/api/roles/?id=${roleId}`, {
     cache: "no-store",
   });
   const data = await res.json();
-  return {
-    props: {
-      data,
-    }
-  }
+  return data;
+  
 }
 
 export const postRoleXUser = async (param: RoleXUser): Promise<boolean> => {

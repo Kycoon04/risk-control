@@ -1,5 +1,5 @@
 "use client";
-import { User } from "@/types";
+import { RoleXUser, User } from "@/types";
 import UserCard from "../maintenance_cards/card_maintenance";
 import { useEffect, useState } from "react";
 import { fetchUsers, deleteUser } from "../../actions/actions_users/actions";
@@ -7,6 +7,8 @@ import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
 import { Success, Error } from "../../notifications/alerts";
 import { ToastContainer } from "react-toastify";
+import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';
+import {fetchUserRole, fetchRole} from '@/app/components/actions/actions_roles/actions'
 const UsersMaintenance: React.FC = () => {
     const param: User = {
         id: "",
@@ -24,6 +26,8 @@ const UsersMaintenance: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<User[]>([]);
     const [filters, setFilters] = useState<Partial<User>>(param);
+    const setUser = useAuthStore(state => state.setUser);
+    const setRol = useAuthStore(state => state.setRol);
 
     const clearFilters = () => {
         setFilters(param);
@@ -75,6 +79,20 @@ const UsersMaintenance: React.FC = () => {
             Error('Error al intentar eliminar el usuario');
         }
     };
+    const fetchUserRol = async (props: RoleXUser) => {
+        const fetchedRoleXUser = await fetchUserRole(props);
+        const fetchedRole = await fetchRole(fetchedRoleXUser.props.data[0].role);
+        return fetchedRole;
+    };
+    const handleModifyUser = async (user: User) => {
+        setUser(user);
+        const role = await fetchUserRol({
+            id: "",
+            user: user.id,
+            role: ""
+          });
+          setRol(role);
+    };
     return (
         <>
             <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-2xl items-center justify-center'>
@@ -85,7 +103,7 @@ const UsersMaintenance: React.FC = () => {
                 {isLoading ? (
                     <Spinner />) : (
                     users.map((user) => (
-                        <UserCard key={user.id} prompt_one="Nombre:" prompt_two="Cédula:" prompt_three="Nickname:" handleDeleteUser={handleDeleteUser} {...user} />
+                        <UserCard key={user.id} prompt_one="Nombre:" prompt_two="Cédula:" prompt_three="Nickname:"  handleDeleteUser={handleDeleteUser} handleModifyUser={handleModifyUser} {...user} />
                     )))}
             </div>
         </>
