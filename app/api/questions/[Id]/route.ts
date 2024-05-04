@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import {CreateQuestionData} from "@/types"
+import {CreateQuestionData, ParamQuestions} from "@/types"
 
 
 export async function POST(req: Request) {
@@ -54,6 +54,27 @@ export async function DELETE(_request: Request) {
 
         return NextResponse.json(deleteQuestion);
     } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+
+export async function PUT(_request: Request) {
+    try {
+        const data: ParamQuestions = await _request.json();
+
+        const updatedQuestion = await prisma.tL_Questions.update({
+            where: { id: typeof data.id === 'string' ? parseInt(data.id, 10) : data.id  },
+            data: {
+                id: typeof data.id === 'string' ? parseInt(data.id, 10): data.id,
+                question: data.question,
+                description: data.description,
+                section:parseInt(data.section, 10),
+            },
+        });
+        
+        return NextResponse.json(updatedQuestion);
+    } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

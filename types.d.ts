@@ -259,7 +259,13 @@ export interface paramsSection {
     forms: string | undefined,
     complete: string | undefined,
 };
-
+export interface ParamSection {
+    id: string,
+    name: string,
+    description: string,
+    forms: string,
+    complete: string,
+};
 export interface Card {
     image: string;
     titule: string;

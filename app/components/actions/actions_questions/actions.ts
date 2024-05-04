@@ -32,3 +32,23 @@ export const fetchQuestion = async (param: ParamQuestions) => {
       return false;
     }
   }
+
+  export const postUpdateQuestion = async (id:string,question: string, description: string,section:string) => {
+    try {
+      const response = await fetch('/api/questions/[id]', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id:id,
+          question: question,
+          description:description,
+          section:section,
+        })
+      });
+      return response;
+    } catch (error) {
+      console.error('Error de red', error);
+    }
+  }
