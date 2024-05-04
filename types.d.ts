@@ -246,7 +246,12 @@ export interface StandardChoiceBoxProps {
     titule:string;
 }
 
-
+export interface StandardChoiceBoxStates {
+    data: string[];
+    selectData: string;
+    onChange: (value: string) => void;
+    titule: string;
+}
 export interface paramsSection {
     id: string | undefined,
     name: string | undefined,

@@ -8,23 +8,35 @@ import { changeState } from '@/validationSchema/auth';
 import { postUpdateRole} from '@/app/components/actions/actions_roles/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/role_storage';
+import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import { Truculenta } from 'next/font/google';
 const Rol_Form: React.FC = () => {
-     const Role = useAuthStore(state => state.role);
+    const Role = useAuthStore(state => state.role);
     const [loading, setLoading] = useState(true);
     const [id,setId]=useState(Role?.id);
     const [name, setName] = useState(Role?.name);
     const [active, setActive] = useState(Role?.active);
-
+    const [states, setStates] = useState<string[]>(['Activo', 'Inactivo']);
+    const [stateId, setStateId] = useState('');
     const { handleSubmit, register, formState: { errors } } = changeState();
     useEffect(() => {
         if (Role) {
             setLoading(false);
         }
     }, [Role]);
+    useEffect(() => {
+        const initialize = async () => {
+            setStateId('Inactivo');
+            if(Role.active=='1'){
+                setStateId('Activo');
+            }
+        };
+        initialize();
+    }, []);
     const submitForm = async () => {
         try {
-            const role = await postUpdateRole(id, name,active);
+            const newActive = stateId === 'Activo' ? '1' : '0';
+            const role = await postUpdateRole(id, name,newActive);
             if (true) {
               Success('Rol actualizado');
             } else {
@@ -42,7 +54,7 @@ const Rol_Form: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full">
                 <Field_Disabled text_Field={id} setText_Field={setId} titule={'Id:'} type={"text"} register={register} error={errors.id} name={"id"}></Field_Disabled>
                 <Field text_Field={name} setText_Field={setName} titule={'Nombre:'} type={"text"} register={register} error={errors.name} name={"name"}></Field>
-                <Field text_Field={active} setText_Field={setActive} titule={'Estado:'} type={"text"} register={register} error={errors.active} name={"active"}></Field>
+                <ChoiseBox_States data={states} selectData={stateId} onChange={setStateId} titule="Estado:"/>
             </div>
             <div className='grid grid-cols-2 md:grid-cols-2 gap-8 justify-center'>
                 <div className='flex justify-center'>

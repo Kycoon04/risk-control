@@ -25,7 +25,6 @@ const Unit_Form: React.FC = () => {
         }
     }, [Unit]);
     const submitForm = async () => {
-        console.log("HOLAAA");
         try {
             const unit = await postUpdateUnit(id, name, description);
             if (true) {
