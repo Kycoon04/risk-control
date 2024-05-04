@@ -4,8 +4,9 @@ import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
 import { Success, Error } from "../../notifications/alerts";
 import {Role} from "@/types";
-import {fetchRole, deleteRole} from "../../actions/actions_roles/actions";
+import {fetchRoleAll, deleteRole} from "../../actions/actions_roles/actions";
 import RoleCard from "../maintenance_cards/role_card"
+import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/role_storage';
 const RolesMaintenance: React.FC = () => {
     const param: Role = {
         id: "",
@@ -16,6 +17,7 @@ const RolesMaintenance: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<Role[]>([]);
     const [filters, setFilters] = useState<Partial<Role>>(param);
+    const setRole = useAuthStore(state => state.setRole);
 
     const clearFilters = () => {
         setFilters(param);
@@ -24,7 +26,7 @@ const RolesMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchRole(param.id);
+            const fetchedSections = await fetchRoleAll();
             setRoles(fetchedSections.props.data);
             setUnfiltered(fetchedSections.props.data);
             setIsLoading(false);
@@ -58,12 +60,16 @@ const RolesMaintenance: React.FC = () => {
 
         if (deletionResult) {
             Success('Role eliminado correctamente')
-            const fetchedSections = await fetchRole(param.id);
+            const fetchedSections = await fetchRoleAll();
             setRoles(fetchedSections.props.data);
             setUnfiltered(fetchedSections.props.data);
         } else {
             Error('Error al intentar eliminar la unidad');
         }
+    };
+    const handleModifyRole = async (role:Role) => {
+        console.log(role.id+" "+role.name+" "+role.active)
+        setRole(role);
     };
 
     return (
@@ -75,7 +81,7 @@ const RolesMaintenance: React.FC = () => {
                 {isLoading ? (
                     <Spinner />) : (
                     roles.map((role) => (
-                        <RoleCard key={role.id} prompt_one="Id:" prompt_two="Nombre:" prompt_three="Estado:" handleDeleteRole={handleDeleteRole} {...role} />
+                        <RoleCard key={role.id} prompt_one="Id:" prompt_two="Nombre:" prompt_three="Estado:" handleDeleteRole={handleDeleteRole} handleModifyRole={handleModifyRole} {...role} />
              )))}
         </div>
     );

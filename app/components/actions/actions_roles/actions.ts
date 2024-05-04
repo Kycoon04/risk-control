@@ -77,3 +77,21 @@ export const fetchRoleAll = async () => {
     }
   }
 }
+export const postUpdateRole = async (id:string,name: string, active: string) => {
+  try {
+    const response = await fetch('/api/roles/[id]', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id:id,
+        name: name,
+        active:active,
+      })
+    });
+    return response;
+  } catch (error) {
+    console.error('Error de red', error);
+  }
+}

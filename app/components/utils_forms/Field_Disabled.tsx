@@ -27,7 +27,7 @@ const Field_Disabled: React.FC<FieldComponentProps> = ({ text_Field, setText_Fie
         value={text_Field}
         onChange={handleInputChange}
         onClick={handleClick}
-        readOnly // Para evitar la edición
+        readOnly 
       />
       {
         error && <span className="text-red-500">{error?.message}</span>
