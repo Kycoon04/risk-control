@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import {CreateDepartmentData} from "@/types";
+import {CreateDepartmentData, ParamDepartment} from "@/types";
 
 
 export async function POST(req: Request) {
@@ -57,6 +57,27 @@ export async function DELETE(_request: Request) {
 
         return NextResponse.json(deletedDepartment);
     } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+
+export async function PUT(_request: Request) {
+    try {
+        const data: ParamDepartment = await _request.json();
+
+        const updatedDepartment = await prisma.tL_Departaments.update({
+            where: { id: typeof data.id === 'string' ? parseInt(data.id, 10) : data.id  },
+            data: {
+                id: typeof data.id === 'string' ? parseInt(data.id, 10): data.id,
+                name: data.name,
+                description: data.description,
+                unit:parseInt(data.unit, 10),
+            },
+        });
+        
+        return NextResponse.json(updatedDepartment);
+    } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

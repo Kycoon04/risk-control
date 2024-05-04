@@ -6,6 +6,7 @@ import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/filter";
 import DepartmentCard from "../maintenance_cards/department_card";
 import { Success, Error } from "../../notifications/alerts";
+import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/department.storage';
 const DepartMaintenance: React.FC = () => {
     const param: ParamDepartment = {
         id: "",
@@ -18,6 +19,7 @@ const DepartMaintenance: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamDepartment[]>([]);
     const [filters, setFilters] = useState<Partial<ParamDepartment>>(param);
+    const setDepartment = useAuthStore(state => state.setDepartment);
 
     const clearFilters = () => {
         setFilters(param);
@@ -67,7 +69,9 @@ const DepartMaintenance: React.FC = () => {
             Error('Error al intentar eliminar el departamento');
         }
     };
-
+    const handleModifyDepartment = async (department: ParamDepartment) => {
+        setDepartment(department);
+    };
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-3xl items-center justify-center'>
             <h2 className='text-2xl sm:text-center text-white text-center m-5'>
@@ -77,7 +81,7 @@ const DepartMaintenance: React.FC = () => {
                 {isLoading ? (
                     <Spinner />) : (
                     departments.map((department) => (
-                        <DepartmentCard key={department.id} prompt_one="Nombre:" prompt_two="Unidad:" prompt_three="Descripción:" handleDeleteDepartment={handleDeleteDepartment} {...department} />
+                        <DepartmentCard key={department.id} prompt_one="Nombre:" prompt_two="Unidad:" prompt_three="Descripción:" handleDeleteDepartment={handleDeleteDepartment} handleModifyDepartment={handleModifyDepartment} {...department} />
              )))}
         </div>
     );

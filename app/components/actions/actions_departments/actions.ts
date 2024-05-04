@@ -31,3 +31,23 @@ export const fetchDepartment = async (param: ParamDepartment) => {
       return false;
     }
   }
+
+  export const postUpdateDepartment = async (id:string,name: string, description: string, unit:string) => {
+    try {
+      const response = await fetch('/api/departments/[id]', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id:id,
+          name: name,
+          description:description,
+          unit:unit,
+        })
+      });
+      return response;
+    } catch (error) {
+      console.error('Error de red', error);
+    }
+  }
