@@ -52,3 +52,27 @@ export const fetchQuestion = async (param: ParamQuestions) => {
       console.error('Error de red', error);
     }
   }
+
+  export const postQuestion = async (question: string, description: string,section:string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/questions/[id]', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          question: question,
+          description:description,
+          section:parseInt(section, 10)
+        })
+      });
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
+    }
+  }
