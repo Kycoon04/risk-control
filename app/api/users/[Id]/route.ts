@@ -5,8 +5,6 @@ import { CreateUserData, Logger } from "@/types"
 import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../../logger/actions";
 export async function POST(req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateUserData = await req.json();
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
@@ -25,9 +23,9 @@ export async function POST(req: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "POST",
-            role: rol,
+            role: "rol",
             transaction: "POST USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -40,8 +38,6 @@ export async function POST(req: Request) {
 }
 
 export async function GET(_req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         const object = {
@@ -71,9 +67,9 @@ export async function GET(_req: Request) {
         loggers = await prisma.tL_Users.findMany({ where: whereCondition.where });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "GET",
-            role: rol,
+            role: "rol",
             transaction: "GET USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -86,8 +82,6 @@ export async function GET(_req: Request) {
 }
 
 export async function DELETE(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const object = { id: 0 };
         const url = _request.url;
@@ -101,9 +95,9 @@ export async function DELETE(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "DELETE",
-            role: rol,
+            role: "rol",
             transaction: "DELETE USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),

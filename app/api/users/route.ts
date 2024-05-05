@@ -5,8 +5,6 @@ import { CreateUserData, Logger, User } from "@/types";
 import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../logger/actions";
 export async function POST(req: Request) {
-    const user = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateUserData = await req.json();
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
@@ -26,9 +24,9 @@ export async function POST(req: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: user?.nickname || "defaultUser",
+            usuario:  "defaultUser",
             transaction_type: "POST",
-            role: rol,
+            role: "rol",
             transaction: "POST USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -42,8 +40,6 @@ export async function POST(req: Request) {
 }
 
 export async function GET(_req: Request) {
-    const user = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const identification = getParams(_req.url, { identification: "" }).identification;
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
@@ -55,9 +51,9 @@ export async function GET(_req: Request) {
         if (response) {
             const logger: Logger = {
                 id: "",
-                usuario: user?.nickname || "defaultUser",
+                usuario:  "defaultUser",
                 transaction_type: "GET",
-                role: rol,
+                role: "rol",
                 transaction: "GET USERS",
                 ip: clientIp || "192.168",
                 date: new Date().toISOString(),
@@ -67,9 +63,9 @@ export async function GET(_req: Request) {
         }
         const logger: Logger = {
             id: "",
-            usuario: user?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "GET",
-            role: rol,
+            role: "rol",
             transaction: "GET USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -83,8 +79,6 @@ export async function GET(_req: Request) {
 }
 
 export async function DELETE(_request: Request) {
-    const user = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const identification = getParams(_request.url, { identification: "" }).identification;
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -95,9 +89,9 @@ export async function DELETE(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: user?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "DELETE",
-            role: rol,
+            role:"rol",
             transaction: "DELETE USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -109,8 +103,6 @@ export async function DELETE(_request: Request) {
     }
 }
 export async function PUT(_request: Request) {
-    const user = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: User = await _request.json();
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -131,9 +123,9 @@ export async function PUT(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: user?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "PUT",
-            role: rol,
+            role: "rol",
             transaction: "PUT USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),

@@ -5,17 +5,16 @@ import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../../logger/actions";
 
 export async function GET(_req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
+
     try {
         const response = await prisma.tL_Roles.findMany({});
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         if (response) {
             const logger: Logger = {
                 id: "",
-                usuario: User?.nickname || "defaultUser",
+                usuario: "defaultUser",
                 transaction_type: "GET",
-                role: rol,
+                role: "rol",
                 transaction: "GET ROLES",
                 ip: clientIp || "192.168",
                 date: new Date().toISOString(),
@@ -30,8 +29,6 @@ export async function GET(_req: Request) {
     }
 }
 export async function PUT(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: Role = await _request.json();
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -45,9 +42,9 @@ export async function PUT(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario:  "defaultUser",
             transaction_type: "PUT",
-            role: rol,
+            role: "rol",
             transaction: "PUT ROLES",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),

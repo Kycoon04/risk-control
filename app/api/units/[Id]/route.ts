@@ -6,8 +6,6 @@ import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../../logger/actions";
 
 export async function POST(req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateUnitData = await req.json();
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
@@ -19,9 +17,9 @@ export async function POST(req: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "POST",
-            role: rol,
+            role: "rol",
             transaction: "POST UNITS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -34,8 +32,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(_req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
+
     try {
         const object = { id: 0, name: "", description: "" }
         const url = _req.url
@@ -53,9 +50,9 @@ export async function GET(_req: Request) {
         loggers = await prisma.tL_Unit.findMany({ where: whereCondition.where });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "GET",
-            role: rol,
+            role: "rol",
             transaction: "GET UNITS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -68,8 +65,6 @@ export async function GET(_req: Request) {
 }
 
 export async function DELETE(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const id = parseInt(getParams(_request.url, { id: 0 }).id);
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -80,9 +75,9 @@ export async function DELETE(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario:  "defaultUser",
             transaction_type: "DELETE",
-            role: rol,
+            role: "rol",
             transaction: "DELETE UNITS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -95,8 +90,6 @@ export async function DELETE(_request: Request) {
 }
 
 export async function PUT(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: ParamUnit = await _request.json();
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -110,9 +103,9 @@ export async function PUT(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "PUT",
-            role: rol,
+            role: "rol",
             transaction: "PUT UNITS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),

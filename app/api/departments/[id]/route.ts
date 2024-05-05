@@ -3,11 +3,8 @@ import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
 import { CreateDepartmentData, Logger, ParamDepartment } from "@/types";
 import { postLogger } from "../../logger/actions";
-import { useAuthStore } from "@/provider/store";
 
 export async function POST(req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateDepartmentData = await req.json();
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
@@ -20,9 +17,9 @@ export async function POST(req: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario:  "defaultUser",
             transaction_type: "POST",
-            role: rol,
+            role: "rol",
             transaction: "POST DEPARTMENTS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -35,8 +32,6 @@ export async function POST(req: Request) {
 }
 
 export async function GET(_req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const object = { id: 0, name: "", description: "", unit: 0 }
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
@@ -55,9 +50,9 @@ export async function GET(_req: Request) {
         loggers = await prisma.tL_Departaments.findMany({ where: whereCondition.where });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "POST",
-            role: rol,
+            role: "rol",
             transaction: "POST DEPARTMENTS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -71,8 +66,6 @@ export async function GET(_req: Request) {
 }
 
 export async function DELETE(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const object = { id: 0 };
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -86,9 +79,9 @@ export async function DELETE(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario:  "defaultUser",
             transaction_type: "DELETE",
-            role: rol,
+            role: "rol",
             transaction: "DELETE DEPARTMENTS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -101,8 +94,6 @@ export async function DELETE(_request: Request) {
 }
 
 export async function PUT(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: ParamDepartment = await _request.json();
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -117,9 +108,9 @@ export async function PUT(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "PUT",
-            role: rol,
+            role: "rol",
             transaction: "PUT DEPARTMENTS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),

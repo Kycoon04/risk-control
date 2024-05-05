@@ -5,8 +5,6 @@ import { CreateRoleData, Logger } from "@/types"
 import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../logger/actions";
 export async function POST(req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateRoleData = await req.json();
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
@@ -18,9 +16,9 @@ export async function POST(req: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario:  "defaultUser",
             transaction_type: "POST",
-            role: rol,
+            role: "rol",
             transaction: "POST ROLES",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -33,8 +31,6 @@ export async function POST(req: Request) {
 }
 
 export async function GET(_req: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const id = parseInt(getParams(_req.url, { id: 0 }).id);
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
@@ -46,9 +42,9 @@ export async function GET(_req: Request) {
         if (response) {
             const logger: Logger = {
                 id: "",
-                usuario: User?.nickname || "defaultUser",
+                usuario: "defaultUser",
                 transaction_type: "GET",
-                role: rol,
+                role:"rol",
                 transaction: "GET ROLES",
                 ip: clientIp || "192.168",
                 date: new Date().toISOString(),
@@ -64,8 +60,6 @@ export async function GET(_req: Request) {
 }
 
 export async function DELETE(_request: Request) {
-    const User = useAuthStore(state => state.user);
-    const rol = useAuthStore(state => state.rol);
     try {
         const id = parseInt(getParams(_request.url, { id: 0 }).id);
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
@@ -76,9 +70,9 @@ export async function DELETE(_request: Request) {
         });
         const logger: Logger = {
             id: "",
-            usuario: User?.nickname || "defaultUser",
+            usuario: "defaultUser",
             transaction_type: "DELETE",
-            role: rol,
+            role: "rol",
             transaction: "DELETE ROLES",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
