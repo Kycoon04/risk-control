@@ -4,12 +4,8 @@ import getParams from "../functions/getParams";
 import { postLogger } from '../logger/actions';
 import {Logger, CreateFormsData} from "@/types";
 import {useAuthStore} from "@/provider/store";
-
-const  currentState = useAuthStore.getState();
-const userName = currentState.user?.name || "defaultUser";
-const userRol = currentState.rol;
-
-
+const User = useAuthStore(state => state.user);
+const rol = useAuthStore(state => state.rol);
 export async function POST(req: Request) {
     try {
         const data: CreateFormsData = await req.json();
@@ -25,9 +21,9 @@ export async function POST(req: Request) {
         });
         const logger : Logger = {
             id: "",
-            usuario: userName,
+            usuario: User?.nickname || "defaultUser",
             transaction_type: "POST",
-            role: userRol,
+            role: rol,
             transaction: "POST FORMS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -44,9 +40,9 @@ export async function GET(_req: Request) {
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for") ;
         const logger : Logger = {
             id: "",
-            usuario: userName,
+            usuario: User?.nickname || "defaultUser",
             transaction_type: "GET",
-            role: userRol,
+            role: rol,
             transaction: "GET FORMS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
@@ -74,9 +70,9 @@ export async function DELETE(_request: Request) {
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for") ;
         const logger : Logger = {
             id: "",
-            usuario: userName,
+            usuario: User?.nickname || "defaultUser",
             transaction_type: "DELETE",
-            role: userRol,
+            role: rol,
             transaction: "DELETE FORMS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
