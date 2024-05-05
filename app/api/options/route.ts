@@ -1,24 +1,24 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import {CreateOptionData, Logger} from "@/types"
+import { CreateOptionData, Logger } from "@/types"
 import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../logger/actions";
-const User = useAuthStore(state => state.user);
-const rol = useAuthStore(state => state.rol);
 
 export async function POST(req: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateOptionData = await req.json();
-        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") ;
+        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
         const newOption = await prisma.tL_Options.create({
             data: {
-                option:data.option,
-                question:data.question,
-                score:data.score,
+                option: data.option,
+                question: data.question,
+                score: data.score,
             },
         });
-        const logger : Logger = {
+        const logger: Logger = {
             id: "",
             usuario: User?.nickname || "defaultUser",
             transaction_type: "POST",
@@ -34,49 +34,53 @@ export async function POST(req: Request) {
     }
 }
 export async function GET(_req: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
-        const object = {  id: 0,option:"", question:"",score:""} 
+        const object = { id: 0, option: "", question: "", score: "" }
         const url = _req.url
-        const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for") ;
+        const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         const parameters = getParams(url, object)
-        const {id, option,question,score} = parameters
+        const { id, option, question, score } = parameters
         console.log(parameters)
         const whereCondition = {
-                where: {
-                    id: id,
-                    option: option,
-                    question: question,
-                    score: score
-                }
-            };
-            let loggers;
-            loggers = await prisma.tL_Options.findMany({where: whereCondition.where});
-            const logger : Logger = {
-                id: "",
-                usuario: User?.nickname || "defaultUser",
-                transaction_type: "GET",
-                role: rol,
-                transaction: "GET OPTIONS",
-                ip: clientIp || "192.168",
-                date: new Date().toISOString(),
+            where: {
+                id: id,
+                option: option,
+                question: question,
+                score: score
             }
-            await postLogger(logger);
-            return NextResponse.json(loggers);
+        };
+        let loggers;
+        loggers = await prisma.tL_Options.findMany({ where: whereCondition.where });
+        const logger: Logger = {
+            id: "",
+            usuario: User?.nickname || "defaultUser",
+            transaction_type: "GET",
+            role: rol,
+            transaction: "GET OPTIONS",
+            ip: clientIp || "192.168",
+            date: new Date().toISOString(),
+        }
+        await postLogger(logger);
+        return NextResponse.json(loggers);
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
 
 export async function DELETE(_request: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
         const id = parseInt(getParams(_request.url, { id: 0 }).id);
-        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for") ;
-        const deleteOption= await prisma.tL_Options.delete({
+        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
+        const deleteOption = await prisma.tL_Options.delete({
             where: {
-                id:id
+                id: id
             },
         });
-        const logger : Logger = {
+        const logger: Logger = {
             id: "",
             usuario: User?.nickname || "defaultUser",
             transaction_type: "DELETE",

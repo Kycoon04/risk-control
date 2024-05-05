@@ -1,16 +1,16 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import {CreateFormsData, Logger} from "@/types"
+import { CreateFormsData, Logger } from "@/types"
 import { postLogger } from "../../logger/actions";
 import { useAuthStore } from "@/provider/store";
-const User = useAuthStore(state => state.user);
-const rol = useAuthStore(state => state.rol);
 
 export async function POST(req: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
         const data: CreateFormsData = await req.json();
-        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") ;
+        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
         const newForms = await prisma.tL_forms.create({
             data: {
                 name: data.name,
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
                 complete: data.complete
             },
         });
-        const logger : Logger = {
+        const logger: Logger = {
             id: "",
             usuario: User?.nickname || "defaultUser",
             transaction_type: "POST",
@@ -37,16 +37,18 @@ export async function POST(req: Request) {
 }
 
 export async function GET(_req: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
         const id = parseInt(getParams(_req.url, { id: 0 }).id);
-        const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for") ;
+        const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         const response = await prisma.tL_forms.findUnique({
             where: {
                 id: id
             }
         });
         if (response) {
-            const logger : Logger = {
+            const logger: Logger = {
                 id: "",
                 usuario: User?.nickname || "defaultUser",
                 transaction_type: "GET",
@@ -66,18 +68,20 @@ export async function GET(_req: Request) {
 }
 
 export async function DELETE(_request: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
         const object = { id: 0 };
         const url = _request.url;
         const parameters = getParams(url, object)
         const { id } = parameters
-        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for") ;
+        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
         const deletedUser = await prisma.tL_forms.delete({
             where: {
                 id: id
             },
         });
-        const logger : Logger = {
+        const logger: Logger = {
             id: "",
             usuario: User?.nickname || "defaultUser",
             transaction_type: "DELETE",
@@ -93,9 +97,11 @@ export async function DELETE(_request: Request) {
     }
 }
 export async function PUT(req: Request) {
+    const User = useAuthStore(state => state.user);
+    const rol = useAuthStore(state => state.rol);
     try {
-        const { id, name, inicialperiod, finalperiod, complete,state } = await req.json();
-        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for") ;
+        const { id, name, inicialperiod, finalperiod, complete, state } = await req.json();
+        const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
         const updatedSection = await prisma.tL_forms.update({
             where: {
                 id: id
@@ -103,12 +109,12 @@ export async function PUT(req: Request) {
             data: {
                 name: name,
                 inicialperiod: inicialperiod,
-                finalperiod:finalperiod,
+                finalperiod: finalperiod,
                 state: state,
                 complete: complete,
             },
         });
-        const logger : Logger = {
+        const logger: Logger = {
             id: "",
             usuario: User?.nickname || "defaultUser",
             transaction_type: "PUT",
