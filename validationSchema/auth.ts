@@ -10,8 +10,6 @@ const loginSchema = Yup.object({
 export const loginValidation = () => useForm({
     resolver: yupResolver(loginSchema)
 });
-
-
 const registerSchema = Yup.object({
     nickname: Yup.string().required("Por favor, completa este campo"),
     name: Yup.string().required("Por favor, completa este campo"),
@@ -62,7 +60,12 @@ const validationStateSchema = Yup.object({
     name: Yup.string().required("Por favor, completa este campo"),
 
 });
-
 export const changeState = () => useForm({
     resolver: yupResolver(validationStateSchema)
+});
+const validationStateLoad = Yup.object({
+    name: Yup.string().required("Por favor, completa este campo"),
+});
+export const changeStateLoad = () => useForm({
+    resolver: yupResolver(validationStateLoad)
 });

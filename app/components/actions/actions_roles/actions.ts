@@ -95,3 +95,27 @@ export const postUpdateRole = async (id:string,name: string, active: string) => 
     console.error('Error de red', error);
   }
 }
+
+export const postRole = async (name: string, active: string): Promise<boolean> => {
+  try {
+    const response = await fetch('/api/roles/[id]', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        active:parseInt(active, 10),
+      })
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error de red', error);
+    return false;
+  }
+}
