@@ -51,3 +51,26 @@ export const fetchDepartment = async (param: ParamDepartment) => {
       console.error('Error de red', error);
     }
   }
+  export const postDepartment = async (name: string, description: string, unit:string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/departments/[id]', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          description:description,
+          unit:parseInt(unit, 10),
+        })
+      });
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
+    }
+  }
