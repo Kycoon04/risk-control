@@ -3,18 +3,18 @@ import { useEffect, useState } from 'react';
 import React from "react";
 import Question from './question';
 import Pagination from '@mui/material/Pagination';
-import { useAuthStore} from '@/provider/store';
-import { fetchOptions, fetchQuestion, postAnswer} from '../actions/actions';
+import { useAuthStore } from '@/provider/store';
+import { fetchOptions, fetchQuestion, postAnswer } from '../actions/actions';
 import Spinner from '../notifications/Spinner';
 import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
-import {Options,ParamQuestions,Answers, SectionXUser} from '@/types';
-import {putSectionXUser} from '../actions/actions_sectionxuser/actions';
-interface Forms {
-    titule: string | undefined;
-}
-const Componente: React.FC<Forms> = ({ titule }) => {
+import { Options, ParamQuestions, Answers, paramsSection, Section, Form } from '@/types';
+import { putForms } from '../actions/actions_forms/actions';
+import { putSection } from '../actions/actions_sections/actions';
+import { fetchSections } from '../actions/actions_sections/actions';
+const Componente: React.FC<Form> = ({ name }) => {
     const router = useRouter();
+    const forms = useAuthStore((state) => state.form);
     const User = useAuthStore(state => state.user);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const section = useAuthStore((state) => state.section);
@@ -23,7 +23,7 @@ const Componente: React.FC<Forms> = ({ titule }) => {
     const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = React.useState(1);
-
+    const [sections, setSections] = useState<Section[]>([]);
     const QuestionsPerPage = 1;
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -34,21 +34,41 @@ const Componente: React.FC<Forms> = ({ titule }) => {
     }
     const postanswers = async () => {
         for (const option of Object.values(selectedOptions)) {
-            console.log(User?.id,option)
+            console.log(User?.id, option)
             const paramanswer: Answers = {
                 user: User?.id,
                 option: option
             };
-            const response = await postAnswer(paramanswer);
-            console.log(response);
+            await postAnswer(paramanswer);
         }
-        const paramSectionXUser: SectionXUser = {
-            id: "",
-            section: section.id,
-            user: User?.id,
+        const paramSection: paramsSection = {
+            id: section.id,
+            name: section.name,
+            forms: section.forms,
+            description: section.description,
             complete: "Completado",
         };
-        await putSectionXUser(paramSectionXUser);
+        await putSection(paramSection);
+        const updatedSections = sections.map(sec => {
+            console.log("seccion individual", sec.id, " ", section.id);
+            return sec.id === section.id ? { ...sec, complete: "Completado" } : sec;
+        });
+    
+        const allSectionsCompleted = updatedSections.every(sec => sec.complete === "Completado");
+    
+        console.log("Secciones", sections);
+        if (allSectionsCompleted) {
+            console.log(sections);
+            const paramForms: Form = {
+                id: forms?.id || "",
+                name: forms?.name || "",
+                state: forms?.state || "",
+                inicialperiod: forms?.inicialperiod || "",
+                finalperiod: forms?.finalperiod || "",
+                complete: "Completado"
+            };
+            await putForms(paramForms);
+        }
         router.push("/home_page/forms");
     };
 
@@ -98,9 +118,18 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                 description: "",
                 section: id,
             };
-
             const fetchedSections = await fetchQuestion(paramQuestion);
             setQuestions(fetchedSections.props.data);
+
+            const param: paramsSection = {
+                id: "",
+                forms: forms?.id?.toString(),
+                name: "",
+                description: "",
+                complete: "",
+            };
+            const fetchedAllSections = await fetchSections(param);
+            setSections(fetchedAllSections.props.data);
 
             const fetchedOptionsPromises = fetchedSections.props.data.map(async (q: ParamQuestions) => {
                 const paramOptions: Options = {
@@ -108,11 +137,11 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     option: "",
                     question: q.id,
                     score: "",
-                    TlQuestions:{
+                    TlQuestions: {
                         id: "",
-                        question:"",
-                        description:"",
-                        section:"",
+                        question: "",
+                        description: "",
+                        section: "",
                     }
                 };
                 const fetchedOptions = await fetchOptions(paramOptions);
@@ -143,7 +172,7 @@ const Componente: React.FC<Forms> = ({ titule }) => {
                     <button
                         onClick={toggleDropdown}
                         className="flex items-center text-2xl font-normal justify-center w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                        {titule}
+                        {name}
                         <svg className={`w-2.5 h-2.5 ms-2.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                         </svg>

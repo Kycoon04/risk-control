@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import {CreateAnswerData} from "@/types";
+import { CreateAnswerData } from "@/types";
 
 
 export async function POST(req: Request) {
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         const newAnswer = await prisma.tL_Answers.create({
             data: {
                 user: data.user,
-                option:data.option,
+                option: data.option,
             },
         });
         return NextResponse.json(newAnswer);
@@ -22,26 +22,34 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const object = {  id: 0,user:0, option:0} 
+        const object = { id: 0, user: 0, option: 0 }
         const url = _req.url
         const parameters = getParams(url, object)
-        const {id, user,option} = parameters
+        const { id, user, option } = parameters
         const whereCondition = {
-                where: {
-                    id: id,
-                    option: option,
-                    user: user,
-                },
-                include: {
-                    TL_Options: {
-                        include: {
-                            TL_Questions: true,
-                        },
+            where: {
+                id: id,
+                option: option,
+                user: user,
+            },
+            include: {
+                TL_Options: {
+                    include: {
+                        TL_Questions: {
+                            include: {
+                                TL_Sections: {
+                                    include: {
+                                        TL_forms: true,
+                                    }
+                                }
+                            }
+                        }
                     },
                 },
-            };
-            let loggers;
-            loggers = await prisma.tL_Answers.findMany({where: whereCondition.where,include: whereCondition.include});
+            },
+        };
+        let loggers;
+        loggers = await prisma.tL_Answers.findMany({ where: whereCondition.where, include: whereCondition.include });
         return NextResponse.json(loggers);
     } catch (error) {
         console.log(error);
@@ -54,7 +62,7 @@ export async function DELETE(_request: Request) {
         const id = parseInt(getParams(_request.url, { id: 0 }).id);
         const deletedAnswer = await prisma.tL_Answers.delete({
             where: {
-                id:id
+                id: id
             },
         });
 

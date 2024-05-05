@@ -19,6 +19,7 @@ export interface Form {
     state: string;
     inicialperiod: string;
     finalperiod: string;
+    complete:string;
 }
 export const useAuthStore = create<AuthStore>()(persist(
     (set) => ({

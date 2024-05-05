@@ -32,9 +32,12 @@ export async function GET(_req: Request) {
                     forms:forms,
                     department:department
                 },
+                include: {
+                    TL_forms:true,
+                },
             };
             let loggers;
-            loggers = await prisma.tL_DeparXforms.findMany({where: whereCondition.where});
+            loggers = await prisma.tL_DeparXforms.findMany({where: whereCondition.where,include: whereCondition.include});
         return NextResponse.json(loggers);
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 });

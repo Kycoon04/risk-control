@@ -56,3 +56,23 @@ export async function DELETE(_request: Request) {
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
+export async function PUT(req: Request) {
+    try {
+        const { id, name, inicialperiod, finalperiod, complete,state } = await req.json();
+        const updatedSection = await prisma.tL_forms.update({
+            where: {
+                id: id
+            },
+            data: {
+                name: name,
+                inicialperiod: inicialperiod,
+                finalperiod:finalperiod,
+                state: state,
+                complete: complete,
+            },
+        });
+        return NextResponse.json(updatedSection);
+    } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}

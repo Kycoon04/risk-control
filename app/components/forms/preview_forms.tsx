@@ -20,6 +20,7 @@ const Componente: React.FC<ComponenteProps> = ({ id, name, state, inicialperiod,
             state: state,
             inicialperiod: inicialperiod,
             finalperiod: finalperiod,
+            complete:complete
         };
         setForm(newForm);
     };
@@ -42,7 +43,7 @@ const Componente: React.FC<ComponenteProps> = ({ id, name, state, inicialperiod,
                         </Link>
                     </div>
                 ) : (
-                    <div className='bg-gray-400 rounded-3xl text-white' onClick={handleFormSelection}>
+                    <div className='bg-purple-400 rounded-3xl text-white' onClick={handleFormSelection}>
                         <Link href={url}>
                             <FaPen className='text-4xl m-4 tex-white' />
                         </Link>

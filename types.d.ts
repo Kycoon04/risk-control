@@ -19,6 +19,7 @@ export interface Form {
     state: string;
     inicialperiod: string;
     finalperiod: string;
+    complete: string
 };
 
 export interface FieldComponentProps {
@@ -34,9 +35,9 @@ export interface FieldComponentProps {
 export interface PhoneNumberValidationProps {
     phone: string;
     setPhone: React.Dispatch<React.SetStateAction<string>>;
-    register:any,
-    error:undefined | ErrorOption
-    name:string
+    register: any,
+    error: undefined | ErrorOption
+    name: string
 };
 
 export interface Section {
@@ -55,33 +56,33 @@ export interface RoleXUser {
 
 export interface CreateAnswerData {
     user: number;
-    option:number;
+    option: number;
 };
 
 export interface CreateDepartmentData {
-    name:string;
-    description:string;
-    unit:number;
+    name: string;
+    description: string;
+    unit: number;
 };
 
 export interface CreateFormsData {
     name: string;
-    state:number;
-    incialperiod:Date;
-    finalperiod:Date;
+    state: number;
+    incialperiod: Date;
+    finalperiod: Date;
     complete: string;
 };
 
 export interface CreateFormsXUserData {
     id: number;
-    Forms:number;
-    User:number;
-    complete:string;
+    Forms: number;
+    User: number;
+    complete: string;
 };
 
 export export interface Logger {
-    id:string;
-    usuario:string,
+    id: string;
+    usuario: string,
     transaction_type: string,
     role: string,
     transaction: string,
@@ -91,7 +92,7 @@ export export interface Logger {
 
 export interface CreateDepartmentXFormsData {
     departament: number;
-    forms:number;
+    forms: number;
 };
 
 export interface Role {
@@ -108,15 +109,15 @@ export interface TlQuestions { // Ask about the file type ""
 };
 
 export interface CreateOptionData {
-    option:string;
-    question:number;
-    score:number;
+    option: string;
+    question: number;
+    score: number;
 };
 
 export interface CreateQuestionData {
-    question:string;
-    description:string;
-    section:number;
+    question: string;
+    description: string;
+    section: number;
 
 };
 
@@ -133,29 +134,29 @@ export interface CreateRoleXUserData {
 
 export interface CreateSectionData {
     name: string;
-    description:string;
-    forms:number;
-    complete:string;
+    description: string;
+    forms: number;
+    complete: string;
 };
 
 export interface UpdateSectionData {
     id: number;
     name: string;
-    description:string;
-    forms:number;
-    complete:string;
+    description: string;
+    forms: number;
+    complete: string;
 };
 
 export interface CreateSectionXUserData {
     id: number;
-    section:number;
-    user:number;
-    complete:string;
+    section: number;
+    user: number;
+    complete: string;
 };
 
 export interface CreateUnitData {
-    name:string;
-    description:string;
+    name: string;
+    description: string;
 };
 
 export interface CreateUserData {
@@ -197,7 +198,12 @@ export interface graphicData {
         data: number[];
     }[];
 };
-
+export interface DepartXForms {
+    departament: number;
+    forms: number;
+    id: number;
+    TL_forms: Form;
+};
 
 export interface Field {
     titule: string;
@@ -235,7 +241,7 @@ export interface Answers {
 };
 
 export interface ParamDepartmentStandardChoiceBox {
-    id:string;
+    id: string;
     name: string;
 };
 
@@ -243,7 +249,7 @@ export interface StandardChoiceBoxProps {
     data: ParamDepartmentStandardChoiceBox[];
     selectData: string;
     onChange: (value: string) => void;
-    titule:string;
+    titule: string;
 }
 
 export interface StandardChoiceBoxStates {
@@ -269,7 +275,7 @@ export interface ParamSection {
 export interface Card {
     image: string;
     titule: string;
-    subtitule:string;
+    subtitule: string;
 };
 
 export interface ParamDepartment {
@@ -281,39 +287,57 @@ export interface ParamDepartment {
 };
 
 export interface paramsDepartXForms {
-    departament: number;
-    forms: number;
-    id: number;
+    department: string | undefined;
+    forms: string;
+    id: string;
 };
 
 export interface FecthAnswers {
     user: string | undefined;
     option: string | null;
     TL_Options: {
-      id: string
-      option: string
-      question: string | undefined;
-      score: string;
-      TL_Questions: ParamQuestions;
+        id: string
+        option: string
+        question: string | undefined;
+        score: string;
+        TL_Questions: {
+            id: string;
+            question: string;
+            description: string;
+            section: {
+                id: string,
+                name: string,
+                description: string,
+                forms:{
+                    id: string;
+                    name: string;
+                    state: string;
+                    inicialperiod: string;
+                    finalperiod: string;
+                    complete: string
+                },
+                complete: string,
+            }
+        }
     };
-  };
+};
 
-  export interface SectionXUser {
+export interface SectionXUser {
     id: string;
-    section:string;
-    user:string | undefined;
-    complete:string;
-  };
+    section: string;
+    user: string | undefined;
+    complete: string;
+};
 
-  export interface FormsXUser {
+export interface FormsXUser {
     id: string;
-    Forms:string| undefined;
-    User:string | undefined;
-    complete:string;
-  };
+    Forms: string | undefined;
+    User: string | undefined;
+    complete: string;
+};
 
-  export interface ParamUnit{
+export interface ParamUnit {
     id: string;
-    name:string;
-    description:string;
-  };
+    name: string;
+    description: string;
+};

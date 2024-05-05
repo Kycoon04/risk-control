@@ -46,3 +46,29 @@ import {ParamSection, paramsSection} from '@/types';
       }
     }
   }
+  export const putSection = async (param: paramsSection): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/sections/[id]', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: param.id,
+          name: param.name,
+          description: param.description,
+          forms: param.forms,
+          complete: param.complete
+        })
+      });
+  
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
+    }
+  }

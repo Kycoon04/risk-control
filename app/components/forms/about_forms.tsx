@@ -15,7 +15,6 @@ const Componente: React.FC = () => {
     const user = useAuthStore((state) => state.user);
     const [sections, setSections] = useState<Section[]>([]);
     const [Answers, setAnswers] = useState<FecthAnswers[]>([]);
-    const [sectionxuser, setSectionxuser] = useState<SectionXUser[]>([]);
     const param: paramsSection = {
         id: "",
         forms: forms?.id?.toString(),
@@ -25,7 +24,7 @@ const Componente: React.FC = () => {
     };
     const answer = {
         id: "",
-        user: user?.id,
+        user: "",
         option: "",
         TL_Options: {
             id: "",
@@ -36,22 +35,23 @@ const Componente: React.FC = () => {
                 id: "",
                 question:"",
                 description:"",
-                section:"",
+                section:{
+                    id: "",
+                    name: "",
+                    description: "",
+                    forms:{
+                        id: forms?.id.toString() || "",
+                        name: "",
+                        state: "",
+                        inicialperiod: "",
+                        finalperiod: "",
+                        complete: ""
+                    },
+                    complete: "",
+                },
             }
         },
     };
-    const sectionXuser = {
-        id:"",
-        section:"",
-        user:user?.id,
-        complete:"",
-    };
-    const formsXuser = {
-        id: "",
-        Forms: forms?.id,
-        User:user?.id,
-        complete:"",
-    }
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
@@ -59,14 +59,6 @@ const Componente: React.FC = () => {
             setSections(fetchedSections.props.data);
             const fetchedAnswers = await fetchAnswers(answer)
             setAnswers(fetchedAnswers.props.data);
-            const fetchedsectionxuser = await fetchSectionXUser(sectionXuser);
-            setSectionxuser(fetchedsectionxuser.props.data); 
-            const fecthedformsxuser = await fetchFormXUser(formsXuser);
-            if(sections.every(section => sectionxuser.some(sxu => sxu.section === section.id && sxu.complete === 'Completado')) && fecthedformsxuser.props.data[0].complete !== "Completado"){
-                formsXuser.complete = "Completado";
-                console.log(formsXuser)
-                await putFormsXUser(formsXuser);
-            }
             setIsLoading(false);
         };
         fetchData();
@@ -78,10 +70,10 @@ const Componente: React.FC = () => {
             Answers.forEach(answer => {
                 const section = answer.TL_Options.TL_Questions.section;
                 if (section) {
-                    if (!sectionScores[section]) {
-                        sectionScores[section] = [];
+                    if (!sectionScores[section.id]) {
+                        sectionScores[section.id] = [];
                     }
-                    sectionScores[section].push(parseInt(answer.TL_Options.score, 10));
+                    sectionScores[section.id].push(parseInt(answer.TL_Options.score, 10));
                 }
             });
             const sectionAverages: number[] = [];
@@ -96,7 +88,7 @@ const Componente: React.FC = () => {
             return sectionAverages;
         };
     
-        if (!isLoading && Answers.length > 0 && sections.length > 0) { // Verifica que todos los datos estén disponibles
+        if (!isLoading && Answers.length > 0 && sections.length > 0) { 
             const sectionNames: string[] = sections.map(section => section.name);
             setBarData(prevState => ({
                 ...prevState,
@@ -138,7 +130,7 @@ const Componente: React.FC = () => {
                 {isLoading ? (
                     <Spinner />
                 ) : (
-                    sections.every(section => sectionxuser.some(sxu => sxu.section === section.id && sxu.complete === 'Completado')) ? (
+                    forms?.complete === "Completado" ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
                             <div className="w-full sm:h-96 flex justify-center items-center">
                                 <Barchart data={barData} />
@@ -149,10 +141,7 @@ const Componente: React.FC = () => {
                         </div>
                     ) : (
                         sections.map((form) => (
-                            <Preview_Section key={form.id} id={form.id} name={form.name} description={form.description} forms={form.forms} complete={sectionxuser.some(sxu => sxu.section === form.id && sxu.complete === 'Completado')
-                                ? 'Completado'
-                                : 'Sin Completar'
-                        } />
+                            <Preview_Section key={form.id} id={form.id} name={form.name} description={form.description} forms={form.forms} complete={form.complete} />
                         ))
                     )
                 )}
