@@ -72,7 +72,7 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
             };
             await putForms(paramForms);
         }
-        router.push("/home_page/forms");
+        router.push("/home_page");
     };
 
     const handleButtonClick = (questionId: string, optionSelect: string) => {

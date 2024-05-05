@@ -304,11 +304,13 @@ export interface FecthAnswers {
             id: string;
             question: string;
             description: string;
-            section: {
+            section: string;
+            TL_Sections: {
                 id: string,
                 name: string,
                 description: string,
-                forms:{
+                forms: string,
+                TL_forms:{
                     id: string;
                     name: string;
                     state: string;

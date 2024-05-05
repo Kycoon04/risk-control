@@ -5,10 +5,8 @@ import Preview_Section from "../sections/preview_section";
 import { useAuthStore } from "@/provider/store";
 import Barchart from '../graphics/Barchart';
 import Radarchart from '../graphics/Radarchart';
-import { Section,SectionXUser,graphicData,paramsSection, FormsXUser } from '@/types';
+import { Section,graphicData,paramsSection} from '@/types';
 import {FecthAnswers} from '@/types';
-import { fetchSectionXUser } from '../actions/actions_sectionxuser/actions';
-import {fetchFormXUser,putFormsXUser} from '../actions/actions_formsxuser/actions';
 const Componente: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const forms = useAuthStore((state) => state.form);
@@ -35,11 +33,13 @@ const Componente: React.FC = () => {
                 id: "",
                 question:"",
                 description:"",
-                section:{
+                section:"",
+                TL_Sections:{
                     id: "",
                     name: "",
                     description: "",
-                    forms:{
+                    forms:"",
+                    TL_forms:{
                         id: forms?.id.toString() || "",
                         name: "",
                         state: "",
@@ -68,12 +68,12 @@ const Componente: React.FC = () => {
         const generateRandomData = () => {
             const sectionScores: { [section: string]: number[] } = {};
             Answers.forEach(answer => {
-                const section = answer.TL_Options.TL_Questions.section;
+                const section = answer.TL_Options.TL_Questions.TL_Sections;
                 if (section) {
-                    if (!sectionScores[section.id]) {
-                        sectionScores[section.id] = [];
+                    if (!sectionScores[parseInt(section.id)]) {
+                        sectionScores[parseInt(section.id)] = [];
                     }
-                    sectionScores[section.id].push(parseInt(answer.TL_Options.score, 10));
+                    sectionScores[parseInt(section.id)].push(parseInt(answer.TL_Options.score, 10));
                 }
             });
             const sectionAverages: number[] = [];
