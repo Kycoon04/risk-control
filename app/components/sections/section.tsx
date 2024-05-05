@@ -12,7 +12,10 @@ import { Options, ParamQuestions, Answers, paramsSection, Section, Form } from '
 import { putForms } from '../actions/actions_forms/actions';
 import { putSection } from '../actions/actions_sections/actions';
 import { fetchSections } from '../actions/actions_sections/actions';
-const Componente: React.FC<Form> = ({ name }) => {
+interface FormsTitule {
+    titule: string | undefined;
+}
+const Componente: React.FC<FormsTitule> = ({ titule }) => {
     const router = useRouter();
     const forms = useAuthStore((state) => state.form);
     const User = useAuthStore(state => state.user);
@@ -172,7 +175,7 @@ const Componente: React.FC<Form> = ({ name }) => {
                     <button
                         onClick={toggleDropdown}
                         className="flex items-center text-2xl font-normal justify-center w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                        {name}
+                        {titule}
                         <svg className={`w-2.5 h-2.5 ms-2.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                         </svg>
