@@ -49,3 +49,26 @@ export const fetchUnit = async (param: ParamUnit) => {
       console.error('Error de red', error);
     }
   }
+  export const postUnit = async (name: string, description: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/units/[id]', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          description:description,
+        })
+      });
+  
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
+    }
+  }
