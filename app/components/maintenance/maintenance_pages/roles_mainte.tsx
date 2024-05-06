@@ -70,7 +70,6 @@ const RolesMaintenance: React.FC = () => {
         }
     };
     const handleModifyRole = async (role:Role) => {
-        console.log(role.id+" "+role.name+" "+role.active)
         setRole(role);
     };
 

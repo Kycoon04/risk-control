@@ -3,8 +3,6 @@ import Link from 'next/link';
 import { ParamUnit } from "@/types";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { fetchUnit  } from '../../actions/actions_units/actions';
-import {Error,Success} from '../../notifications/alerts';
 interface Card extends ParamUnit {
     prompt_one: string;
     prompt_two: string;

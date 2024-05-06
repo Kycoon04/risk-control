@@ -45,7 +45,7 @@ export interface Section {
     name: string,
     description: string,
     forms: string,
-    complete: string
+    complete: string,
 };
 
 export interface RoleXUser {
