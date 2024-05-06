@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { IoSearch } from "react-icons/io5";
 import { Logger } from "@/types";
@@ -9,11 +9,15 @@ interface FilterDropdownProps {
     clearFilters: () => void;
 }
 const FilterDropdown: React.FC<FilterDropdownProps> = ({ filters, handleInputChange, handleSelectChange, clearFilters }) => {
-    const isOpen = Object.keys(filters).length > 0;
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div className="flex flex-wrap flex-col mb-16">
             <button
-                onClick={clearFilters}
+                onClick={toggleDropdown}
                 className={`flex items-center justify-center w-full py-2 px-3 text-white rounded hover:text-purple-300 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent ${isOpen ? 'bg-red-600' : ''}`}>
                 <IoSearch className="text-white text-xl" />
                 <svg

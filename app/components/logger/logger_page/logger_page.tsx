@@ -2,20 +2,15 @@ import React, { useEffect, useState } from "react";
 import PreviewLogger from "../preview_logger";
 import { fectLogger } from "../../../api/logger/actions";
 import Spinner from "../../notifications/Spinner";
-import { IoSearch } from "react-icons/io5";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PaginationBar from "./paginationBar";
 import FilterDropdown from "./filterDropdown";
-import { Pagination } from "@mui/material";
 import { Logger } from "@/types";
-
 
 const Componente: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [loggers, setLoggers] = useState<Logger[]>([]);
     const [unfilteredLoggers, setUnfilteredLoggers] = useState<Logger[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
     const [filters, setFilters] = useState<Partial<Logger>>({
         id: "",
         usuario: "",
@@ -27,10 +22,6 @@ const Componente: React.FC = () => {
     });
     const [currentPage, setCurrentPage] = useState<number>(1);
     const itemsPerPage = 6;
-
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
 
     const clearFilters = () => {
         setFilters({
@@ -112,7 +103,7 @@ const Componente: React.FC = () => {
                     filters={filters}
                     handleInputChange={handleInputChange}
                     handleSelectChange={handleSelectChange}
-                    clearFilters={() => setFilters({})}
+                    clearFilters={() => clearFilters()}
                 />
                 {isLoading ? (
                     <Spinner />
