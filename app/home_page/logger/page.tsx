@@ -2,7 +2,7 @@
 import Admin_global from '../../components/forms/admin_homepage'
 import User_global from '../../components/forms/about_forms'
 import Forms_page from '../../components/forms/forms_page'
-import Section from '../../components/logger/logger_page'
+import Section from '../../components/logger/logger_page/logger_page'
 export default function Home() {
 
   return (

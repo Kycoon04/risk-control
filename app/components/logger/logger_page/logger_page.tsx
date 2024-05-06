@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import PreviewLogger from "./preview_logger";
-import { fectLogger } from "../../api/logger/actions";
-import Spinner from "../notifications/Spinner";
+import PreviewLogger from "../preview_logger";
+import { fectLogger } from "../../../api/logger/actions";
+import Spinner from "../../notifications/Spinner";
 import { IoSearch } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import PaginationBar from "./paginationBar";
+import FilterDropdown from "./filterDropdown";
 import { Pagination } from "@mui/material";
 import { Logger } from "@/types";
-
 
 
 const Componente: React.FC = () => {
@@ -107,72 +108,12 @@ const Componente: React.FC = () => {
                 Registro de actividades
             </h1>
             <div className="m-5 p-2 flex flex-col">
-                <div className="flex flex-wrap flex-col mb-16">
-                    <button
-                        onClick={toggleDropdown}
-                        className="flex items-center justify-center w-full py-2 px-3 text-white rounded hover:text-purple-300 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                        <IoSearch className="text-white text-xl" />
-                        <svg
-                            className={`w-3 h-2.5 ms-2.5 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 10 6">
-                            <path
-                                stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-                    <div className="flex flex-col items-center justify-center">
-                        {isOpen &&
-                            Object.keys(filters).map((key) => {
-                                if (key === "date" || key === "transaction_type") {
-                                    return null;
-                                }
-                                return (
-                                    <input
-                                        key={key}
-                                        type="text"
-                                        name={key}
-                                        value={filters[key as keyof Logger]}
-                                        onChange={handleInputChange}
-                                        placeholder={`Filtrar por ${key}`}
-                                        className="m-2 p-2 border border-gray-500 rounded-md text-black w-[70%]" />
-                                );
-                            })}
-                        {isOpen && filters.hasOwnProperty("transaction_type") && (
-                            <select
-                                name="transaction_type"
-                                value={filters.transaction_type}
-                                onChange={handleSelectChange}
-                                className="m-2 p-2 border border-gray-500 rounded-md text-black">
-                                <option value="" disabled hidden>
-                                    Filtrar por tipo de transacción
-                                </option>
-                                <option value="GET">GET</option>
-                                <option value="POST">POST</option>
-                                <option value="DELETE">DELETE</option>
-                            </select>
-                        )}
-                        {isOpen && filters.hasOwnProperty("date") && (
-                            <DatePicker
-                                selected={
-                                    filters.date ? new Date(filters.date) : undefined
-                                }
-                                onChange={(date: Date) =>
-                                    setFilters({ ...filters, date: date.toISOString() })
-                                }
-                                placeholderText="Filtrar por fecha"
-                                className="m-2 p-2 border border-gray-500 rounded-md text-black" />
-                        )}
-                        {isOpen && (
-                            <button
-                                onClick={clearFilters}
-                                className="mt-4 py-2 px-4 bg-red-600 text-white rounded-md shadow-md hover:bg-red-700">
-                                Limpiar Filtros
-                            </button>
-                        )}
-                    </div>
-                </div>
+                <FilterDropdown
+                    filters={filters}
+                    handleInputChange={handleInputChange}
+                    handleSelectChange={handleSelectChange}
+                    clearFilters={() => setFilters({})}
+                />
                 {isLoading ? (
                     <Spinner />
                 ) : (
@@ -192,14 +133,11 @@ const Componente: React.FC = () => {
                     </div>
                 )}
                 <div className="flex justify-center">
-                    <Pagination
-                        className='mt-5 bg-white rounded-lg p-2'
-                        count={Math.ceil(loggers.length / itemsPerPage)}
-                        page={currentPage}
-                        showFirstButton
-                        showLastButton
-                        onChange={(event, page) => changePage(page)}
-                    />
+                    <PaginationBar
+                        loggers={loggers}
+                        itemsPerPage={itemsPerPage}
+                        currentPage={currentPage}
+                        changePage={changePage}/>
                 </div>
             </div>
         </div>
