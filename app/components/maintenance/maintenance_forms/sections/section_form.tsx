@@ -6,7 +6,7 @@ import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeChange } from '@/validationSchema/auth';
-import { putSection} from '@/app/components/actions/actions_sections/actions'
+import { putUpdateSection} from '@/app/components/actions/actions_sections/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/section_storage';
@@ -41,7 +41,7 @@ const Section_Form: React.FC = () => {
     const submitForm = async () => {
         try {
             const newSection:Section={id: id, name:name, description:description,forms:form,complete:complete}
-            const section = await putSection(newSection);
+            const section = await putUpdateSection(newSection);
             if (true) {
               Success('Seccion actualizada');
             } else {

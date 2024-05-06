@@ -29,7 +29,6 @@ const Section_Form: React.FC = () => {
     }, []);
     const submitForm = async () => {
         try {
-            console.log(name + " "+ description + " " + form + " "+ complete);
             const section = await postSection(name,description,form,complete);
             if (true) {
               Success('Seccion registrada');
