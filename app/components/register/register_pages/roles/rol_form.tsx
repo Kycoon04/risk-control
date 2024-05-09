@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
 import Standard_button from '@/app/components/utils_forms/Button';
-import { changeStateLoad } from '@/validationSchema/auth';
+import { changeStateLoad } from '@/lib/auth';
 import { postRole} from '@/app/components/actions/actions_roles/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';

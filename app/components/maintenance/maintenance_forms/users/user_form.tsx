@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
 import Standard_button from '@/app/components/utils_forms/Button';
-import { registerValidation } from '@/validationSchema/auth';
+import { registerValidation } from '@/lib/auth';
 import PhoneNumberValidation from '@/app/components/utils_forms/International_Phone';
 import { postUpdateUser} from '@/app/components/actions/actions_users/actions'
 import ChoiseBox from '@/app/components/register/selectDepart';
