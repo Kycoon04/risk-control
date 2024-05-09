@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
-import { makeValidationLoad } from '@/lib/auth';
+import { makeValidationLoad } from '@/validationSchema/auth';
 import { postSection} from '@/app/components/actions/actions_sections/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';

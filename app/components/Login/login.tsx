@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
 import { PublicClientApplication } from '@azure/msal-browser';
-import { config } from '@/lib/Config';
+import { config } from '@/Config';
 import { fetchUsers, fetchUserRole, fetchRole } from '../actions/actions';
 import { useAuthStore } from '@/provider/store';
 import { ToastContainer } from 'react-toastify';
