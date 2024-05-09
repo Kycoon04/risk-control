@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Field from '../utils_forms/Field';
 import Standard_button from '../utils_forms/Button';
-import { registerValidation } from '@/validationSchema/auth';
+import { registerValidation } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 import PhoneNumberValidation from '../utils_forms/International_Phone';
 import { postUser} from '../actions/actions'
