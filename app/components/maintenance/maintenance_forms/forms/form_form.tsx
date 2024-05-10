@@ -34,6 +34,8 @@ const Form_Form: React.FC = () => {
         if (Form) {
             setLoading(false);
         }
+        const State = Form.state == '1' ? 'Activo' : 'Inactivo';
+        setState(State);
     }, [Form]);
     useEffect(() => {
         if (Form?.inicialperiod) {
