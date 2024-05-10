@@ -6,7 +6,7 @@ import SectionCard from "../maintenance_cards/section_card";
 import { useEffect, useState } from "react";
 import { deleteSection, fetchSections } from "../../actions/actions_sections/actions";
 import Spinner from "../../notifications/Spinner";
-import Filter from "../../utils_comp/filter";
+import Filter from "../../utils_comp/Filters/filter";
 import { Success,Error } from "../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/section_storage';
 const SectionMaintenance: React.FC = () => {

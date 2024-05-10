@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from 'next/navigation';
 import Profile from '../../components/Login/profile'
 export default function Home() {
   return (

@@ -4,7 +4,7 @@ import UserCard from "../maintenance_cards/card_maintenance";
 import { useEffect, useState } from "react";
 import { fetchUsers, deleteUser } from "../../actions/actions_users/actions";
 import Spinner from "../../notifications/Spinner";
-import Filter from "../../utils_comp/filter";
+import Filter from "../../utils_comp/Filters/filter";
 import { Success, Error } from "../../notifications/alerts";
 import { ToastContainer } from "react-toastify";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';

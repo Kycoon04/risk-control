@@ -5,7 +5,7 @@ import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
-import { makeChange } from '@/lib/auth';
+import { makeChange } from '@/lib/validation/makeChange';
 import { putUpdateSection} from '@/app/components/actions/actions_sections/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';
