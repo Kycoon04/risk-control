@@ -5,7 +5,7 @@ type AuthStore = {
     logged: boolean;
     rol: string;
     user: User | null;
-    form: Form | null;
+    form: Form;
     section: Section;
     changeLogged: () => void;
     setUser: (newUser: User) => void;
@@ -26,7 +26,14 @@ export const useAuthStore = create<AuthStore>()(persist(
         rol: "",
         logged: false,
         user: null,
-        form: null,
+        form: {
+            id: "",
+            name: "",
+            state: "",
+            inicialperiod: "",
+            finalperiod: "",
+            complete:""
+        },
         section: {
             id: "",
             name: "",

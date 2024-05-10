@@ -12,9 +12,11 @@ import { Options, ParamQuestions, Answers, paramsSection, Section, Form } from '
 import { putForms } from '../actions/actions_forms/actions';
 import { putSection } from '../actions/actions_sections/actions';
 import { fetchSections } from '../actions/actions_sections/actions';
+
 interface FormsTitule {
     titule: string | undefined;
 }
+
 const Componente: React.FC<FormsTitule> = ({ titule }) => {
     const router = useRouter();
     const forms = useAuthStore((state) => state.form);
@@ -24,20 +26,16 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
     const [questions, setQuestions] = useState<ParamQuestions[]>([]);
     const [allOptions, setAllOptions] = useState<Options[][]>([]);
     const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string | null }>({});
-    const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = React.useState(1);
     const [sections, setSections] = useState<Section[]>([]);
     const QuestionsPerPage = 1;
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     }
+    
     const postanswers = async () => {
         for (const option of Object.values(selectedOptions)) {
-            console.log(User?.id, option)
             const paramanswer: Answers = {
                 user: User?.id,
                 option: option
@@ -53,13 +51,9 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
         };
         await putSection(paramSection);
         const updatedSections = sections.map(sec => {
-            console.log("seccion individual", sec.id, " ", section.id);
             return sec.id === section.id ? { ...sec, complete: "Completado" } : sec;
         });
-    
         const allSectionsCompleted = updatedSections.every(sec => sec.complete === "Completado");
-    
-        console.log("Secciones", sections);
         if (allSectionsCompleted) {
             console.log(sections);
             const paramForms: Form = {
@@ -80,8 +74,8 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
             ...prevState,
             [questionId]: optionSelect
         }));
-        console.log(selectedOptions);
     };
+
     const renderQuestions = () => {
         const startIndex = (page - 1) * QuestionsPerPage;
         const endIndex = startIndex + QuestionsPerPage;
@@ -95,7 +89,6 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
                     id,
                     option: optionsForQuestion.option[index]
                 }));
-
                 return (
                     <Question
                         key={q.id}
@@ -107,7 +100,6 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
                     />
                 );
             });
-
         return renderedQuestions;
     };
 
@@ -156,6 +148,7 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
         };
         fetchData();
     }, [section]);
+
     const questionData = questions.map((q, index) => {
         const optionsForQuestion = allOptions[index] || [];
         return {
@@ -168,38 +161,11 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
             }
         };
     });
+
     return (
         <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md justify-center items-center flex'>
             <div className='bg-gray-200 w-[90%] m-10 p-5 rounded-3xl flex flex-col items-center justify-center'>
-                <div className="relative hover:text-black m-5">
-                    <button
-                        onClick={toggleDropdown}
-                        className="flex items-center text-2xl font-normal justify-center w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-purple-300 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                        {titule}
-                        <svg className={`w-2.5 h-2.5 ms-2.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                        </svg>
-                    </button>
-                    {isOpen && (
-                        <div className="absolute z-10 top-full left-0 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 max-h-48 overflow-y-auto">
-                            <ul
-                                className="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                aria-labelledby="dropdownLargeButton">
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Riesgo</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Actividades</a>
-                                </li>
-                                <li>
-                                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sistemas</a>
-                                </li>
-                                <li>
-                                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Seguimiento</a>
-                                </li>
-                            </ul>
-                        </div>)}
-                </div>
+                <div className='text-3xl my-5'>{titule}</div>
                 <div className='m-5 items-center flex-col flex '>
                     {isLoading ? (
                         <Spinner />
