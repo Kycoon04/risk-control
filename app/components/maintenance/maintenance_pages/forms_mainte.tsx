@@ -6,7 +6,7 @@ import FormCard from "../maintenance_cards/form_card";
 import { useEffect, useState } from "react";
 import { deleteForms, fetchForms} from "../../actions/actions_forms/actions";
 import Spinner from "../../notifications/Spinner";
-import Filter from "../../utils_comp/filter";
+import Filter from "../../utils_comp/Filters/filter";
 import { Success,Error } from "../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
 const FormsMaintenance: React.FC = () => {

@@ -5,7 +5,7 @@ import {ParamUnit} from "@/types";
 import { useState, useEffect } from "react";
 import {fetchUnit, deleteUnit} from "../../actions/actions_units/actions";
 import Spinner from "../../notifications/Spinner";
-import Filter from "../../utils_comp/filter";
+import Filter from "../../utils_comp/Filters/filter";
 import { Success, Error } from "../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/unit_storage';
 import UnitCard from "../maintenance_cards/unit_card"

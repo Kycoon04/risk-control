@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FaRegPlusSquare } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Spinner from "../../notifications/Spinner";
-import Filter from "../../utils_comp/filter";
+import Filter from "../../utils_comp/Filters/filter";
 import { Success, Error } from "../../notifications/alerts";
 import {Role} from "@/types";
 import {fetchRoleAll, deleteRole} from "../../actions/actions_roles/actions";

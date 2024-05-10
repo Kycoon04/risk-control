@@ -5,7 +5,7 @@ import { ParamDepartment } from "@/types";
 import { useState, useEffect } from "react";
 import {fetchDepartment, deleteDepartment} from "../../actions/actions_departments/actions";
 import Spinner from "../../notifications/Spinner";
-import Filter from "../../utils_comp/filter";
+import Filter from "../../utils_comp/Filters/filter";
 import DepartmentCard from "../maintenance_cards/department_card";
 import { Success, Error } from "../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/department.storage';
