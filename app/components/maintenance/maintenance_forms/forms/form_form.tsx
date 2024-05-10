@@ -6,7 +6,7 @@ import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
-import { changeState } from '@/validationSchema/auth';
+import { changeState } from '@/lib/validation/changeState';
 import { putForms} from '@/app/components/actions/actions_forms/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';

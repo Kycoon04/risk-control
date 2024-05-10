@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Standard_button from '@/app/components/utils_forms/Button';
-import { changeState } from '@/lib/auth';
+import { changeState } from '@/lib/validation/changeState';
 import { postUpdateRole} from '@/app/components/actions/actions_roles/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/role_storage';
