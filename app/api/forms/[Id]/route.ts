@@ -7,15 +7,16 @@ import { postLogger } from "../../logger/actions";
 
 export async function POST(req: Request) {
     try {
-        const data: CreateFormsData = await req.json();
+        const { name, inicialperiod, finalperiod, complete, state } = await req.json();
+        console.log(req.json())
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
         const newForms = await prisma.tL_forms.create({
             data: {
-                name: data.name,
-                state: data.state,
-                inicialperiod: data.incialperiod,
-                finalperiod: data.finalperiod,
-                complete: data.complete
+                name: name,
+                inicialperiod: inicialperiod,
+                finalperiod: finalperiod,
+                state: state,
+                complete: complete,
             },
         });
         const logger: Logger = {
@@ -30,6 +31,7 @@ export async function POST(req: Request) {
         await postLogger(logger);
         return NextResponse.json(newForms);
     } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

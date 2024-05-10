@@ -34,15 +34,41 @@ export const putForms = async (param: Form): Promise<boolean> => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id: param.id,
+        id: parseInt(param.id,10),
         name: param.name,
-        state: param.state,
-        inicialperiod: param.inicialperiod,
-        finalperiod: param.finalperiod,
-        complete: param.complete
+        inicialperiod: new Date(param.inicialperiod),
+        finalperiod: new Date(param.finalperiod),
+        complete: param.complete,
+        state: parseInt(param.state,10)
       })
     });
 
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error de red', error);
+    return false;
+  }
+}
+
+export const postForm = async (param: Form): Promise<boolean> => {
+  try {
+    const response = await fetch('/api/forms/[id]', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: param.name,
+        inicialperiod: new Date(param.inicialperiod),
+        finalperiod: new Date(param.finalperiod),
+        complete: param.complete,
+        state: parseInt(param.state,10)
+      })
+    });
     if (response.ok) {
       return true;
     } else {

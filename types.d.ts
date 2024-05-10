@@ -32,6 +32,14 @@ export interface FieldComponentProps {
     name: string
 };
 
+export interface DatePickerComponent{
+    value: Date;
+    titule: string;
+    setText_Field: React.Dispatch<React.SetStateAction<Date>>;
+    //error: undefined | ErrorOption
+
+}
+
 export interface PhoneNumberValidationProps {
     phone: string;
     setPhone: React.Dispatch<React.SetStateAction<string>>;
