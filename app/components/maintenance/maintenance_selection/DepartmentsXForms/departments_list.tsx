@@ -10,7 +10,8 @@ import Filter from "../../../utils_comp/Filters/filter";
 import DepartmentCard from "../../../maintenance/maintenance_selection/DepartmentsXForms/department_card";
 import { Success, Error } from "../../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
-import {deleteDepartXIdForms, postDepartXForm} from "../../../actions/actions_deparxforms/actions"
+import {deleteDepartXIdForms, postDepartXForm} from "../../../actions/actions_deparxforms/actions";
+import { IoReturnDownBack } from "react-icons/io5";
 const DepartmentsList: React.FC = () => {
     const param: ParamDepartment = {
         id: "",
@@ -114,6 +115,15 @@ const DepartmentsList: React.FC = () => {
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-3xl items-center justify-center'>
             <Filter<ParamDepartment> filters={filters} setFilters={setFilters} clearFilters={clearFilters} />
+            <div className="bg-gray-200 w-full flex flex-wrap gap-5 rounded-md px-5 place-items-end mb-4">
+                    <div className="w-full md:w-auto flex justify-start items-center">
+                        <div className='bg-purple-400 flex  gap-3 md:gap-5 rounded-2xl text-white cursor-pointer mr-4 md:mr-12 place-items-end p-2 md:p-3 border-4 text-xs md:text-base' >
+                            <Link href={'/home_page/maintenance/mainte_forms/forms_form/'}>
+                                <IoReturnDownBack className="text-white font text-2xl md:text-4xl hover:text-slate-300" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
                 {isLoading ? (
                     <Spinner />) : (
                     departmentsState.map((departState) => (
