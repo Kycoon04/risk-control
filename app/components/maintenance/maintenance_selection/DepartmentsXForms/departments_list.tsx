@@ -12,14 +12,8 @@ import { Success, Error } from "../../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
 import {deleteDepartXIdForms, postDepartXForm} from "../../../actions/actions_deparxforms/actions";
 import { IoReturnDownBack } from "react-icons/io5";
+import {param,importList} from '../DepartmentsXForms/selection_methods'
 const DepartmentsList: React.FC = () => {
-    const param: ParamDepartment = {
-        id: "",
-        name: "",
-        description: "",
-        unit: "",
-    
-    };
     const [departments,setDepartments] =useState<ParamDepartment[]>([]);
     const [departmentsState,setDepartmentsState] =useState<departmentSelected[]>([]);
     const [departXForm,setDepartXForms] =useState<departXForms[]>([]);
@@ -27,7 +21,6 @@ const DepartmentsList: React.FC = () => {
     const [unfiltered, setUnfiltered] = useState<ParamDepartment[]>([]);
     const [filters, setFilters] = useState<Partial<ParamDepartment>>(param);
     const form = useAuthStore(state => state.form);
-
     const clearFilters = () => {
         setFilters(param);
         setDepartments(unfiltered);
@@ -48,20 +41,11 @@ const DepartmentsList: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const list: departmentSelected[] = [];
-            for (let i = 0; i < departments.length; i++) {
-                const isDepartmentSelected = departXForm.some(depForm => depForm.department === departments[i].id);
-                list.push({
-                    department: departments[i],
-                    state: isDepartmentSelected ? "Agregado" : "No Agregado",
-                });
-            }
+            const list = importList(departXForm, departments);
             setDepartmentsState(list);
             console.log(departmentsState)
         };
-        if (departments.length > 0 && departXForm.length > 0) {
-            fetchData();
-        }
+        if (departments.length > 0 && departXForm.length > 0) {fetchData();}
     }, [departments, departXForm]);
     useEffect(() => {
         const applyFilters = () => {
@@ -86,7 +70,6 @@ const DepartmentsList: React.FC = () => {
 
     const handleDeleteDepartment = async (departmentId: string) => {
         const deletionResult = await deleteDepartXIdForms(parseInt(form.id, 10),parseInt(departmentId, 10));
-
         if (deletionResult) {
             Success('Departamento eliminado correctamente')
             const fetchedSections = await fetchDepartment(param);
@@ -100,7 +83,6 @@ const DepartmentsList: React.FC = () => {
     };
     const handleAddDepartment = async (departmentId: string) => {
         const deletionResult = await postDepartXForm(parseInt(form.id, 10),parseInt(departmentId, 10));
-
         if (deletionResult) {
             Success('Departamento agregado correctamente')
             const fetchedSections = await fetchDepartment(param);
@@ -132,5 +114,4 @@ const DepartmentsList: React.FC = () => {
         </div>
     );
 };
-
 export default DepartmentsList;

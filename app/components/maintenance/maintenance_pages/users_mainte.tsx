@@ -67,7 +67,6 @@ const UsersMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
 
     const handleDeleteUser = async (userId: string) => {
-        console.log(userId)
         const deletionResult = await deleteUser(parseInt(userId, 10));
 
         if (deletionResult) {
@@ -82,7 +81,6 @@ const UsersMaintenance: React.FC = () => {
     const fetchUserRol = async (props: RoleXUser) => {
         const fetchedRoleXUser = await fetchUserRole(props);
         const fetchedRole = await fetchRole(fetchedRoleXUser.props.data[0].role);
-        console.log("ROLEXUSER  "+ fetchedRoleXUser.props.data[0].user)
         return fetchedRoleXUser.props.data[0];
     };
     const handleModifyUser = async (user: User) => {
@@ -93,7 +91,6 @@ const UsersMaintenance: React.FC = () => {
             user: user.id,
             role: ""
           });
-          console.log("AAAA "+role.user);
           setRol(role);
     };
     return (

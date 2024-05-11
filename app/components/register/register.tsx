@@ -5,12 +5,11 @@ import Field from '../utils_forms/Field';
 import Standard_button from '../utils_forms/Button';
 import { registerValidation } from '@/lib/validation/registerValidation';
 import PhoneNumberValidation from '../utils_forms/International_Phone';
-import { postUser} from '../actions/actions'
 import ChoiseBox from './selectDepart';
 import {ParamDepartment,Role} from '@/types';
-import { Error,Success } from '../notifications/alerts';
 import {fetchRoleAll,postRoleXUser } from '../actions/actions_roles/actions';
 import {fetchDepartment} from '../actions/actions_departments/actions'
+import {submitFormUser,Departments} from '../register/register_methods'
 const Header = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
@@ -25,31 +24,10 @@ const Header = () => {
     const [departmentId, setDepartmentId] = useState('1');
     const [rolesId, setRolesId] = useState('1');
     const { handleSubmit, register, formState: { errors } } = registerValidation();
-    const submitForm = async () => {
-        const user = await postUser(departmentId,name, second_name, surname, second_surname, email, identification, nickname, phone_number);
-        const data = await user?.json();
-        if (true) {
-            const departments = {
-                id: "",
-                user: data.id,
-                role: rolesId
-            }
-            await postRoleXUser(departments);
-            Success('Usuario registrado');
-        } else {
-            console.log('Error de registro')
-            Error("Error de registro");
-        }
-    }
+    const submitForm = async () => {submitFormUser(departmentId,name, second_name, surname, second_surname, email, identification, nickname, phone_number,rolesId);}
     useEffect(() => {
         const initialize = async () => {
-            const departments: ParamDepartment = {
-                id: "",
-                name: "",
-                description: "",
-                unit: ""
-            }
-            const fetchedDepartment = await fetchDepartment(departments);
+            const fetchedDepartment = await fetchDepartment(Departments);
             setDepartments(fetchedDepartment.props.data);
             const fetchedRole = await fetchRoleAll();
             console.log(fetchedRole.props.data)
@@ -62,9 +40,7 @@ const Header = () => {
             <div className="flex justify-center bg-gray-100 rounded-full mb-5">
                 <Image className='m-6' src='/login/userbasic.png' alt="Screenshots of the dashboard " width={60} height={60} />
             </div>
-            <h2 className="text-center text-3xl font-semibold text-white">
-                {'Registro de usuario'}
-            </h2>
+            <h2 className="text-center text-3xl font-semibold text-white">{'Registro de usuario'}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full">
                 <Field text_Field={name} setText_Field={setName} titule={'Nombre:'} type={"text"} register={register} error={errors.name} name={"name"}></Field>
                 <Field text_Field={second_name} setText_Field={setSecond_name} titule={'Segundo nombre:'} type={"text"} register={register} error={errors.second_name} name={"second_name"}></Field>
@@ -80,6 +56,5 @@ const Header = () => {
             <Standard_button fuction={handleSubmit(submitForm)} titule={"Crear cuenta"} width={"350px"}></Standard_button>
         </div>
     );
-
 }
 export default Header;
