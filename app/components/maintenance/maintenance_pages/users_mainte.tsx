@@ -82,15 +82,18 @@ const UsersMaintenance: React.FC = () => {
     const fetchUserRol = async (props: RoleXUser) => {
         const fetchedRoleXUser = await fetchUserRole(props);
         const fetchedRole = await fetchRole(fetchedRoleXUser.props.data[0].role);
-        return fetchedRole;
+        console.log("ROLEXUSER  "+ fetchedRoleXUser.props.data[0].user)
+        return fetchedRoleXUser.props.data[0];
     };
     const handleModifyUser = async (user: User) => {
         setUser(user);
+        console.log(user)
         const role = await fetchUserRol({
             id: "",
             user: user.id,
             role: ""
           });
+          console.log("AAAA "+role.user);
           setRol(role);
     };
     return (

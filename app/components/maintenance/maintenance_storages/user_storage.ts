@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Section, User,Role } from "@/types";
+import { Section, User,Role,RoleXUser } from "@/types";
 type AuthStore = {
-    rol: Role;
+    rol: RoleXUser;
     user: User;
     setUser: (newUser: User) => void;
-    setRol: (newRol: Role) => void;
+    setRol: (newRol: RoleXUser) => void;
 }
-const user: User = {
+const paramUser: User = {
     id: "",
     name: "",
     second_name: "",
@@ -19,21 +19,21 @@ const user: User = {
     identification: "",
     department: ""
 };
-const role:Role={
+const role:RoleXUser={
     id: "",
-    name:"",
-    active: "",
+    user:"",
+    role: "",
 }
 export const useAuthStore = create<AuthStore>()(persist(
     (set) => ({
         rol: role,
-        user: user,
+        user: paramUser,
         setUser: (newUser: User) => {
             set(() => ({
                 user: newUser
             }))
         },
-        setRol: (newRol: Role) => set(()=>({ rol: newRol }))
+        setRol: (newRol: RoleXUser) => set(()=>({ rol: newRol }))
     }),
     {
         name: "auth-storage",

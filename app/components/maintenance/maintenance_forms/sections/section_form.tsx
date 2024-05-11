@@ -6,14 +6,12 @@ import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeChange } from '@/lib/validation/makeChange';
-import { putUpdateSection} from '@/app/components/actions/actions_sections/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/section_storage';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
-import { Truculenta } from 'next/font/google';
+import {submitFormSections, comeBack} from '../sections/maintenance_methods';
 const Section_Form: React.FC = () => {
      const Section = useAuthStore(state => state.section);
     const [loading, setLoading] = useState(true);
@@ -26,34 +24,15 @@ const Section_Form: React.FC = () => {
     const [states, setStates] = useState<string[]>(['Completado', 'Sin Completar']);
     const { handleSubmit, register, formState: { errors } } = makeChange();
     useEffect(() => {
-        if (Section) {
-            setLoading(false);
-        }
+        if (Section) { setLoading(false); }
     }, [Section]);
     useEffect(() => {
         const initialize = async () => {
             const fetchedForms = await fetchForms();
             setForms(fetchedForms.props.data);
-
-        };
-        initialize();
+        }; initialize();
     }, []);
-    const submitForm = async () => {
-        try {
-            const newSection:Section={id: id, name:name, description:description,forms:form,complete:complete}
-            const section = await putUpdateSection(newSection);
-            if (true) {
-              Success('Seccion actualizada');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
-    }
-    const comeBack = async () => { }
+    const submitForm = async () => { submitFormSections(id, name, description,form,complete); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >

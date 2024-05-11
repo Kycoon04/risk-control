@@ -49,6 +49,30 @@ export const postRoleXUser = async (param: RoleXUser): Promise<boolean> => {
     return false;
   }
 }
+export const putRoleXUser = async (param: RoleXUser): Promise<boolean> => {
+  try {
+    const response = await fetch('/api/rolesxusers', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id:param.id,
+        user: parseInt(param.user),
+        role: parseInt(param.role,10),
+      })
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Error de red', error);
+    return false;
+  }
+}
 export const deleteRole = async (roleId: number): Promise<boolean> => {
   try {
     const response = await fetch(`/api/roles/?id=${roleId}`, {

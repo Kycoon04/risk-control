@@ -4,64 +4,34 @@ import Link from 'next/link';
 import DatePicker from "@/app/components/utils_forms/DatePicker"
 import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
-import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { changeState } from '@/lib/validation/changeState';
-import { putForms} from '@/app/components/actions/actions_forms/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
-import {fetchForms } from '@/app/components/actions/actions_forms/actions';
-import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
-import ChoiseBox from '@/app/components/register/selectDepart';
-import {Form,Section} from '@/types';
-import { Truculenta } from 'next/font/google';
-
-
+import {submitForms,comeBack} from '../forms/maintenance_methods'
+import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
 const Form_Form: React.FC = () => {
-     const Form = useAuthStore(state => state.form);
+    const Forms = useAuthStore(state => state.form);
     const [loading, setLoading] = useState(true);
-    const [id,setId]=useState(Form?.id);
-    const [name, setName] = useState(Form?.name);
-    const [state, setState] = useState(Form?.state);
+    const [id,setId]=useState(Forms?.id);
+    const [name, setName] = useState(Forms?.name);
+    const [state, setState] = useState(Forms?.state);
     const [states, setStates] = useState<string[]>(['Activo', 'Inactivo']);
     const [inicialperiod, setInicialperiod] = useState<Date>(new Date());
     const [finalperiod, setFinalperiod] = useState<Date>(new Date());
-    const [complete, setComplete] = useState(Form?.complete);
+    const [complete, setComplete] = useState(Forms?.complete);
     const [completes, setCompletes] = useState<string[]>(['Completado', 'Sin Completar']);
     const { handleSubmit, register, formState: { errors } } = changeState();
 
     useEffect(() => {
-        if (Form) {
-            setLoading(false);
-        }
-        const State = Form.state == '1' ? 'Activo' : 'Inactivo';
+        if (Forms) { setLoading(false); }
+        const State = Forms.state == '1' ? 'Activo' : 'Inactivo';
         setState(State);
-    }, [Form]);
-    useEffect(() => {
-        if (Form?.inicialperiod) {
-            setInicialperiod(new Date(Form.inicialperiod));
-        }
-        if (Form?.finalperiod) {
-            setFinalperiod(new Date(Form.finalperiod));
-        }
-    }, [Form]);
+        if (Forms?.inicialperiod) { setInicialperiod(new Date(Forms.inicialperiod));}
+        if (Forms?.finalperiod) { setFinalperiod(new Date(Forms.finalperiod));}
+    }, [Forms]);
     const submitForm = async () => {
-        try {
-            const newState = state === 'Activo' ? '1' : '0';
-            const newForm:Form={id: id, name:name, state:newState, inicialperiod: inicialperiod.toISOString().split('T')[0], finalperiod:finalperiod.toISOString().split('T')[0],complete:complete}
-            const form = await putForms(newForm);
-            if (true) {
-              Success('Formulario actualizado');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitForms(id, name, state, inicialperiod, finalperiod,complete);
     }
-    const comeBack = async () => { }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
