@@ -22,6 +22,13 @@ export interface Form {
     complete: string
 };
 
+export interface Department {
+    id: string;
+    name: string;
+    description: string;
+    unit: string;
+};
+
 export interface FieldComponentProps {
     type: string;
     titule: string;
@@ -115,6 +122,14 @@ export interface TlQuestions { // Ask about the file type ""
     section: string,
 };
 
+export interface QuestionsExcel {
+    id: string,
+    question: string,
+    description: string,
+    section: string,
+    form: string,
+};
+
 export interface CreateOptionData {
     option: string;
     question: number;
@@ -126,6 +141,14 @@ export interface CreateQuestionData {
     description: string;
     section: number;
 
+};
+
+export interface Section{
+    id: string,
+    name: string,
+    description: string,
+    forms: string,
+    complete: string,
 };
 
 export interface CreateRoleData {
@@ -215,8 +238,16 @@ export interface DepartXForms {
 export interface Field {
     titule: string;
     url: string;
-    icon: 'RiUserSettingsFill' | 'SiGoogleforms' | 'BsFillQuestionSquareFill' | 'SiGooglemarketingplatform' | 'FaNetworkWired' | 'MdOutlineWorkOutline' | 'BsBuildingsFill';
+    icon: string;
 };
+
+export interface ReportCardsProps {
+    title : string;
+    url: string;
+    icon: string;
+    callbackExcel : () => void;
+};
+
 export interface FieldQuestion {
     titule: string;
     question: string;

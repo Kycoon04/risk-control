@@ -32,7 +32,7 @@ export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: Nav
                                         <a href="/home_page/maintenance" className="block px-4 py-2 hover:text-purple-400">Mantenimiento</a>
                                     </li>
                                     <li>
-                                        <a href="/" className="block px-4 py-2 hover:text-purple-400">Exportar excel</a>
+                                        <a href="/home_page/reports" className="block px-4 py-2 hover:text-purple-400">Exportar excel</a>
                                     </li>
                                     <li>
                                         <a href="/home_page/logger" className="block px-4 py-2 hover:text-purple-400">Logger</a>
