@@ -6,11 +6,9 @@ import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeChange } from '@/lib/validation/makeChange';
-import { postUpdateUnit} from '@/app/components/actions/actions_units/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
-import {fetchRoleAll,postRoleXUser } from '@/app/components/actions/actions_roles/actions';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/unit_storage';
-import { Truculenta } from 'next/font/google';
+import {submitFormUnits,comeBack} from '../units/maintenance_methods';
+
 const Unit_Form: React.FC = () => {
      const Unit = useAuthStore(state => state.unit);
     const [loading, setLoading] = useState(true);
@@ -25,20 +23,8 @@ const Unit_Form: React.FC = () => {
         }
     }, [Unit]);
     const submitForm = async () => {
-        try {
-            const unit = await postUpdateUnit(id, name, description);
-            if (true) {
-              Success('Unidad actualizada');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormUnits(id, name, description);
     }
-    const comeBack = async () => { }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >

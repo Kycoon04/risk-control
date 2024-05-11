@@ -7,11 +7,11 @@ import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeChange } from '@/lib/validation/makeChange';
 import { fetchUnit} from '@/app/components/actions/actions_units/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/department.storage';
 import { ParamUnit } from '@/types';
 import ChoiseBox from '@/app/components/register/selectDepart';
-import { postUpdateDepartment } from '@/app/components/actions/actions_departments/actions';
+import { submitFormDepartment, Units, comeBack} from '../departments/maintenance_methods';
+
 const Department_Form: React.FC = () => {
      const Department = useAuthStore(state => state.department);
     const [loading, setLoading] = useState(true);
@@ -22,37 +22,18 @@ const Department_Form: React.FC = () => {
     const [unit, setUnit] = useState(Department?.unit);
     const { handleSubmit, register, formState: { errors } } = makeChange();
     useEffect(() => {
-        if (Department) {
-            setLoading(false);
-        }
+        if (Department) { setLoading(false); }
     }, [Department]);
     useEffect(() => {
         const initialize = async () => {
-            const units: ParamUnit = {
-                id: "",
-                name: "",
-                description: "",
-            }
-            const fetchedSections = await fetchUnit(units);
+            const fetchedSections = await fetchUnit(Units);
             setUnits(fetchedSections.props.data);
         };
         initialize();
     }, []);
     const submitForm = async () => {
-        try {
-            const department = await postUpdateDepartment(id, name, description,unit);
-            if (true) {
-              Success('Departamento actualizado');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormDepartment(id,name,description,unit);
     }
-    const comeBack = async () => { }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >

@@ -5,24 +5,20 @@ import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { changeState } from '@/lib/validation/changeState';
-import { postUpdateRole} from '@/app/components/actions/actions_roles/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/role_storage';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
-import { Truculenta } from 'next/font/google';
+import {submitFormRoles, comeBack} from './maintenance_methods';
+
 const Rol_Form: React.FC = () => {
     const Role = useAuthStore(state => state.role);
     const [loading, setLoading] = useState(true);
     const [id,setId]=useState(Role?.id);
     const [name, setName] = useState(Role?.name);
-    const [active, setActive] = useState(Role?.active);
     const [states, setStates] = useState<string[]>(['Activo', 'Inactivo']);
     const [stateId, setStateId] = useState('');
     const { handleSubmit, register, formState: { errors } } = changeState();
     useEffect(() => {
-        if (Role) {
-            setLoading(false);
-        }
+        if (Role) {setLoading(false);}
     }, [Role]);
     useEffect(() => {
         const initialize = async () => {
@@ -34,21 +30,8 @@ const Rol_Form: React.FC = () => {
         initialize();
     }, []);
     const submitForm = async () => {
-        try {
-            const newActive = stateId === 'Activo' ? '1' : '0';
-            const role = await postUpdateRole(id, name,newActive);
-            if (true) {
-              Success('Rol actualizado');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormRoles(id, name,stateId);
     }
-    const comeBack = async () => { }
     return (
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full">

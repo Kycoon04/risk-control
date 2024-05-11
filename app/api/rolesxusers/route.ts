@@ -40,9 +40,7 @@ export async function GET(_req: Request) {
         const { id, user, role } = parameters
         const whereCondition = {
             where: {
-                id: id,
                 user: user,
-                role: role
             },
         };
         let loggers;
@@ -84,6 +82,35 @@ export async function DELETE(_request: Request) {
         await postLogger(logger);
         return NextResponse.json(deletedUser);
     } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+
+export async function PUT(_request: Request) {
+    try {
+        const {id, user,role} = await _request.json();
+        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
+        const updatedDepartment = await prisma.tL_UserXRoles.update({
+            where: { id: typeof id === 'string' ? parseInt(id, 10) : id },
+            data: {
+                id: typeof id === 'string' ? parseInt(id, 10) : id,
+                user: user,
+                role: role
+            },
+        });
+        const logger = {
+            id: "",
+            usuario: "defaultUser",
+            transaction_type: "PUT",
+            role: "rol",
+            transaction: "PUT DEPARTMENTS",
+            ip: clientIp || "192.168",
+            date: new Date().toISOString(),
+        }
+        await postLogger(logger);
+        return NextResponse.json(updatedDepartment);
+    } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
