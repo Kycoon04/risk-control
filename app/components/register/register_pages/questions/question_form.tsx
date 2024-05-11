@@ -3,17 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
 import ChoiseBox from '@/app/components/register/selectDepart';
-import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import {makeValidationLoad } from '@/lib/validation/makeValidationLoad';
-import { postUpdateUnit} from '@/app/components/actions/actions_units/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
-import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/question_storage';
-import { Truculenta } from 'next/font/google';
 import { ParamSection } from '@/types';
 import { fetchedSections } from '@/app/components/actions/actions_sections/actions';
 import { postQuestion } from '@/app/components/actions/actions_questions/actions';
+import {submitFormQuestion,Sections} from '../questions/register_methods'
 const Question_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [question, setQuestion] = useState("");
@@ -23,32 +20,14 @@ const Question_Form: React.FC = () => {
     const { handleSubmit, register, formState: { errors } } = makeValidationLoad();
     useEffect(() => {
         const initialize = async () => {
-            const sections: ParamSection = {
-                id: "",
-                name: "",
-                description: "",
-                forms: "",
-                complete:"",
-            }
-            const fetchSections = await fetchedSections(sections);
+            const fetchSections = await fetchedSections(Sections);
             setSections(fetchSections.props.data);
 
         };
         initialize();
     }, []);
     const submitForm = async () => {
-        try {
-            const anQuestion = await postQuestion(question, description,section);
-            if (true) {
-              Success('Pregunta registrada');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormQuestion(question, description,section);
     }
     const comeBack = async () => { }
     return (

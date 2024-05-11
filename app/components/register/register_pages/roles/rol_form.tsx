@@ -4,10 +4,9 @@ import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { changeStateLoad } from '@/lib/validation/changeStateLoad';
-import { postRole} from '@/app/components/actions/actions_roles/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
-import { Truculenta } from 'next/font/google';
+import {submitFormRoles} from '../roles/register_methods'
+
 const Rol_Form: React.FC = () => {
     const [name, setName] = useState("");
     const [states, setStates] = useState<string[]>(['Activo', 'Inactivo']);
@@ -15,19 +14,7 @@ const Rol_Form: React.FC = () => {
     const { handleSubmit, register, formState: { errors } } = changeStateLoad();
 
     const submitForm = async () => {
-        try {
-            const newActive = stateId === 'Activo' ? '1' : '0';
-            const role = await postRole(name,newActive);
-            if (true) {
-              Success('Rol registrado');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormRoles(name,stateId);
     }
     const comeBack = async () => { }
     return (

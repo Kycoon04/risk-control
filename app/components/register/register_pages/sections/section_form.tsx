@@ -10,7 +10,7 @@ import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
-import { Truculenta } from 'next/font/google';
+import {submitFormSections} from '../sections/register_methods'
 const Section_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState("");
@@ -23,23 +23,11 @@ const Section_Form: React.FC = () => {
         const initialize = async () => {
             const fetchedForms = await fetchForms();
             setForms(fetchedForms.props.data);
-
         };
         initialize();
     }, []);
     const submitForm = async () => {
-        try {
-            const section = await postSection(name,description,form,complete);
-            if (true) {
-              Success('Seccion registrada');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormSections(name,description,form,complete);
     }
     const comeBack = async () => { }
     return (

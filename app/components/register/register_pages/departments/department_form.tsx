@@ -5,12 +5,10 @@ import Field from '@/app/components/utils_forms/Field';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationLoad } from '@/lib/validation/makeValidationLoad';
-import { fetchUnit, postUpdateUnit} from '@/app/components/actions/actions_units/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
-import { Truculenta } from 'next/font/google';
+import { fetchUnit} from '@/app/components/actions/actions_units/actions'
 import { ParamUnit } from '@/types';
 import ChoiseBox from '@/app/components/register/selectDepart';
-import { postDepartment } from '@/app/components/actions/actions_departments/actions';
+import {submitFormDepartment,Units} from '../departments/register_methods'
 const Department_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [id,setId]=useState("");
@@ -22,30 +20,13 @@ const Department_Form: React.FC = () => {
 
     useEffect(() => {
         const initialize = async () => {
-            const units: ParamUnit = {
-                id: "",
-                name: "",
-                description: "",
-            }
-            const fetchedSections = await fetchUnit(units);
+            const fetchedSections = await fetchUnit(Units);
             setUnits(fetchedSections.props.data);
         };
         initialize();
     }, []);
     const submitForm = async () => {
-        console.log(name +" "+ description +" "+unit);
-        try {
-            await postDepartment( name, description,unit);
-            if (true) {
-              Success('Departamento registrado');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormDepartment( name, description,unit);
     }
     const comeBack = async () => { }
     return (

@@ -2,34 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Field from '@/app/components/utils_forms/Field';
-import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationLoad } from '@/lib/validation/makeValidationLoad';
 import { postUnit} from '@/app/components/actions/actions_units/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
-import {fetchRoleAll,postRoleXUser } from '@/app/components/actions/actions_roles/actions';
-import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/unit_storage';
-import { Truculenta } from 'next/font/google';
+import {submitFormUnits} from '../units/register_methods'
 const Unit_Form: React.FC = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const { handleSubmit, register, formState: { errors } } = makeValidationLoad();
 
     const submitForm = async () => {
-        console.log("HOLAA");
-        try {
-            const unit = await postUnit( name, description);
-            if (true) {
-              Success('Unidad registrada');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormUnits(name, description);
     }
     const comeBack = async () => { }
     return (
