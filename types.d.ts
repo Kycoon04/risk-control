@@ -1,4 +1,5 @@
 import { ErrorOption } from "react-hook-form";
+import DepartmentCard from "./app/components/maintenance/maintenance_cards/department_card";
 
 export interface User {
     id: string;
@@ -292,9 +293,18 @@ export interface ParamDepartment {
     unit: string;
 
 };
+export interface departmentSelected {
+     department:ParamDepartment;
+     state:string;
+};
 
 export interface paramsDepartXForms {
     department: string | undefined;
+    forms: string;
+    id: string;
+};
+export interface departXForms {
+    department: string;
     forms: string;
     id: string;
 };
