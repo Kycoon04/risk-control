@@ -89,7 +89,6 @@ export interface CreateFormsXUserData {
 };
 
 export export interface Logger {
-    id: string;
     usuario: string,
     transaction_type: string,
     role: string,

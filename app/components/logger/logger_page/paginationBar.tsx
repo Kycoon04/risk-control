@@ -1,5 +1,6 @@
+"use client";
 import React from "react";
-import { Pagination } from "@mui/material";
+import Pagination from '@mui/material/Pagination';
 
 interface PaginationBarProps {
     loggers: any[];
