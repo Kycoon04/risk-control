@@ -1,8 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
-import { CreateRoleData, Logger } from "@/types"
-import { useAuthStore } from "@/provider/store";
+import { CreateRoleData} from "@/types"
 import { postLogger } from "../logger/actions";
 export async function POST(req: Request) {
     try {
@@ -14,7 +13,7 @@ export async function POST(req: Request) {
                 name: data.name,
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "POST",
@@ -40,7 +39,7 @@ export async function GET(_req: Request) {
             }
         });
         if (response) {
-            const logger: Logger = {
+            const logger = {
                 id: "",
                 usuario: "defaultUser",
                 transaction_type: "GET",
@@ -68,7 +67,7 @@ export async function DELETE(_request: Request) {
                 id: id
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "DELETE",

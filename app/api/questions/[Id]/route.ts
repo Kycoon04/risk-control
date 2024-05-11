@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { CreateQuestionData, Logger, ParamQuestions } from "@/types"
+import { CreateQuestionData, ParamQuestions } from "@/types"
 import { postLogger } from "../../logger/actions";
 
 
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
                 section: data.section,
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "POST",
@@ -39,7 +39,6 @@ export async function GET(_req: Request) {
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         const parameters = getParams(url, object)
         const { id, question, description, section } = parameters
-        console.log(parameters)
         const whereCondition = {
             where: {
                 id: id,
@@ -50,7 +49,7 @@ export async function GET(_req: Request) {
         };
         let loggers;
         loggers = await prisma.tL_Questions.findMany({ where: whereCondition.where });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "GET",
@@ -75,7 +74,7 @@ export async function DELETE(_request: Request) {
                 id: id
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "DELETE",
@@ -104,7 +103,7 @@ export async function PUT(_request: Request) {
                 section: parseInt(data.section, 10),
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "PUT",

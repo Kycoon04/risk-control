@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { CreateDepartmentXFormsData, Logger } from "@/types";
+import { CreateDepartmentXFormsData } from "@/types";
 import { postLogger } from "../../logger/actions";
 
 export async function POST(req: Request) {
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
                 forms: data.forms,
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "POST",
@@ -37,7 +37,6 @@ export async function GET(_req: Request) {
         const parameters = getParams(url, object)
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         const { id, department, forms } = parameters
-        console.log(parameters)
         const whereCondition = {
             where: {
                 id: id,
@@ -50,7 +49,7 @@ export async function GET(_req: Request) {
         };
         let loggers;
         loggers = await prisma.tL_DeparXforms.findMany({ where: whereCondition.where, include: whereCondition.include });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "GET",
@@ -75,7 +74,7 @@ export async function DELETE(_request: Request) {
                 id: id
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "DELETE",

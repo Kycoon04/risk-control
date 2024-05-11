@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
 import { postLogger } from '../logger/actions';
-import { Logger, CreateFormsData } from "@/types";
+import { CreateFormsData } from "@/types";
 
 export async function POST(req: Request) {
     try {
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
                 complete: data.complete
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "POST",
@@ -36,7 +36,7 @@ export async function GET(_req: Request) {
     try {
         const response = await prisma.tL_forms.findMany();
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "GET",
@@ -66,7 +66,7 @@ export async function DELETE(_request: Request) {
             },
         });
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "DELETE",

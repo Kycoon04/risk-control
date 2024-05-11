@@ -1,8 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { UpdateSectionData, CreateSectionData, Logger } from "@/types";
-import { useAuthStore } from "@/provider/store";
+import { UpdateSectionData, CreateSectionData} from "@/types";
 import { postLogger } from "../../logger/actions";
 
 export async function PUT(req: Request) {
@@ -20,7 +19,7 @@ export async function PUT(req: Request) {
                 complete: complete,
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "PUT",
@@ -48,7 +47,7 @@ export async function POST(req: Request) {
                 complete: data.complete,
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "POST",
@@ -80,7 +79,7 @@ export async function GET(_req: Request) {
         };
         let loggers;
         loggers = await prisma.tL_Sections.findMany({ where: whereCondition.where });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "GET",
@@ -108,7 +107,7 @@ export async function DELETE(_request: Request) {
                 id: id
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "DELETE",

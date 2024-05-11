@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { CreateDepartmentData, Logger, ParamDepartment } from "@/types";
+import { CreateDepartmentData, ParamDepartment } from "@/types";
 import { postLogger } from "../../logger/actions";
 
 export async function POST(req: Request) {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
                 unit: data.unit
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "POST",
@@ -48,7 +48,7 @@ export async function GET(_req: Request) {
         };
         let loggers;
         loggers = await prisma.tL_Departaments.findMany({ where: whereCondition.where });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "POST",
@@ -77,7 +77,7 @@ export async function DELETE(_request: Request) {
                 id: id
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "DELETE",
@@ -106,7 +106,7 @@ export async function PUT(_request: Request) {
                 unit: parseInt(data.unit, 10),
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "PUT",

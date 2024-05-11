@@ -2,7 +2,6 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "../functions/getParams";
 import { CreateUserData, Logger, User } from "@/types";
-import { useAuthStore } from "@/provider/store";
 import { postLogger } from "../logger/actions";
 export async function POST(req: Request) {
     try {
@@ -22,7 +21,7 @@ export async function POST(req: Request) {
 
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "POST",
@@ -49,7 +48,7 @@ export async function GET(_req: Request) {
             }
         });
         if (response) {
-            const logger: Logger = {
+            const logger = {
                 id: "",
                 usuario:  "defaultUser",
                 transaction_type: "GET",
@@ -61,7 +60,7 @@ export async function GET(_req: Request) {
             await postLogger(logger);
             return NextResponse.json(response);
         }
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "GET",
@@ -87,7 +86,7 @@ export async function DELETE(_request: Request) {
                 identification: identification
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "DELETE",
@@ -121,7 +120,7 @@ export async function PUT(_request: Request) {
                 department: typeof data.department === 'string' ? parseInt(data.department, 10) : data.department
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "PUT",
@@ -133,7 +132,6 @@ export async function PUT(_request: Request) {
         await postLogger(logger);
         return NextResponse.json(updatedUser);
     } catch (error) {
-        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

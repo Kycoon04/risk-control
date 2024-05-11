@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { Logger, Role,CreateRoleData } from "@/types"
-import { useAuthStore } from "@/provider/store";
+import { Role,CreateRoleData } from "@/types"
 import { postLogger } from "../../logger/actions";
 
 export async function POST(req: Request) {
@@ -14,7 +13,7 @@ export async function POST(req: Request) {
                 active: data.active,
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario: "defaultUser",
             transaction_type: "POST",
@@ -35,7 +34,7 @@ export async function GET(_req: Request) {
         const response = await prisma.tL_Roles.findMany({});
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
         if (response) {
-            const logger: Logger = {
+            const logger = {
                 id: "",
                 usuario: "defaultUser",
                 transaction_type: "GET",
@@ -65,7 +64,7 @@ export async function PUT(_request: Request) {
                 active: parseInt(data.active, 10),
             },
         });
-        const logger: Logger = {
+        const logger = {
             id: "",
             usuario:  "defaultUser",
             transaction_type: "PUT",
