@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { CreateUserData} from "@/types"
+import { CreateUserData } from "@/types"
 import { postLogger } from "../../logger/actions";
+import { sign } from "jsonwebtoken";
 export async function POST(req: Request) {
     try {
         const data: CreateUserData = await req.json();
@@ -73,7 +74,24 @@ export async function GET(_req: Request) {
             date: new Date().toISOString(),
         }
         await postLogger(logger);
-        return NextResponse.json(loggers);
+
+        const token = sign(
+            {
+                exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
+                email,
+                username: "fazt",
+            },
+            "secret"
+        );
+        const response = NextResponse.json({
+            token,
+        });
+        console.log("token", token)
+        return new NextResponse(JSON.stringify(loggers), {
+            headers: {
+                'Set-Cookie': `myTokenName=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000; Path=/`
+            }
+        });
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 });
     }

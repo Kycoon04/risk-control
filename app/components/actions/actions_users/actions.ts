@@ -1,6 +1,6 @@
 import {User} from '@/types';
 
-export const postUser = async (param: User): Promise<boolean> => {
+export const postUser = async (param: User) => {
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -20,14 +20,9 @@ export const postUser = async (param: User): Promise<boolean> => {
         })
       });
   
-      if (response.ok) {
-        return true;
-      } else {
-        return false;
-      }
+      return response;
     } catch (error) {
       console.error('Error de red', error);
-      return false;
     }
   }
   export const postDataUser = async (department: string, name: string, second_name: string, surname: string, second_surname: string, email: string, identification: string, nickname: string, phone_number: string) => {

@@ -7,13 +7,10 @@ import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeChange } from '@/lib/validation/makeChange';
-import { postUpdateUnit} from '@/app/components/actions/actions_units/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/question_storage';
-import { Truculenta } from 'next/font/google';
 import { ParamSection } from '@/types';
 import { fetchedSections } from '@/app/components/actions/actions_sections/actions';
-import { postUpdateQuestion } from '@/app/components/actions/actions_questions/actions';
+import {submitFormQuestion, comeBack,Sections} from '../questions/maintenance_methods';
 const Question_Form: React.FC = () => {
      const Question = useAuthStore(state => state.question);
     const [loading, setLoading] = useState(true);
@@ -22,43 +19,21 @@ const Question_Form: React.FC = () => {
     const [description, setDescription] = useState(Question?.description);
     const [sections, setSections] = useState<ParamSection[]>([]);
     const [section, setSection] = useState(Question?.section);
-
     const { handleSubmit, register, formState: { errors } } = makeChange();
+    
     useEffect(() => {
-        if (Question) {
-            setLoading(false);
-        }
+        if (Question) { setLoading(false);}
     }, [Question]);
     useEffect(() => {
         const initialize = async () => {
-            const sections: ParamSection = {
-                id: "",
-                name: "",
-                description: "",
-                forms: "",
-                complete:"",
-            }
-            const fetchSections = await fetchedSections(sections);
+            const fetchSections = await fetchedSections(Sections);
             setSections(fetchSections.props.data);
-
         };
         initialize();
     }, []);
     const submitForm = async () => {
-        try {
-            const anQuestion = await postUpdateQuestion(id, question, description,section);
-            if (true) {
-              Success('Unidad actualizada');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitFormQuestion(id, question, description,section);
     }
-    const comeBack = async () => { }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
