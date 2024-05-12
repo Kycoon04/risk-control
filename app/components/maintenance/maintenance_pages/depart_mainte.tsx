@@ -7,78 +7,38 @@ import {fetchDepartment, deleteDepartment} from "../../actions/actions_departmen
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import DepartmentCard from "../maintenance_cards/department_card";
-import { Success, Error } from "../../notifications/alerts";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/department.storage';
+import {param, filtered, stateDeleted, updateData} from '../maintenance_pages/methods_pages/depart_methods'
 const DepartMaintenance: React.FC = () => {
-    const param: ParamDepartment = {
-        id: "",
-        name: "",
-        description: "",
-        unit: "",
-    
-    };
     const [departments,setDepartments] =useState<ParamDepartment[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamDepartment[]>([]);
     const [filters, setFilters] = useState<Partial<ParamDepartment>>(param);
     const setDepartment = useAuthStore(state => state.setDepartment);
-
-    const clearFilters = () => {
-        setFilters(param);
-        setDepartments(unfiltered);
-    };
+    
+    const clearFilters = () => { setFilters(param); setDepartments(unfiltered); };
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             const fetchedSections = await fetchDepartment(param);
-            setDepartments(fetchedSections.props.data);
-            setUnfiltered(fetchedSections.props.data);
+            updateData(setDepartments,setUnfiltered,fetchedSections);
             setIsLoading(false);
-        };
-        fetchData();
+        }; fetchData();
     }, []);
-
     useEffect(() => {
         const applyFilters = () => {
-            const filteredDepartments = unfiltered.filter(item => {
-                return Object.keys(filters).every(key => {
-                    const filterValue = filters[key as keyof ParamDepartment];
-                    const itemValue = item[key as keyof ParamDepartment];
-
-                    if (typeof filterValue === 'number' || typeof itemValue === 'number') {
-                        const stringValue = String(filterValue).toLowerCase();
-                        const itemStringValue = String(itemValue).toLowerCase();
-                        return itemStringValue.includes(stringValue);
-                    } else {
-                        return itemValue.toLowerCase().includes((filterValue || "").toLowerCase());
-                    }
-                });
-            });
+            const filteredDepartments = filtered(unfiltered, filters);
             setDepartments( filteredDepartments);
-        };
-        applyFilters();
+        }; applyFilters();
     }, [filters, unfiltered]);
-
     const handleDeleteDepartment = async (departmentId: string) => {
         const deletionResult = await deleteDepartment(parseInt(departmentId, 10));
-
-        if (deletionResult) {
-            Success('Departamento eliminado correctamente')
-            const fetchedSections = await fetchDepartment(param);
-            setDepartments(fetchedSections.props.data);
-            setUnfiltered(fetchedSections.props.data);
-        } else {
-            Error('Error al intentar eliminar el departamento');
-        }
+        stateDeleted(deletionResult, setDepartments, setUnfiltered );
     };
-    const handleModifyDepartment = async (department: ParamDepartment) => {
-        setDepartment(department);
-    };
+    const handleModifyDepartment = async (department: ParamDepartment) => { setDepartment(department);};
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-3xl items-center justify-center'>
-            <h2 className='text-2xl sm:text-center text-white text-center m-5'>
-                Mantenimiento de Departamentos
-            </h2>
+            <h2 className='text-2xl sm:text-center text-white text-center m-5'> Mantenimiento de Departamentos</h2>
             <Filter<ParamDepartment> filters={filters} setFilters={setFilters} clearFilters={clearFilters} />
             <div className="bg-gray-200 w-full flex flex-wrap gap-5 rounded-md px-5 place-items-end mb-4">
                     <div className="w-full md:w-auto flex justify-start items-center">
@@ -97,5 +57,4 @@ const DepartMaintenance: React.FC = () => {
         </div>
     );
 };
-
 export default DepartMaintenance;

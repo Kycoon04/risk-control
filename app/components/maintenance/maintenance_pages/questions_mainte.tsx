@@ -9,75 +9,36 @@ import { Success, Error } from "../../notifications/alerts";
 import { fetchQuestion, deleteQuestion } from "../../actions/actions_questions/actions";
 import QuestionCard from "../maintenance_cards/question_card";
 import { useAuthStore } from "../maintenance_storages/question_storage";
+import {param, filtered,updateData,stateDeleted} from "../maintenance_pages/methods_pages/questions_methods"
 const QuestionsMaintenance: React.FC = () => {
-    const param: ParamQuestions = {
-        id: "",
-        question: "",
-        description: "",
-        section: "",
-    };
     const [questions,setQuestions] =useState<ParamQuestions[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamQuestions[]>([]);
     const [filters, setFilters] = useState<Partial<ParamQuestions>>(param);
     const setQuestion = useAuthStore(state => state.setQuestion);
-
-    const clearFilters = () => {
-        setFilters(param);
-        setQuestions(unfiltered);
-    };
+    const clearFilters = () => { setFilters(param); setQuestions(unfiltered); };
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             const fetchedSections = await fetchQuestion(param);
-            setQuestions(fetchedSections.props.data);
-            setUnfiltered(fetchedSections.props.data);
+            updateData(setQuestions,setUnfiltered,fetchedSections);
             setIsLoading(false);
-        };
-        fetchData();
+        }; fetchData();
     }, []);
-
     useEffect(() => {
         const applyFilters = () => {
-            const filteredQuestions = unfiltered.filter(item => {
-                return Object.keys(filters).every(key => {
-                    const filterValue = filters[key as keyof ParamQuestions];
-                    const itemValue = item[key as keyof ParamQuestions];
-
-                    if (typeof filterValue === 'number' || typeof itemValue === 'number') {
-                        const stringValue = String(filterValue).toLowerCase();
-                        const itemStringValue = String(itemValue).toLowerCase();
-                        return itemStringValue.includes(stringValue);
-                    } else {
-                        return itemValue.toLowerCase().includes((filterValue || "").toLowerCase());
-                    }
-                });
-            });
+            const filteredQuestions = filtered(unfiltered,filters); 
             setQuestions( filteredQuestions);
-        };
-        applyFilters();
+        }; applyFilters();
     }, [filters, unfiltered]);
-
     const handleDeleteQuestion = async (roleId: string) => {
         const deletionResult = await deleteQuestion(parseInt(roleId, 10));
-
-        if (deletionResult) {
-            Success('Pregunta eliminada correctamente')
-            const fetchedQuestions = await fetchQuestion(param);
-            setQuestions(fetchedQuestions.props.data);
-            setUnfiltered(fetchedQuestions.props.data);
-        } else {
-            Error('Error al intentar eliminar la pregunta');
-        }
+        stateDeleted(deletionResult,setQuestions,setUnfiltered);
     };
-    const handleModifyQuestion = async (question: ParamQuestions) => {
-        setQuestion(question);
-    };
+    const handleModifyQuestion = async (question: ParamQuestions) => { setQuestion(question); };
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-3xl items-center justify-center'>
-            <h2 className='text-2xl sm:text-center text-white text-center m-5'>
-                Mantenimiento de Preguntas
-            </h2>
+            <h2 className='text-2xl sm:text-center text-white text-center m-5'> Mantenimiento de Preguntas </h2>
             <Filter<ParamQuestions> filters={filters} setFilters={setFilters} clearFilters={clearFilters} />
             <div className="bg-gray-200 w-full flex flex-wrap gap-5 rounded-md px-5 place-items-end mb-4">
                     <div className="w-full md:w-auto flex justify-start items-center">
@@ -96,5 +57,4 @@ const QuestionsMaintenance: React.FC = () => {
         </div>
     );
 };
-
 export default QuestionsMaintenance;
