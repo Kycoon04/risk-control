@@ -8,7 +8,7 @@ import type { PhoneNumberValidationProps } from "@/types";
 const PhoneNumberValidation: React.FC<PhoneNumberValidationProps> = ({ phone, setPhone ,register, error , name}) => {
   return (
     <div>
-      <PhoneInput className='block font-normal my-3 w-[100%] pr-8 pl-8'
+      <PhoneInput className='block font-normal my-3 w-[100%] pr-20 pl-10'
       {...register(name)}
         defaultCountry="cr"
         value={phone}

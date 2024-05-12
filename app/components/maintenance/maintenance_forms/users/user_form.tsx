@@ -7,13 +7,11 @@ import { registerValidation } from '@/lib/validation/registerValidation';
 import PhoneNumberValidation from '@/app/components/utils_forms/International_Phone';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {ParamDepartment,Role} from '@/types';
-import {fetchRoleAll} from '@/app/components/actions/actions_roles/actions';
 import {fetchDepartment} from '@/app/components/actions/actions_departments/actions';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';
 import {submitFormUser,comeBack,Departments} from '../users/maintenance_methods'
 const User_Form: React.FC = () => {
      const User = useAuthStore(state => state.user);
-     const Role =useAuthStore(state => state.rol);
     const [loading, setLoading] = useState(true);
     const [id]=useState(User?.id);
     const [nickname, setNickname] = useState(User?.nickname);
@@ -25,18 +23,14 @@ const User_Form: React.FC = () => {
     const [phone_number, setPhone_number] = useState(User?.phone_number);
     const [identification, setIdentification] = useState(User?.identification);
     const [departments, setDepartments] = useState<ParamDepartment[]>([]);
-    const [roles, setRoles] = useState<Role[]>([]);
     const [departmentId, setDepartmentId] = useState(User.department);
-    const [rolesId, setRolesId] = useState(Role.role);
     const { handleSubmit, register, formState: { errors } } = registerValidation();
-    useEffect(() => { if (User && Role) {setRolesId(Role.role);setLoading(false);} }, [User,Role]);
-    const submitForm = async () => {submitFormUser(id,departmentId, name, second_name, surname, second_surname, email, identification, nickname, phone_number, rolesId,Role); }
+    useEffect(() => { if (User) {setLoading(false);} }, [User]);
+    const submitForm = async () => {submitFormUser(id,departmentId, name, second_name, surname, second_surname, email, identification, nickname, phone_number); }
     useEffect(() => {
         const initialize = async () => {
             const fetchedDepartment = await fetchDepartment(Departments);
             setDepartments(fetchedDepartment.props.data);
-            const fetchedRole = await fetchRoleAll();
-            setRoles(fetchedRole.props.data);
         }; initialize();
     }, []);
     return (
@@ -50,9 +44,12 @@ const User_Form: React.FC = () => {
                 <Field text_Field={identification} setText_Field={setIdentification} titule={'Cédula:'} type={"text"} register={register} error={errors.identification} name={"identification"}></Field>
                 <Field text_Field={nickname} setText_Field={setNickname} titule={'Nombre de usuario:'} type={"text"} register={register} error={errors.nickname} name={"nickname"}></Field>
                 <ChoiseBox data={departments} selectData={departmentId} onChange={setDepartmentId} titule="Departamento:"/>
-                <ChoiseBox data={roles} selectData={rolesId} onChange={setRolesId} titule="Role:"/>
                 <PhoneNumberValidation phone={phone_number} setPhone={setPhone_number} register={register} error={errors.phone_number} name={"phone_number"} />
-            </div>
+                <div className='items-center ml-14'>
+                    <Link href={'/home_page/maintenance/mainte_users/users_form/select_roles'}>
+                        <button  className='relative inline-flex  hover:bg-orange-600 my-3 p-2 w-[80%] justify-center text-white me-2 overflow-hidden text-sm font-medium rounded-sm group bg-orange-400 pr-8 pl-8'>Ver Roles</button>
+                     </Link></div>
+                 </div>
             <div className='grid grid-cols-2 md:grid-cols-2 gap-8 justify-center'>
                 <div className='flex justify-center'>
                     <Link href={'/home_page/maintenance/mainte_users/'}>

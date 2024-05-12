@@ -10,17 +10,11 @@ export const Departments: ParamDepartment = {
     unit: ""
 }
 export const comeBack = async () => {}
-export const submitFormUser = async (id:string,departmentId:string, name:string, second_name:string, surname:string, second_surname:string, email:string, identification:string, nickname:string, phone_number:string,rolesId:string, role:RoleXUser) => {
+export const submitFormUser = async (id:string,departmentId:string, name:string, second_name:string, surname:string, second_surname:string, email:string, identification:string, nickname:string, phone_number:string) => {
         
     const user = await postUpdateUser(id,departmentId, name, second_name, surname, second_surname, email, identification, nickname, phone_number);
     const data = await user?.json();
     if (true) {
-        const departments = {
-            id: role.id,
-            user: id,
-            role: rolesId
-        }
-        await putRoleXUser(departments);
         Success('Usuario actualizado');
     } else {
         console.log('Error de registro')
