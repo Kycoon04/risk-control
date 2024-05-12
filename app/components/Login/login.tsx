@@ -10,7 +10,7 @@ import { useAuthStore } from '@/provider/store';
 import { ToastContainer } from 'react-toastify';
 import { Error } from '../notifications/alerts';
 import 'react-toastify/dist/ReactToastify.css';
-import { RoleXUser, User } from '@/types';
+import { RoleXUser, User} from '@/types';
 
 interface LoginProps {
   scopes?: string[];
@@ -42,8 +42,11 @@ const App: React.FC = () => {
   
   const fetchUserRol = async (props: RoleXUser) => {
     const fetchedRoleXUser = await fetchUserRole(props);
-    const fetchedRole = await fetchRole(fetchedRoleXUser.props.data[0].role);
-    return fetchedRole.props.data;
+    const fetchedRoles = await Promise.all(fetchedRoleXUser.props.data.map(async (role: RoleXUser) => {
+      const fetchedRole = await fetchRole(role.role);
+      return fetchedRole.props.data;
+  }));
+  return fetchedRoles;
   };
 
   useEffect(() => {
@@ -82,7 +85,7 @@ const App: React.FC = () => {
           user: user[0].id,
           role: ""
         });
-        setRol(role.name);
+        setRol(role);
         changelogged();
         setUser(user[0]);
       }

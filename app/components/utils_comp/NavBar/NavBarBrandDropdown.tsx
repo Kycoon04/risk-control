@@ -1,9 +1,9 @@
 import { Navbar } from 'flowbite-react';
-
+import {Role} from "@/types";
 interface NavBarCollapseProps {
     isOpen: boolean;
     toggleDropdown: () => void;
-    rol: string;
+    rol: Role[];
 }
 export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: NavBarCollapseProps) {
     return (
@@ -26,7 +26,7 @@ export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: Nav
                                 <a href="/home_page" className="block px-4 py-2 hover:text-purple-400">
                                     Formularios</a>
                             </li>
-                            {rol === "Administrador" && (
+                            {rol.some(role => role.name === "Admi senior") && (
                                 <>
                                     <li>
                                         <a href="/home_page/maintenance" className="block px-4 py-2 hover:text-purple-400">Mantenimiento</a>
@@ -39,6 +39,19 @@ export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: Nav
                                     </li>
                                     <li>
                                         <a href="/home_page/create_account" className="block px-4 py-2 hover:text-purple-400">Crear cuenta</a>
+                                    </li>
+                                </>
+                            )}
+                            {rol.some(role => role.name === "Admi junior") && (
+                                <>
+                                    <li>
+                                        <a href="/home_page/maintenance" className="block px-4 py-2 hover:text-purple-400">Mantenimiento</a>
+                                    </li>
+                                    <li>
+                                        <a href="/home_page/reports" className="block px-4 py-2 hover:text-purple-400">Exportar excel</a>
+                                    </li>
+                                    <li>
+                                        <a href="/home_page/logger" className="block px-4 py-2 hover:text-purple-400">Logger</a>
                                     </li>
                                 </>
                             )}

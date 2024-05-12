@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Section, User } from "@/types";
+import { Section, User,Role } from "@/types";
 type AuthStore = {
     logged: boolean;
-    rol: string;
+    rol: Role[]| null;
     user: User | null;
     form: Form;
     section: Section;
@@ -11,7 +11,7 @@ type AuthStore = {
     setUser: (newUser: User) => void;
     setForm: (newForm: Form) => void;
     setSection: (newSection: Section) => void;
-    setRol: (newRol: string) => void;
+    setRol: (newRol: Role[]) => void;
 }
 export interface Form {
     id: string;
@@ -23,7 +23,7 @@ export interface Form {
 }
 export const useAuthStore = create<AuthStore>()(persist(
     (set) => ({
-        rol: "",
+        rol: null,
         logged: false,
         user: null,
         form: {
@@ -53,7 +53,7 @@ export const useAuthStore = create<AuthStore>()(persist(
         },
         setForm: (newForm: Form) => set({ form: newForm }),
         setSection: (newSection: Section) => set({ section: newSection }),
-        setRol: (newRol: string) => set({ rol: newRol })
+        setRol: (newRol: Role[]) => set({ rol: newRol })
     }),
     {
         name: "auth-storage",
