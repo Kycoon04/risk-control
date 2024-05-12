@@ -1,10 +1,11 @@
 import { Navbar } from 'flowbite-react';
 import {NavBarBrandSevri,NavBarBrandAutoevaluacion,NavBarBrandAccount} from './NavBarBrandCollapse';
 import NavBarBrandDropDown from './NavBarBrandDropdown';
+import {Role} from "@/types";
 interface NavBarCollapseProps {
     isOpen: boolean;
     toggleDropdown: () => void;
-    rol: string;
+    rol: Role[];
 }
 export default function NavBarCollapse({ isOpen, toggleDropdown, rol }: NavBarCollapseProps) {
     return (
