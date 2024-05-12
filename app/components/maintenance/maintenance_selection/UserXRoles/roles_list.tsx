@@ -52,7 +52,7 @@ const RolesList: React.FC = () => {
                 {isLoading ? (
                     <Spinner />) : (
                     rolesState.map((roleState) => (
-                        <RoleCard key={roleState.role.id} prompt_one="id:" prompt_two="Rol:" prompt_three="Estado:" prompt_fourth="Estado:" handleDeleteRole={handleDeleteRole} handleAddRole={handleAddRole} {...roleState} />
+                        <RoleCard key={roleState.role.id} prompt_one="id:" prompt_two="Rol:" prompt_three="Estado:" prompt_fourth="Condición:" handleDeleteRole={handleDeleteRole} handleAddRole={handleAddRole} {...roleState} />
              )))}
         </div>
     );

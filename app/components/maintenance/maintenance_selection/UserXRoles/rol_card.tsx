@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { roleSelected } from "@/types";
-import { MdOutlineDomainAdd } from "react-icons/md";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { BsFillXSquareFill } from "react-icons/bs";
 interface Card extends roleSelected {
     prompt_one: string;
@@ -35,15 +35,15 @@ const RoleCard: React.FC<Card> = (promp: Card) => {
                 ) : (
                     <p>{"Inactivo"}</p>
                 )}
+            </div>
             <div className="flex-1">
                 <p className="my-1 text-lg">{promp.prompt_fourth}</p>
                 <p>{promp.state}</p>
             </div>
-            </div>
             <div className="w-full md:w-auto flex justify-center md:justify-start">
                 {promp.state == 'No Agregado' ? (
                     <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onModifyClick}>
-                         <MdOutlineDomainAdd className="text-white font text-4xl hover:text-slate-300" />
+                         <AiOutlineUsergroupAdd className="text-white font text-4xl hover:text-slate-300" />
                     </div>
                 ) : (
                     <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onDeleteClick}>
