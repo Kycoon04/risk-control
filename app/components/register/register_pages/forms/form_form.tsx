@@ -3,19 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import DatePicker from "@/app/components/utils_forms/DatePicker"
 import Field from '@/app/components/utils_forms/Field';
-import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
-import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationForm } from '@/lib/validation/makeValidationForm';
 import { postForm} from '@/app/components/actions/actions_forms/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
-import {fetchForms } from '@/app/components/actions/actions_forms/actions';
-import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
-import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
-import { Truculenta } from 'next/font/google';
-
+import {submitForms} from '../forms/register_methods'
 
 const Form_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
@@ -27,22 +21,8 @@ const Form_Form: React.FC = () => {
     const [finalperiod, setFinalperiod] = useState<Date>(new Date());
     const [complete, setComplete] = useState('Sin Completar');
     const { handleSubmit, register, formState: { errors } } = makeValidationForm();
-
     const submitForm = async () => {
-        try {
-            if(inicialperiod<finalperiod){
-                const newState = state === 'Activo' ? '1' : '0';
-                const newForm:Form={id: id, name:name, state:newState, inicialperiod: inicialperiod.toISOString().split('T')[0], finalperiod:finalperiod.toISOString().split('T')[0],complete:complete}
-                const form = await postForm(newForm);
-                Success('Formulario registrado');
-            } else {
-              console.log('Error de registro');
-              Error("Error de registro");
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            Error("Error de registro");
-          }
+        submitForms(id, name, state, inicialperiod, finalperiod,complete);
     }
     const comeBack = async () => { }
     return (
