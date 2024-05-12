@@ -3,7 +3,7 @@ import { useAuthStore } from '@/provider/store';
 import Link from 'next/link';
 import { FaPen } from "react-icons/fa6";
 import {Section} from '@/types';
-const Componente: React.FC<Section> = ({complete,name,id,description,forms }) => {
+const Component: React.FC<Section> = ({complete,name,id,description,forms }) => {
     const setSection = useAuthStore(state => state.setSection);
     const handleFormSelection = () => {
         const newSection: Section = {
@@ -40,4 +40,4 @@ const Componente: React.FC<Section> = ({complete,name,id,description,forms }) =>
     );
 }
 
-export default Componente;
+export default Component;

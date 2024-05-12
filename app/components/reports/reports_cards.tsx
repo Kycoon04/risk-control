@@ -6,7 +6,7 @@ import { FaNetworkWired } from "react-icons/fa6";
 import {ReportCardsProps} from '@/types';
 import { BsFillQuestionSquareFill } from "react-icons/bs";
 
- const ReportsCards: React.FC<ReportCardsProps> = ({ title, icon, callbackExcel }) => {
+ const ReportsCards: React.FC<ReportCardsProps> = ({ title, icon, callbackExcel}) => {
 
     const iconComponent =
         icon === 'RiUserSettingsFill' ? <RiUserSettingsFill className='text-4xl text-white m-4' /> :
@@ -18,7 +18,7 @@ import { BsFillQuestionSquareFill } from "react-icons/bs";
 
     return (
         <div className='cursor-pointer'>
-            <div className='bg-gray-200 m-3 p-3 flex flex-col rounded-3xl items-center justify-center hover:scale-105' onClick={callbackExcel}>
+            <div className='bg-gray-200 m-3 p-3 flex flex-col rounded-3xl items-center justify-center hover:scale-105' onClick={()=>callbackExcel('')}>
                 <h2 className='text-2xl sm:text-center text-white text-center m-5'>
                     {title}
                 </h2>

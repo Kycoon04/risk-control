@@ -2,14 +2,14 @@
 import Standard_button from '../forms/options_Forms';
 import {FieldQuestion} from '@/types';
 
-const Componente: React.FC<FieldQuestion> = ({ question, titule, options, selectedOption, onButtonClick }) => {
+const Component: React.FC<FieldQuestion> = ({ question, title, options, selectedOption, onButtonClick }) => {
     return (
         <div className='bg-gray-1000 w-full rounded-3xl'>
             <h2 className='p-5 font-light text-2xl text-white'>
                 {question}
             </h2>
             <span className='flex m-5 mt-2 font-light overflow-auto whitespace-normal text-justify text-white'>
-                {titule}
+                {title}
             </span>
             <span className='flex m-5 mt-2 font-thin overflow-auto whitespace-normal text-justify text-white'>
                 Señale la opción que describa mejor la situación actual de su entidad.
@@ -19,7 +19,7 @@ const Componente: React.FC<FieldQuestion> = ({ question, titule, options, select
                     <Standard_button
                         key={index}
                         fuction={() => onButtonClick(option.id)}
-                        titule={option.option}
+                        title={option.option}
                         width={"400px"}
                         selected={option.id === selectedOption}
                     />
@@ -29,4 +29,4 @@ const Componente: React.FC<FieldQuestion> = ({ question, titule, options, select
     );
 }
 
-export default Componente;
+export default Component;

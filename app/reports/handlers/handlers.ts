@@ -3,7 +3,7 @@ import {generateExcelUsers, generateExcelForms, generateExcelDepartments, genera
 
 
 
-export const handlerUsers = async ()=>{
+export const handlerUsers = async (userName : string)=>{
     const usersFetch  = await fetch('/api/users/[id]', {
         cache: "no-store",
     });
@@ -20,11 +20,11 @@ export const handlerUsers = async ()=>{
             user.department = department.name;
         }
     });
-    return generateExcelUsers(users);
+    return generateExcelUsers(users,userName);
 
 }
 
-export const handlerDepartments = async ()=>{
+export const handlerDepartments = async (userName: string)=>{
     const departmentsFetch  = await fetch('/api/departments/[id]', {
         cache: "no-store",
     });
@@ -41,18 +41,18 @@ export const handlerDepartments = async ()=>{
             department.unit = unit.name;
         }
     });
-    return generateExcelDepartments(departments);
+    return generateExcelDepartments(departments, userName);
 }
 
-export const handlerForms = async ()=>{
+export const handlerForms = async (userName : string )=>{
     const formsFetch  = await fetch('/api/forms', {
         cache: "no-store",
     });
     const forms: Form[] = await formsFetch.json();
-    return generateExcelForms(forms);
+    return generateExcelForms(forms, userName);
 }
 
-export const handlerQuestionsXsections = async ()=>{
+export const handlerQuestionsXsections = async (userName : string)=>{
     const questionsFetch  = await fetch('/api/questions/[id]', {
         cache: "no-store",
     });
@@ -80,5 +80,5 @@ export const handlerQuestionsXsections = async ()=>{
         }
 
     });
-    return generateExcelQuestionsXsections(questionsXsections);
+    return generateExcelQuestionsXsections(questionsXsections, userName);
 }

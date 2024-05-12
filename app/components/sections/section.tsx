@@ -13,11 +13,11 @@ import { putForms } from '../actions/actions_forms/actions';
 import { putSection } from '../actions/actions_sections/actions';
 import { fetchSections } from '../actions/actions_sections/actions';
 
-interface FormsTitule {
-    titule: string | undefined;
+interface FormsTitle {
+    title: string | undefined;
 }
 
-const Componente: React.FC<FormsTitule> = ({ titule }) => {
+const Component: React.FC<FormsTitle> = ({ title }) => {
     const router = useRouter();
     const forms = useAuthStore((state) => state.form);
     const User = useAuthStore(state => state.user);
@@ -33,14 +33,27 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     }
+
+    const questionData = questions.map((question, index) => {
+        const optionsForQuestion = allOptions[index] || [];
+        return {
+            id: question.id,
+            text: question.question,
+            question: question.description,
+            options: {
+                id: optionsForQuestion.map(option => option.id),
+                option: optionsForQuestion.map(option => option.option),
+            }
+        };
+    });
     
     const postanswers = async () => {
         for (const option of Object.values(selectedOptions)) {
-            const paramanswer: Answers = {
+            const paramAnswer: Answers = {
                 user: User?.id,
                 option: option
             };
-            await postAnswer(paramanswer);
+            await postAnswer(paramAnswer);
         }
         const paramSection: paramsSection = {
             id: section.id,
@@ -76,7 +89,7 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
         }));
     };
 
-    const renderQuestions = () => {
+    const renderQuestions = () => { // para renderizar las preguntas, esto es otro componente
         const startIndex = (page - 1) * QuestionsPerPage;
         const endIndex = startIndex + QuestionsPerPage;
         const renderedQuestions = questions
@@ -94,7 +107,7 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
                         key={q.id}
                         options={mappedOptions}
                         question={q.question}
-                        titule={q.description}
+                        title={q.description}
                         selectedOption={selectedOptions[q.id] || null}
                         onButtonClick={(option) => handleButtonClick(q.id, option)}
                     />
@@ -106,12 +119,12 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const id = section.id;
+            
             const paramQuestion: ParamQuestions = {
                 id: "",
                 question: "",
                 description: "",
-                section: id,
+                section: section.id,
             };
             const fetchedSections = await fetchQuestion(paramQuestion);
             setQuestions(fetchedSections.props.data);
@@ -149,23 +162,12 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
         fetchData();
     }, [section]);
 
-    const questionData = questions.map((q, index) => {
-        const optionsForQuestion = allOptions[index] || [];
-        return {
-            id: q.id,
-            text: q.question,
-            question: q.description,
-            options: {
-                id: optionsForQuestion.map(option => option.id),
-                option: optionsForQuestion.map(option => option.option),
-            }
-        };
-    });
+  
 
     return (
         <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md justify-center items-center flex'>
             <div className='bg-gray-200 w-[90%] m-10 p-5 rounded-3xl flex flex-col items-center justify-center'>
-                <div className='text-3xl my-5'>{titule}</div>
+                <div className='text-3xl my-5'>{title}</div>
                 <div className='m-5 items-center flex-col flex '>
                     {isLoading ? (
                         <Spinner />
@@ -194,4 +196,4 @@ const Componente: React.FC<FormsTitule> = ({ titule }) => {
     );
 }
 
-export default Componente;
+export default Component;

@@ -1,11 +1,25 @@
 import * as XLSX from "xlsx";
 import {User,Form, Department, QuestionsExcel} from "@/types";
 
+let amountRows = 0;
 
-export const generateExcelUsers = async (users: User[]) => {
-  const lengths = [20, 20, 20, 20, 20, 40, 20, 20, 30, 20];
+export const generateExcelUsers = async (users: User[], userName:string) => {
+  amountRows = users.length + 3;
+  const lengths = [20, 45, 20, 20, 20, 40, 20, 20, 30, 20];
   const handleDownload = () => {
     let table = [
+      {
+        A: "Risks-Control Users Report:",
+        B: "",
+        C: "",
+        D: "",
+        E: "",
+        F: "",
+        G: "",
+        H: "",
+        I: "",
+        J: "",
+      },
       {
         A: "Id",
         B: "Name",
@@ -19,6 +33,7 @@ export const generateExcelUsers = async (users: User[]) => {
         J: "Department",
       },
     ];
+    
     users.forEach((user) => {
          table.push({
           A: user.id,
@@ -46,6 +61,19 @@ export const generateExcelUsers = async (users: User[]) => {
       I: "",
       J: "",
     });
+
+    table.push({
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on  ${ new Date().toLocaleDateString()}`,
+      B: "",
+      C:"",
+      D: "",
+      E: "",
+      F: "",
+      G: "",
+      H: "",
+      I: "",
+      J: "",
+    });
     
     const dataFinal = [...table];
     setTimeout(() => {
@@ -57,10 +85,19 @@ export const generateExcelUsers = async (users: User[]) => {
 
 
 
-export const generateExcelForms = async (forms: Form[]) => {
+export const generateExcelForms = async (forms: Form[], userName : string) => {
+  amountRows = forms.length + 2;
   const lengths = [20, 20, 20, 25, 25, 20];
   const handleDownload = () => {
     let table = [
+      { 
+        A: "Risks-Control forms Report:",
+        B: "",
+        C: "",
+        D: "",
+        E: "",
+        F: "",
+    },
       {
         A: "Id",
         B: "Name",
@@ -70,6 +107,7 @@ export const generateExcelForms = async (forms: Form[]) => {
         F: "Complete",
       },
     ];
+    
     forms.forEach((form) => {
          table.push({
           A: form.id,
@@ -80,6 +118,14 @@ export const generateExcelForms = async (forms: Form[]) => {
           F: form.complete,
         });
     });
+    table.push({
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}`,
+      B: "",
+      C: "",
+      D: "",
+      E: "",
+      F: "",
+    });
     const dataFinal = [...table];
     setTimeout(() => {
       createFile(dataFinal, "Forms Report", "formsReport.xlsx", lengths);
@@ -89,10 +135,17 @@ export const generateExcelForms = async (forms: Form[]) => {
   handleDownload();
 };
 
-export const generateExcelDepartments = async (departments: Department[]) => {
+export const generateExcelDepartments = async (departments: Department[], userName : string)  => {
+  amountRows = departments.length + 2;
   const lengths = [20, 25, 100, 20];
   const handleDownload = () => {
     let table = [
+      {
+        A: "Risks-Control Departments Report:",
+        B: "",
+        C: "",
+        D: "",
+      },
       {
         A: "Id",
         B: "Name",
@@ -108,6 +161,12 @@ export const generateExcelDepartments = async (departments: Department[]) => {
           D: department.unit,
         });
     });
+    table.push({
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()} `,
+      B: "",
+      C: "",
+      D: "",
+    });
     const dataFinal = [...table];
     setTimeout(() => {
       createFile(dataFinal, "Departments Report", "departmentsReport.xlsx", lengths);
@@ -117,10 +176,18 @@ export const generateExcelDepartments = async (departments: Department[]) => {
   handleDownload();
 };
 
-export const generateExcelQuestionsXsections = async (questions: QuestionsExcel[]) => {
+export const generateExcelQuestionsXsections = async (questions: QuestionsExcel[], userName : string) => {
+  amountRows = questions.length + 3;
   const lengths = [25, 100, 100, 25, 25];
   const handleDownload = () => {
     let table = [
+      {
+        A: "Risks-Control Questions per section and form Report:",
+        B: "",
+        C: "",
+        D: "",
+        E: "",
+      },
       {
         A: "Id",
         B: "Question",
@@ -145,6 +212,13 @@ export const generateExcelQuestionsXsections = async (questions: QuestionsExcel[
       D: "",
       E: "",
     });
+    table.push({
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}`,
+      B: "",
+      C: "",
+      D: "",
+      E: "",
+    });
     const dataFinal = [...table];
     setTimeout(() => {
       createFile(dataFinal, "QuestionsXsectionsXforms", "questionsXSectionXForm.xlsx", lengths);
@@ -157,6 +231,15 @@ export const generateExcelQuestionsXsections = async (questions: QuestionsExcel[
 const createFile = (dataFinal: any, sheetName:string, fileName:string, lengths:number[]) => {
   const book = XLSX.utils.book_new();
   const sheet = XLSX.utils.json_to_sheet(dataFinal, { skipHeader: true});
+
+  sheet["!merges"] =[{
+    s: { r: 0, c: 0 },
+    e: { r: 0, c: 9 },
+  },
+  {
+    s: { r: amountRows, c: 0 },
+    e: { r: amountRows, c: 9 },
+  }];
 
   let properties: any = [];
   lengths.forEach((col) => {

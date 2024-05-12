@@ -246,11 +246,11 @@ export interface ReportCardsProps {
     title : string;
     url: string;
     icon: string;
-    callbackExcel : () => void;
+    callbackExcel: (userName: string) => Promise<void>;
 };
 
 export interface FieldQuestion {
-    titule: string;
+    title: string;
     question: string;
     options: {
         id: string;
