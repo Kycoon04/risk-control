@@ -3,7 +3,7 @@ import {Role} from "@/types";
 interface NavBarCollapseProps {
     isOpen: boolean;
     toggleDropdown: () => void;
-    rol: Role[];
+    rol: Role[] | null;
 }
 export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: NavBarCollapseProps) {
     return (
@@ -26,7 +26,7 @@ export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: Nav
                                 <a href="/home_page" className="block px-4 py-2 hover:text-purple-400">
                                     Formularios</a>
                             </li>
-                            {rol.some(role => role.name === "Admi senior") && (
+                            {rol?.some(role => role.name === "Admi senior") && (
                                 <>
                                     <li>
                                         <a href="/home_page/maintenance" className="block px-4 py-2 hover:text-purple-400">Mantenimiento</a>
@@ -42,7 +42,7 @@ export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: Nav
                                     </li>
                                 </>
                             )}
-                            {rol.some(role => role.name === "Admi junior") && (
+                            {rol?.some(role => role.name === "Admi junior") && (
                                 <>
                                     <li>
                                         <a href="/home_page/maintenance" className="block px-4 py-2 hover:text-purple-400">Mantenimiento</a>

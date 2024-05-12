@@ -5,7 +5,7 @@ import {Role} from "@/types";
 interface NavBarCollapseProps {
     isOpen: boolean;
     toggleDropdown: () => void;
-    rol: Role[];
+    rol: Role[] | null;
 }
 export default function NavBarCollapse({ isOpen, toggleDropdown, rol }: NavBarCollapseProps) {
     return (
