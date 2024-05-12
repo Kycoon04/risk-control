@@ -42,7 +42,7 @@ export default function NavBarBrandDropDown({ isOpen, toggleDropdown, rol }: Nav
                                     </li>
                                 </>
                             )}
-                            {rol?.some(role => role.name === "Admi junior") && (
+                            {rol?.some(role => role.name === ("Admi junior" || "Soporte")) && (
                                 <>
                                     <li>
                                         <a href="/home_page/maintenance" className="block px-4 py-2 hover:text-purple-400">Mantenimiento</a>
