@@ -50,9 +50,9 @@ The project entails the creation of a web platform aimed at facilitating effecti
 - [Vercel](https://vercel.com/)
 
 ## Views in the project 
--Login
+- Login
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/login.png)
--Azure authentication
+- Azure authentication
 ![LandingPage](![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/azure%20identification.png)
 - Landing page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/landing%20page%20.png)
@@ -62,7 +62,7 @@ The project entails the creation of a web platform aimed at facilitating effecti
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20form%20uncompleted.png)
 - User information
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/user%20info.png)
--Logger
+- Logger
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/logger.png)
 - Maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/Maintenance%20home%20page.png)
