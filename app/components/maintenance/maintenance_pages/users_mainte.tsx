@@ -14,7 +14,6 @@ const UsersMaintenance: React.FC = () => {
     const [unfiltered, setUnfiltered] = useState<User[]>([]);
     const [filters, setFilters] = useState<Partial<User>>(param);
     const setUser = useAuthStore(state => state.setUser);
-    const setRol = useAuthStore(state => state.setRol);
     const clearFilters = () => { setFilters(param); setUsers(unfiltered); };
     useEffect(() => {
         const fetchData = async () => {
@@ -34,14 +33,9 @@ const UsersMaintenance: React.FC = () => {
         const deletionResult = await deleteUser(parseInt(userId, 10));
         stateDeleted(deletionResult,setUsers,setUnfiltered);
     };
-    const fetchUserRol = async (props: RoleXUser) => {
-        const fetchedRoleXUser = await fetchUserRole(props);
-        return fetchedRoleXUser.props.data[0];
-    };
     const handleModifyUser = async (user: User) => {
         setUser(user);
-        const role = await fetchUserRol({ id: "", user: user.id, role: ""});
-        setRol(role);
+
     };
     return (
         <>

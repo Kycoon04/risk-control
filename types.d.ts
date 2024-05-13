@@ -329,6 +329,10 @@ export interface departmentSelected {
      state:string;
 };
 
+export interface roleSelected {
+    role:Role;
+    state:string;
+};
 export interface paramsDepartXForms {
     department: string | undefined;
     forms: string;

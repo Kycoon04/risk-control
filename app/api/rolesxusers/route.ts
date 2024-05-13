@@ -6,12 +6,12 @@ import { postLogger } from "../logger/actions";
 
 export async function POST(req: Request) {
     try {
-        const data: CreateRoleXUserData = await req.json();
+        const {role, user} = await req.json();
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
         const newUser = await prisma.tL_UserXRoles.create({
             data: {
-                user: data.user,
-                role: data.role,
+                user: user,
+                role: role,
             },
         });
         const logger = {
@@ -40,7 +40,12 @@ export async function GET(_req: Request) {
         const { id, user, role } = parameters
         const whereCondition = {
             where: {
-                user: user,
+                id:id,
+                user:user,
+                role:role
+            },
+            include: {
+                TL_Users: true,
             },
         };
         let loggers;
@@ -63,13 +68,19 @@ export async function GET(_req: Request) {
 
 export async function DELETE(_request: Request) {
     try {
-        const id = parseInt(getParams(_request.url, { id: 0 }).id);
+        const object = { role: 0, user: 0 };
+        const url = _request.url;
+        const parameters = getParams(url, object)
         const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
-        const deletedUser = await prisma.tL_UserXRoles.delete({
+        const { role, user } = parameters
+        const whereCondition = {
             where: {
-                id: id
+                role: role,
+                user: user
             },
-        });
+        };
+        let loggers;
+        loggers = await prisma.tL_UserXRoles.deleteMany({ where: whereCondition.where });
         const logger = {
             id: "",
             usuario:  "defaultUser",
@@ -80,7 +91,7 @@ export async function DELETE(_request: Request) {
             date: new Date().toISOString(),
         }
         await postLogger(logger);
-        return NextResponse.json(deletedUser);
+        return NextResponse.json(loggers);
     } catch (error) {
         return new NextResponse("Internal Error", { status: 500 });
     }
