@@ -49,10 +49,39 @@ The project entails the creation of a web platform aimed at facilitating effecti
 - [MySQL](https://www.mysql.com/products/workbench/)
 - [Vercel](https://vercel.com/)
 
-## Views explanation 
-## Views Explanation
-
+## Views in the project 
+-Login
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/login.png)
+-Azure authentication
+![LandingPage](![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/azure%20identification.png)
+- Landing page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/landing%20page%20.png)
+-Home page form completed
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20form%20completed.png)
+-Home page form uncompleted
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20form%20uncompleted.png)
+- User information
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/user%20info.png)
+-Logger
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/logger.png)
+- Maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/Maintenance%20home%20page.png)
+- User maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20users.png)
+- Units maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20units.png)
+- Section maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20sections.png)
+- Rols maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20roles.png)
+- Questions maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20questions.png)
+- Departments maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20departments.png)
+- Forms maintenance home page
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20forms.png)
+- Create user
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/create%20user.png)
 
 ## Run Locally
 
