@@ -48,6 +48,12 @@ The project entails the creation of a web platform aimed at facilitating effecti
 - [MongoDB Atlas](https://www.mongodb.com/atlas/database/)
 - [MySQL](https://www.mysql.com/products/workbench/)
 - [Vercel](https://vercel.com/)
+
+## Views explanation 
+## Views Explanation
+
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/Maintenance%20home%20page.png)
+
 ## Run Locally
 
 Clone this repository:
