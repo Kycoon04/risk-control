@@ -53,7 +53,7 @@ The project entails the creation of a web platform aimed at facilitating effecti
 - Login
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/login.png)
 - Azure authentication
-![LandingPage](![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/azure%20identification.png)
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/azure%20identification.png)
 - Landing page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/landing%20page%20.png)
 -Home page form completed
