@@ -92,7 +92,7 @@ The project entails the creation of a web platform aimed at facilitating effecti
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20departments%20info.png)
 - Forms maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20forms.png)
--Edit forms info
+- Edit forms info
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20forms%20info.png)
 - Create user
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/create%20user.png)
