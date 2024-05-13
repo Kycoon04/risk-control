@@ -49,7 +49,7 @@ The project entails the creation of a web platform aimed at facilitating effecti
 - [MySQL](https://www.mysql.com/products/workbench/)
 - [Vercel](https://vercel.com/)
 
-## Views in the project 
+## Diagram of views in the project 
 - Login
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/login.png)
 - Azure authentication
