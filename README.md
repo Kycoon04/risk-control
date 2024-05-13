@@ -68,20 +68,36 @@ The project entails the creation of a web platform aimed at facilitating effecti
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/Maintenance%20home%20page.png)
 - User maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20users.png)
+- Edit user info
+- ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20user%20info%20.png)
 - Units maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20units.png)
-- Section maintenance home page
+- Edit units info
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20units%20info.png)
+- Sections maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20sections.png)
+- Edit sections info
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20sections%20info.png)
 - Rols maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20roles.png)
+- Edit rols info
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20rols%20info.png)
 - Questions maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20questions.png)
+- Edit questions info
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20questions%20info.png)
 - Departments maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20departments.png)
+-Edit deparments info
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20departments%20info.png)
 - Forms maintenance home page
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/homepage%20maintenance%20forms.png)
+-Edit forms info
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/edit%20forms%20info.png)
 - Create user
 ![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/create%20user.png)
+- Reports
+![LandingPage](https://github.com/Kycoon04/risk-control/blob/main/public/screenshots/reports.png)
 
 ## Run Locally
 
