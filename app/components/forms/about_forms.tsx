@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useGraphicData } from "./graphicData";
+import { useGraphicData, useGraphicDataPie } from "./graphicData";
 import { useDataPreparation } from "./utils";
 import { useAuthStore } from "@/provider/store";
 import ModuloMadurezSection from "./moduloMadurezSection";
@@ -32,7 +32,6 @@ const Componente: React.FC = () => {
             }
             return sectionAverages;
         };
-
         if (!isLoading && Answers.length > 0 && sections.length > 0) { 
             const sectionNames: string[] = sections.map(section => section.name);
             setBarData(prevState => ({

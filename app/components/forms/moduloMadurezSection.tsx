@@ -3,6 +3,7 @@ import Spinner from "../notifications/Spinner";
 import Preview_Section from "../sections/preview_section";
 import Barchart from '../graphics/Barchart';
 import Radarchart from '../graphics/Radarchart';
+import Pie from '../graphics/Pie'
 
 const ModuloMadurezSection: React.FC<{
     isLoading: boolean;

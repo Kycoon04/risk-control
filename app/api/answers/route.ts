@@ -45,6 +45,11 @@ export async function GET(_req: Request) {
                 user: user,
             },
             include: {
+                TL_Users:{
+                    include:{
+                        TL_Departaments:true,
+                    },
+                },
                 TL_Options: {
                     include: {
                         TL_Questions: {
@@ -59,6 +64,7 @@ export async function GET(_req: Request) {
                     },
                 },
             },
+
         };
         let loggers;
         loggers = await prisma.tL_Answers.findMany({ where: whereCondition.where, include: whereCondition.include });

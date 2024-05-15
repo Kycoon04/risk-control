@@ -54,5 +54,4 @@ const RoleCard: React.FC<Card> = (promp: Card) => {
         </div>
     );
 }
-
 export default RoleCard;

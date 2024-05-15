@@ -347,6 +347,24 @@ export interface departXForms {
 export interface FecthAnswers {
     user: string | undefined;
     option: string | null;
+    TL_Users:{
+        id: string;
+        name: string;
+        second_name: string;
+        surname: string;
+        second_surname: string;
+        email: string;
+        phone_number: string;
+        nickname: string;
+        identification: string;
+        department: string;
+        TL_Departaments:{
+            id: string;
+            name: string;
+            description: string;
+            unit: string;
+        }
+    };
     TL_Options: {
         id: string
         option: string

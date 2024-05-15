@@ -1,5 +1,7 @@
 "use client";
 import Card from '../utils_comp/card'
+import ResponseAverage from '../forms/responseAverage';
+import DepartmentResponse from '../forms/departmentResponse'
 const Componente: React.FC = () => {
   return (
     <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md'>
@@ -24,7 +26,8 @@ const Componente: React.FC = () => {
             <p className='text-center text-white'>Promedio de respuestas</p>
           </div>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center text-white'>Por sección</p>
+            <p className='text-center text-white'>Cantidad de Respuestas por Sección</p>
+            <ResponseAverage></ResponseAverage>
           </div>
         </div>
         <div className='w-full md:w-[45%] m-5'>
@@ -32,7 +35,9 @@ const Componente: React.FC = () => {
             <p className='text-center text-white'>Nivel obtenido</p>
           </div>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center text-white'>Por departamento</p>
+            <p className='text-center text-white'>Cantidad de usuarios que respondieron por departamento</p>
+              <DepartmentResponse></DepartmentResponse>
+            <></>
           </div>
         </div>
       </div>

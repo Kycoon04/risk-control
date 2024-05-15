@@ -10,7 +10,6 @@ interface ComponenteProps extends Form {
     url: string;
     complete: string;
 }
-
 const Componente: React.FC<ComponenteProps> = ({ id, name, state, inicialperiod, finalperiod, url, complete }) => {
     const setForm = useAuthStore(state => state.setForm);
     const handleFormSelection = () => {
