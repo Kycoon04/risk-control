@@ -8,6 +8,7 @@ import { FaNetworkWired } from "react-icons/fa6";
 import {Field} from '@/types';
 import { MdOutlineWork } from "react-icons/md";
 import { BsBuildingsFill } from "react-icons/bs";
+import { IoOptionsSharp } from "react-icons/io5";
 const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
 
     const iconComponent =
@@ -18,6 +19,7 @@ const PreviewMaintenance: React.FC<Field> = ({ titule, url, icon }) => {
         icon === 'FaNetworkWired' ? <FaNetworkWired className='text-4xl text-white m-4' /> :
         icon === 'MdOutlineWorkOutline' ? <MdOutlineWork className='text-4xl text-white m-4' /> :
         icon === 'BsBuildingsFill' ? <BsBuildingsFill className='text-4xl text-white m-4' /> :
+        icon === 'IoOptionsSharp' ? <IoOptionsSharp className='text-4xl text-white m-4' /> :
         null;
 
     return (

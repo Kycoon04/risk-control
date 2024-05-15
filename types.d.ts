@@ -211,6 +211,12 @@ export interface Options {
     score: string;
     TlQuestions: TlQuestions;
 };
+export interface ParamOption {
+    id: string;
+    option: string;
+    question: string;
+    score: string;
+};
 
 export interface graphicData {
     labels: string[];
