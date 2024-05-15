@@ -1,103 +1,23 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Standard_button from '../utils_forms/Button';
 import { useRouter } from 'next/navigation';
-import { PublicClientApplication } from '@azure/msal-browser';
-import { config } from '@/lib/Config';
-import { fetchUsers, fetchUserRole, fetchRole } from '../actions/actions';
-import { useAuthStore } from '@/provider/store';
 import { ToastContainer } from 'react-toastify';
 import { Error } from '../notifications/alerts';
 import 'react-toastify/dist/ReactToastify.css';
-import { RoleXUser, User} from '@/types';
-
+import { useAuthentication } from './loginFunction';
 interface LoginProps {
   scopes?: string[];
 }
 
-const publicClientApplication = new PublicClientApplication({
-  auth: {
-    clientId: config.appId,
-    redirectUri: config.redirectUri,
-    authority: config.authority,
-  },
-  cache: {
-    cacheLocation: 'sessionStorage',
-    storeAuthStateInCookie: true,
-  },
-});
-
 const App: React.FC = () => {
-  let isAuthenticated = false;
   const router = useRouter();
-  const setUser = useAuthStore(state => state.setUser);
-  const changelogged = useAuthStore(state => state.changeLogged);
-  const setRol = useAuthStore(state => state.setRol);
-
-  const fetchUser = async (props: User) => {
-    const fetchedForms = await fetchUsers(props);
-    return fetchedForms.props.data;
-  };
-  
-  const fetchUserRol = async (props: RoleXUser) => {
-    const fetchedRoleXUser = await fetchUserRole(props);
-    const fetchedRoles = await Promise.all(fetchedRoleXUser.props.data.map(async (role: RoleXUser) => {
-      const fetchedRole = await fetchRole(role.role);
-      return fetchedRole.props.data;
-  }));
-  return fetchedRoles;
-  };
-
-  useEffect(() => {
-    const initializeMsal = async () => {
-      try {
-        await publicClientApplication.initialize();
-      } catch (err) {
-        console.error('MSAL initialization error:', err);
-      }
-    };
-    initializeMsal();
-  }, []);
-
-  async function login(props?: LoginProps) {
-    try {
-        const account = await publicClientApplication.loginPopup({
-          scopes: props?.scopes || config.scopes,
-          prompt: 'select_account',
-        });
-      const user = await fetchUser({
-        id: "",
-        name: "",
-        second_name: "",
-        surname: "",
-        second_surname: "",
-        email: account.account.username, //  account.account.username
-        phone_number: "",
-        nickname: "",
-        identification: "",
-        department: ""
-      });
-      if (user[0]) {
-        isAuthenticated = true;
-        const role = await fetchUserRol({
-          id: "",
-          user: user[0].id,
-          role: ""
-        });
-        setRol(role);
-        changelogged();
-        setUser(user[0]);
-      }
-    } catch (err) {
-      console.error('Login error:', err);
-      isAuthenticated = false;
-    }
-  }
+  const { login} = useAuthentication();
 
   const submitForm = async () => {
     try {
-      await login();
+      const isAuthenticated = await login();
       if (isAuthenticated) {
         router.push("/home_page");
       } else {
