@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import getParams from "@/app/api/functions/getParams";
-import { CreateOptionData} from "@/types"
+import { CreateOptionData, ParamOption} from "@/types"
 import { postLogger } from "../logger/actions";
 
 export async function POST(req: Request) {
@@ -84,6 +84,35 @@ export async function DELETE(_request: Request) {
         await postLogger(logger);
         return NextResponse.json(deleteOption);
     } catch (error) {
+        return new NextResponse("Internal Error", { status: 500 });
+    }
+}
+export async function PUT(_request: Request) {
+    try {
+        const {id,option,question,score} = await _request.json();
+        const clientIp = _request.headers.get("x-real-ip") || _request.headers.get("x-forwarded-for");
+        const updatedOption = await prisma.tL_Options.update({
+            where: { id: typeof id === 'string' ? parseInt(id, 10) : id },
+            data: {
+                id: typeof id === 'string' ? parseInt(id, 10) : id,
+                option: option,
+                question: parseInt(question, 10),
+                score: parseInt(score, 10),
+            },
+        });
+        const logger = {
+            id: "",
+            usuario: "defaultUser",
+            transaction_type: "PUT",
+            role: "rol",
+            transaction: "PUT OPTIONS",
+            ip: clientIp || "192.168",
+            date: new Date().toISOString(),
+        }
+        await postLogger(logger);
+        return NextResponse.json(updatedOption);
+    } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

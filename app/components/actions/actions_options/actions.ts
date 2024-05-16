@@ -32,3 +32,22 @@ export const fetchOptions = async (param: ParamOption) => {
       return false;
     }
   }
+  export const postUpdateOption = async (id:string,option: string, question: string, score:string) => {
+    try {
+      const response = await fetch('/api/options/[id]', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id:parseInt(id, 10),
+          option: option,
+          question:parseInt(question, 10),
+          socre:parseInt(score, 10),
+        })
+      });
+      return response;
+    } catch (error) {
+      console.error('Error de red', error);
+    }
+  }

@@ -14,7 +14,7 @@ export const submitFormQuestion = async (id:string, question:string, description
     try {
         const anQuestion = await postUpdateQuestion(id, question, description,section);
         if (true) {
-          Success('Unidad actualizada');
+          Success('Pregunta actualizada');
         } else {
           console.log('Error de registro');
           Error("Error de registro");

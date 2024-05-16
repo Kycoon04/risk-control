@@ -297,6 +297,17 @@ export interface StandardChoiceBoxProps {
     titule: string;
 }
 
+export interface ParamQuestionStandardChoiceBox {
+    id: string;
+    question: string;
+};
+
+export interface StandardChoiceBoxPropsQuestion {
+    data: ParamQuestionStandardChoiceBox[];
+    selectData: string;
+    onChange: (value: string) => void;
+    titule: string;
+}
 export interface StandardChoiceBoxStates {
     data: string[];
     selectData: string;
