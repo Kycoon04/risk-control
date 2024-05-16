@@ -43,11 +43,35 @@ export const fetchOptions = async (param: ParamOption) => {
           id:parseInt(id, 10),
           option: option,
           question:parseInt(question, 10),
-          socre:parseInt(score, 10),
+          score:parseInt(score, 10),
         })
       });
       return response;
     } catch (error) {
       console.error('Error de red', error);
+    }
+  }
+
+  export const postOption = async (option: string, question: string, score:string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/options', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          option:option,
+          question:parseInt(question, 10),
+          score:parseInt(score, 10),
+        })
+      });
+      if (response.ok) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+      return false;
     }
   }
