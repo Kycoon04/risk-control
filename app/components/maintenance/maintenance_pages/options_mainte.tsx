@@ -43,7 +43,7 @@ const OptionsMaintenance: React.FC = () => {
             <div className="bg-gray-200 w-full flex flex-wrap gap-5 rounded-md px-5 place-items-end mb-4">
                     <div className="w-full md:w-auto flex justify-start items-center">
                         <div className='bg-purple-400 flex  gap-3 md:gap-5 rounded-2xl text-white cursor-pointer mr-4 md:mr-12 place-items-end p-2 md:p-3 border-4 text-xs md:text-base' >
-                            <Link href={'/home_page/maintenance/mainte_options/'}>
+                            <Link href={'/home_page/maintenance/'}>
                                 <FaRegPlusSquare className="text-white font text-2xl md:text-4xl hover:text-slate-300" />
                             </Link>
                         </div>
