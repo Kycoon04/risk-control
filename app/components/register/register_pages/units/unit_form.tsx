@@ -5,8 +5,6 @@ import Field from '@/app/components/utils_forms/Field';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationLoad } from '@/lib/validation/makeValidationLoad';
-import { postUnit} from '@/app/components/actions/actions_units/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import {submitFormUnits} from '../units/register_methods'
 const Unit_Form: React.FC = () => {
     const [name, setName] = useState("");
@@ -31,7 +29,9 @@ const Unit_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_units/'}>
+                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    </Link>
                 </div>
             </div>
         </div>

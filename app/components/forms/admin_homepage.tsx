@@ -2,6 +2,7 @@
 import Card from '../utils_comp/card'
 import ResponseAverage from '../forms/responseAverage';
 import DepartmentResponse from '../forms/departmentResponse'
+import LevelObtained from '../forms/levelObtained'
 const Componente: React.FC = () => {
   return (
     <div className='bg-blue-1000 w-90vw md:w-90 sm:w-[90%] m-10 rounded-md'>
@@ -33,6 +34,7 @@ const Componente: React.FC = () => {
         <div className='w-full md:w-[45%] m-5'>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
             <p className='text-center text-white'>Nivel obtenido</p>
+            <LevelObtained></LevelObtained>
           </div>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
             <p className='text-center text-white'>Cantidad de usuarios que respondieron por departamento</p>

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
@@ -33,9 +32,7 @@ const Option_Form: React.FC = () => {
         };
         initialize();
     }, []);
-    const submitForm = async () => {
-        submitFormOption(id,option,question,score);
-    }
+    const submitForm = async () => { submitFormOption(id,option,question,score); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -52,7 +49,9 @@ const Option_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_options/'}>
+                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    </Link>
                 </div>
             </div>
         </div>

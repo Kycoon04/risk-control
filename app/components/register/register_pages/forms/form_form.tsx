@@ -5,8 +5,6 @@ import DatePicker from "@/app/components/utils_forms/DatePicker"
 import Field from '@/app/components/utils_forms/Field';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationForm } from '@/lib/validation/makeValidationForm';
-import { postForm} from '@/app/components/actions/actions_forms/actions'
-import { Error,Success } from '@/app/components/notifications/alerts';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import {Form,Section} from '@/types';
 import {submitForms} from '../forms/register_methods'
@@ -41,7 +39,9 @@ const Form_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_forms/'}>
+                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    </Link>
                 </div>
             </div>
         </div>

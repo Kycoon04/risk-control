@@ -29,9 +29,7 @@ const Form_Form: React.FC = () => {
         if (Forms?.inicialperiod) { setInicialperiod(new Date(Forms.inicialperiod));}
         if (Forms?.finalperiod) { setFinalperiod(new Date(Forms.finalperiod));}
     }, [Forms]);
-    const submitForm = async () => {
-        submitForms(id, name, state, inicialperiod, finalperiod,complete);
-    }
+    const submitForm = async () => { submitForms(id, name, state, inicialperiod, finalperiod,complete); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -50,7 +48,9 @@ const Form_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_forms/'}>
+                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    </Link>
                 </div>
             </div>
         </div>

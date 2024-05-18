@@ -46,7 +46,9 @@ const Rol_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_roles/'}>
+                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    </Link>
                 </div>
             </div>
         </div>

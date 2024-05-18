@@ -52,12 +52,10 @@ const User_Form: React.FC = () => {
                  </div>
             <div className='grid grid-cols-2 md:grid-cols-2 gap-8 justify-center'>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_users/'}>
-                        <Standard_button fuction={comeBack} titule={"Regresar"} width={"350px"}></Standard_button>
-                    </Link>
+                    <Link href={'/home_page/maintenance/mainte_users/'}><Standard_button fuction={comeBack} titule={"Regresar"} width={"350px"}></Standard_button></Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_users/'}><Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button></Link>
                 </div>
             </div>
         </div></>

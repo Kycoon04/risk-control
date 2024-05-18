@@ -31,9 +31,7 @@ const Question_Form: React.FC = () => {
         };
         initialize();
     }, []);
-    const submitForm = async () => {
-        submitFormQuestion(id, question, description,section);
-    }
+    const submitForm = async () => { submitFormQuestion(id, question, description,section); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -50,7 +48,9 @@ const Question_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    <Link href={'/home_page/maintenance/mainte_questions/'}>
+                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
+                    </Link>
                 </div>
             </div>
         </div>
