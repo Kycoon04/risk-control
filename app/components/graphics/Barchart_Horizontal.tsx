@@ -9,6 +9,7 @@ interface LineProps {
 const barOptions: ChartOptions<'bar'> = {
     indexAxis: 'y',
     maintainAspectRatio: true,
+    
     plugins: {
       legend: {
         display: false,

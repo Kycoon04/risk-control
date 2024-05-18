@@ -21,7 +21,6 @@ const DepartmentsNotes: React.FC = () => {
             department,
             count: 0,
         }));
-        console.log(list)
         const generateRandomData = () => {
             const uniqueUserIds: Set<User> = new Set();
             Answers.forEach(answer => {
@@ -30,7 +29,6 @@ const DepartmentsNotes: React.FC = () => {
                     uniqueUserIds.add(user);
                 }
             });
-            console.log(uniqueUserIds)
             list.forEach(department =>{
                 uniqueUserIds.forEach(users=>{
                     if(department.department.id===users.department){
@@ -38,9 +36,7 @@ const DepartmentsNotes: React.FC = () => {
                     }
                 });
             });
-            console.log(list);
             const departAverage: number[] = list.map(department => department.count);
-            console.log(departAverage);
             return departAverage;
         };
         if (!isLoading && Answers.length > 0 && listDepartment.length > 0) { 
@@ -51,6 +47,7 @@ const DepartmentsNotes: React.FC = () => {
                 datasets: [{
                     ...prevState.datasets[0],
                     data: generateRandomData(),
+                    borderWidth: 3
                 }],
             }));
         }

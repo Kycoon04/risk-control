@@ -28,7 +28,6 @@ const LevelObtained: React.FC = () => {
                 }
             }
             const total: number = sectionAverages.reduce((acc, average) => acc + average, 0)/sectionAverages.length;
-            console.log("NUMERROOOO "+ total);
             return total;
         };
         if (!isLoading && Answers.length > 0 && sections.length > 0) { 
