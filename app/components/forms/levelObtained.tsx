@@ -1,15 +1,11 @@
 import React, { useEffect,useState } from "react";
 import { useGraphicData, useGraphicDataPie } from "./graphicData";
 import { useDataPreparation } from "./utils";
-import { useAuthStore } from "@/provider/store";
-import ModuloMadurezSection from "./moduloMadurezSection";
-
+import Spinner from "../notifications/Spinner";
 const LevelObtained: React.FC = () => {
     const [barData, setBarData] = useGraphicData();
     const { isLoading, sections, Answers } = useDataPreparation();
     const [level, setLevel] = useState('');
-    const forms = useAuthStore((state) => state.form);
-
     useEffect(() => {
         const generateRandomData = () => {
             const sectionScores: { [section: string]: number[] } = {};
@@ -50,9 +46,14 @@ const LevelObtained: React.FC = () => {
             }
         }
     }, [isLoading, Answers, sections, setBarData]);
-
     return (
-        <p className="text-3xl text-center font-bold tracking-tight text-green sm:text-4xl underline decoration-white">{level}</p>
+        <>
+        {isLoading ? (
+            <Spinner />
+        ) : (
+            <p className="text-3xl text-center font-bold tracking-tight text-green sm:text-4xl underline decoration-white">{level}</p>
+        )}
+     </>
     );
 };
 
