@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { graphicData } from '@/types';
+import { graphicData,Department } from '@/types';
 
+export interface DepartXCountAnswer {
+    department:Department;
+    count:number;
+}
 export const useGraphicData = (): [graphicData, React.Dispatch<React.SetStateAction<graphicData>>] => {
     const [barData, setBarData] = useState<graphicData>({
         labels: [],
