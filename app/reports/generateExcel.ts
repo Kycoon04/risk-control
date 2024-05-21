@@ -51,7 +51,7 @@ export const generateExcelUsers = async (users: User[], userName:string) => {
 
     table.push({
       A: "Total of users:",
-      B: users.length.toString(),
+      B: `'=CONTARA(B3:B${amountRows-1})`,
       C: "",
       D: "",
       E: "",
@@ -63,7 +63,7 @@ export const generateExcelUsers = async (users: User[], userName:string) => {
     });
 
     table.push({
-      A: `This report was generated on Risk-Control Platform by the user ${userName}  on  ${ new Date().toLocaleDateString()}`,
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on  ${ new Date().toLocaleDateString()}, to use the count function remove the ' from the cell`,
       B: "",
       C:"",
       D: "",
@@ -86,7 +86,7 @@ export const generateExcelUsers = async (users: User[], userName:string) => {
 
 
 export const generateExcelForms = async (forms: Form[], userName : string) => {
-  amountRows = forms.length + 2;
+  amountRows = forms.length + 3;
   const lengths = [20, 20, 20, 25, 25, 20];
   const handleDownload = () => {
     let table = [
@@ -104,7 +104,7 @@ export const generateExcelForms = async (forms: Form[], userName : string) => {
         C: "State",
         D: "Initial Date",
         E: "Final Date",
-        F: "Complete",
+        F: "Status",
       },
     ];
     
@@ -119,7 +119,15 @@ export const generateExcelForms = async (forms: Form[], userName : string) => {
         });
     });
     table.push({
-      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}`,
+      A: "Total of forms:",
+      B: `'=CONTARA(B3:B${amountRows-1})`,
+      C: "",
+      D: "",
+      E: "",
+      F: "",
+    });
+    table.push({
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}, to use the count function remove the ' from the cell`,
       B: "",
       C: "",
       D: "",
@@ -136,7 +144,7 @@ export const generateExcelForms = async (forms: Form[], userName : string) => {
 };
 
 export const generateExcelDepartments = async (departments: Department[], userName : string)  => {
-  amountRows = departments.length + 2;
+  amountRows = departments.length + 3;
   const lengths = [20, 25, 100, 20];
   const handleDownload = () => {
     let table = [
@@ -162,7 +170,13 @@ export const generateExcelDepartments = async (departments: Department[], userNa
         });
     });
     table.push({
-      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()} `,
+      A: "Total of users:",
+      B: `'=CONTARA(B3:B${amountRows-1})`,
+      C: "",
+      D: "",
+    });
+    table.push({
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}, to use the count function remove the ' from the cell`,
       B: "",
       C: "",
       D: "",
@@ -206,14 +220,14 @@ export const generateExcelQuestionsXsections = async (questions: QuestionsExcel[
         });
     });
     table.push({
-      A: "Total of questions per section:",
-      B: questions.length.toString(),
+      A: "Total of questions:",
+      B: `'=CONTARA(B3:B${amountRows-1})`,
       C: "",
       D: "",
       E: "",
     });
     table.push({
-      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}`,
+      A: `This report was generated on Risk-Control Platform by the user ${userName}  on ${new Date().toLocaleDateString()}, to use the count function remove the ' from the cell`,
       B: "",
       C: "",
       D: "",
