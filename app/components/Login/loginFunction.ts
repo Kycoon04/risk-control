@@ -23,17 +23,17 @@ export const useAuthentication = () => {
 
   async function login(props?: LoginProps) {
     try {
-        const account = await publicClientApplication.loginPopup({
-          scopes: props?.scopes || config.scopes,
-          prompt: 'select_account',
-        });
+        // const account = await publicClientApplication.loginPopup({
+        //   scopes: props?.scopes || config.scopes,
+        //   prompt: 'select_account',
+        // });
       const user = await fetchUser({
         id: "",
         name: "",
         second_name: "",
         surname: "",
         second_surname: "",
-        email: account.account.username, //  account.account.username
+        email: "jose.valverde.valverde@est.una.ac.cr", //  account.account.username
         phone_number: "",
         nickname: "",
         identification: "",

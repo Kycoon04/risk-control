@@ -248,6 +248,10 @@ export interface Field {
     icon: string;
 };
 
+interface FormsTitle {
+    title: string | undefined;
+};
+
 export interface ReportCardsProps {
     title : string;
     url: string;
