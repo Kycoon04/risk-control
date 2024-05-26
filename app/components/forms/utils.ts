@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetchSections, fetchAnswers } from "../actions/actions";
+import {fetchUnit} from "../actions/actions_units/actions";
 import { useAuthStore } from "@/provider/store";
-import { Section, FecthAnswers, paramsSection,Department,departXForms} from '@/types';
+import { Section, FecthAnswers, paramsSection,Department,departXForms,ParamUnit} from '@/types';
 import {fetchDepartment} from "@/app/components/actions/actions_departments/actions"
 import {fetchDepartXIdForms} from "@/app/components/actions/actions_deparxforms/actions"
 export const useDataPreparation = () => {
@@ -11,19 +12,11 @@ export const useDataPreparation = () => {
     const [Answers, setAnswers] = useState<FecthAnswers[]>([]);
     const [departments, setDepartments] = useState<Department[]>([]);
     const [departXForms, setDepartXForms] = useState<departXForms[]>([]);
-    const param: paramsSection = {
-        id: "",
-        forms: forms?.id?.toString(),
-        name: "",
-        description: "",
-        complete: "",
-    };
-    const paramDepart: Department = {
-        id: "",
-        name: "",
-        description: "",
-        unit: "",
-    }
+    const [units, setUnits] = useState<ParamUnit[]>([]);
+
+    const param: paramsSection = { id: "", forms: forms?.id?.toString(), name: "", description: "", complete: "", };
+    const paramUnit:ParamUnit = { id: "", name: "", description:"" };
+    const paramDepart: Department = { id: "", name: "", description: "", unit: "", }
     const answer = {
         id: "", user: "",        
         TL_Users:{ id: "",name: "",second_name: "",surname: "",second_surname: "",email: "", phone_number: "",nickname: "",identification: "",department: "",
@@ -52,9 +45,11 @@ export const useDataPreparation = () => {
             setSections(fetchedSections.props.data);
             const fetchedAnswers = await fetchAnswers(answer)
             setAnswers(fetchedAnswers.props.data);
+            const fetchedUnit = await fetchUnit(paramUnit)
+            setUnits(fetchedUnit.props.data);
             setIsLoading(false);
         };
         fetchData();
     }, []);
-    return { isLoading, sections, Answers,departments,departXForms };
+    return { isLoading, sections, Answers,departments,departXForms, units };
 };

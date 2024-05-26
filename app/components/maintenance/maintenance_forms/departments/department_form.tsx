@@ -5,6 +5,7 @@ import Field from '@/app/components/utils_forms/Field';
 import Field_Disabled from '@/app/components/utils_forms/Field_Disabled';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
+import Submit_button from '@/app/components/utils_forms/SubmitButton'
 import { makeChange } from '@/lib/validation/makeChange';
 import { fetchUnit} from '@/app/components/actions/actions_units/actions'
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/department.storage';
@@ -21,6 +22,7 @@ const Department_Form: React.FC = () => {
     const [units, setUnits] = useState<ParamUnit[]>([]);
     const [unit, setUnit] = useState(Department?.unit);
     const { handleSubmit, register, formState: { errors } } = makeChange();
+
     useEffect(() => {
         if (Department) { setLoading(false); }
     }, [Department]);
@@ -31,7 +33,7 @@ const Department_Form: React.FC = () => {
         };
         initialize();
     }, []);
-    const submitForm = async () => { submitFormDepartment(id,name,description,unit);}
+    const submitForm =  async () => {submitFormDepartment(id,name,description,unit);}
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -47,11 +49,11 @@ const Department_Form: React.FC = () => {
                         <Standard_button fuction={comeBack} titule={"Regresar"} width={"350px"}></Standard_button>
                     </Link>
                 </div>
+                <Link href={'/home_page/maintenance/mainte_depart/'}> 
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_depart/'}>
-                        <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
+                        <Submit_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"} href={'/home_page/maintenance/mainte_depart/'}></Submit_button>
                 </div>
+                </Link>
             </div>
         </div>
         </>

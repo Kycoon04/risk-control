@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { graphicData,Department } from '@/types';
+import { graphicData,Department,ParamUnit } from '@/types';
 
 export interface DepartXCountAnswer {
     department:Department;
+    count:number;
+}
+export interface UnitXCountDepart{
+    unit:ParamUnit;
     count:number;
 }
 export const useGraphicData = (): [graphicData, React.Dispatch<React.SetStateAction<graphicData>>] => {

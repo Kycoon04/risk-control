@@ -29,7 +29,7 @@ const Componente: React.FC = () => {
             <p className='text-center text-white'>Promedio de respuestas</p>
           </div>
           <div className="bg-gray-200 mb-5 p-5 rounded-2xl">
-            <p className='text-center text-white'>Cantidad de Respuestas por Sección</p>
+            <p className='text-center text-white'>Cantidad de Departamentos por Unidad</p>
             <ResponseAverage></ResponseAverage>
           </div>
         </div>
