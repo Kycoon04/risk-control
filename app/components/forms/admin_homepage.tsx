@@ -19,7 +19,7 @@ const Componente: React.FC = () => {
     </div>
     <div className='flex flex-wrap md:flex-no-wrap md:justify-between justify-center'>
       <div className='bg-gray-200 w-30vw md:w-1/3 m-5 ml-10 p-5 rounded-2xl'>
-        <p>Notas por departamento</p>
+        <p className='mb-4'>Notas por departamento</p>
         <DepartmentsNotes></DepartmentsNotes>
       </div>
 

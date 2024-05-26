@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
 import Spinner from "../notifications/Spinner";
-import { useGraphicData, useGraphicDataPie } from "./graphicData";
+import { useGraphicData, useGraphicDataPie,DepartXCountAnswer} from "./graphicData";
 import { useDataPreparation } from "./utils";
 import { useAuthStore } from "@/provider/store";
 import Linechart from '../graphics/LineChart'
 import { Department,User} from '@/types';
-interface DepartXCountAnswer {
-    department:Department;
-    count:number;
-}
 const DepartmentsNotes: React.FC = () => {
     const [barData, setBarData] = useGraphicData();
     const { isLoading, sections, Answers,departments, departXForms} = useDataPreparation();
@@ -17,10 +13,7 @@ const DepartmentsNotes: React.FC = () => {
         const listDepartment = departments.filter(department =>
             departXForms.some(depart => depart.department === department.id)
         );
-        const list: DepartXCountAnswer[] = listDepartment.map(department => ({
-            department,
-            count: 0,
-        }));
+        const list: DepartXCountAnswer[] = listDepartment.map(department => ({ department, count: 0, }));
         const generateRandomData = () => {
             const uniqueUserIds: Set<User> = new Set();
             Answers.forEach(answer => {
@@ -30,11 +23,14 @@ const DepartmentsNotes: React.FC = () => {
                 }
             });
             list.forEach(department =>{
-                uniqueUserIds.forEach(users=>{
-                    if(department.department.id===users.department){
-                        department.count+=1;
+                let countAnswer=0;
+                Answers.forEach(answer=>{
+                    if(department.department.id===answer.TL_Users.TL_Departaments.id){
+                        department.count+=parseInt(answer.TL_Options.score, 10);
+                        countAnswer++;
                     }
                 });
+                department.count = countAnswer === 0 ? 0 : (department.count * 100) / (countAnswer * 100);
             });
             const departAverage: number[] = list.map(department => department.count);
             return departAverage;
@@ -47,12 +43,11 @@ const DepartmentsNotes: React.FC = () => {
                 datasets: [{
                     ...prevState.datasets[0],
                     data: generateRandomData(),
-                    borderWidth: 3
+                    borderWidth: 4
                 }],
             }));
         }
     }, [isLoading, Answers,departments,setBarData]);
-
     return (
         <>
             {isLoading ? (
