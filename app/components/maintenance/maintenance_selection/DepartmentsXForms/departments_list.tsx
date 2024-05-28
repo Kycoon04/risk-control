@@ -19,12 +19,12 @@ const DepartmentsList: React.FC = () => {
     const form = useAuthStore(state => state.form);
     const clearFilters = () => { setFilters(param); setDepartments(unfiltered); };
     useEffect(() => {
-        const fetchData = async () => { loadData(setDepartments,setUnfiltered,setDepartXForms,form, setIsLoading); }; fetchData();
+        const fetchData = async () => { loadData(setDepartments,setUnfiltered,setDepartXForms,form, setIsLoading); setIsLoading(false);} ; fetchData();
     }, []);
     useEffect(() => {
         const fetchData = async () => {
             setDepartmentsState(importList(departXForm, departments));
-        }; if (departments.length > 0 && departXForm.length > 0) {fetchData();}
+        }; if (departments.length >= 0 && departXForm.length >= 0) {fetchData();}
     }, [departments, departXForm]);
     useEffect(() => {
         const applyFilters = () => { setDepartments( filtered(unfiltered,filters)); }; applyFilters();
