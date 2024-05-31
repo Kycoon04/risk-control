@@ -103,7 +103,7 @@ export async function PUT(req: Request) {
                 name: name,
                 inicialperiod: inicialperiod,
                 finalperiod: finalperiod,
-                state: state,
+                state: 1,
                 complete: complete,
             },
         });
