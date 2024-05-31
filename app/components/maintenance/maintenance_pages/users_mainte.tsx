@@ -1,41 +1,49 @@
 "use client";
-import { RoleXUser, User } from "@/types";
+import { User } from "@/types";
 import UserCard from "../maintenance_cards/card_maintenance";
+import PaginationBar from "../paginationBar";
 import { useEffect, useState } from "react";
 import { fetchUsers, deleteUser } from "../../actions/actions_users/actions";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';
-import {fetchUserRole, fetchRole} from '@/app/components/actions/actions_roles/actions'
-import {param,filtered,stateDeleted,updateData} from "../maintenance_pages/methods_pages/users_methods"
+import { param, filtered, stateDeleted, updateData } from "../maintenance_pages/methods_pages/users_methods"
 const UsersMaintenance: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<User[]>([]);
     const [filters, setFilters] = useState<Partial<User>>(param);
     const setUser = useAuthStore(state => state.setUser);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 3;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
     const clearFilters = () => { setFilters(param); setUsers(unfiltered); };
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             const fetchedSections = await fetchUsers(param);
-            updateData(setUsers,setUnfiltered,fetchedSections);
+            updateData(setUsers, setUnfiltered, fetchedSections);
             setIsLoading(false);
         }; fetchData();
     }, []);
     useEffect(() => {
         const applyFilters = () => {
-            const filteredLoggers = filtered(unfiltered,filters);
+            const filteredLoggers = filtered(unfiltered, filters);
             setUsers(filteredLoggers);
         }; applyFilters();
     }, [filters, unfiltered]);
     const handleDeleteUser = async (userId: string) => {
         const deletionResult = await deleteUser(parseInt(userId, 10));
-        stateDeleted(deletionResult,setUsers,setUnfiltered);
+        stateDeleted(deletionResult, setUsers, setUnfiltered);
     };
     const handleModifyUser = async (user: User) => {
         setUser(user);
 
+    };
+    const changePage = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
     };
     return (
         <>
@@ -44,9 +52,17 @@ const UsersMaintenance: React.FC = () => {
                 <Filter<User> filters={filters} setFilters={setFilters} clearFilters={clearFilters} />
                 {isLoading ? (
                     <Spinner />) : (
-                    users.map((user) => (
-                        <UserCard key={user.id} prompt_one="Nombre:" prompt_two="Cédula:" prompt_three="Nickname:"  handleDeleteUser={handleDeleteUser} handleModifyUser={handleModifyUser} {...user} />
+                    currentItems.map((user) => (
+                        <UserCard key={user.id} prompt_one="Nombre:" prompt_two="Cédula:" prompt_three="Nickname:" handleDeleteUser={handleDeleteUser} handleModifyUser={handleModifyUser} {...user} />
                     )))}
+                <div className="flex justify-center">
+                    <PaginationBar
+                        maintenance={users}
+                        itemsPerPage={itemsPerPage}
+                        currentPage={currentPage}
+                        changePage={changePage}
+                    />
+                </div>
             </div>
         </>
     );

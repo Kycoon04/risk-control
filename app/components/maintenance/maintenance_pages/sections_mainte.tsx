@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { FaRegPlusSquare } from "react-icons/fa";
 import { Section } from "@/types";
+import PaginationBar from "../paginationBar";
 import SectionCard from "../maintenance_cards/section_card";
 import { useEffect, useState } from "react";
 import { deleteSection, fetchSections } from "../../actions/actions_sections/actions";
@@ -15,6 +16,11 @@ const SectionMaintenance: React.FC = () => {
     const [unfiltered, setUnfiltered] = useState<Section[]>([]);
     const [filters, setFilters] = useState<Partial<Section>>(param);
     const setSection = useAuthStore(state => state.setSection);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const itemsPerPage = 4;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = sections.slice(indexOfFirstItem, indexOfLastItem);
     const clearFilters = () => { setFilters(param); setSections(unfiltered); };
     useEffect(() => {
         const fetchData = async () => {
@@ -34,6 +40,9 @@ const SectionMaintenance: React.FC = () => {
         const deletionResult = await deleteSection(parseInt(userId, 10));
         stateDeleted(deletionResult,setSections,setUnfiltered);
     };
+    const changePage = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+    };
     const handleModifySection = async (section: Section) => { setSection(section); };
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-2xl items-center justify-center'>
@@ -50,9 +59,17 @@ const SectionMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                sections.map((section) => (
+                currentItems.map((section) => (
                     <SectionCard key={section.id} prompt_one="Nombre:" prompt_two="Id:" handleDeleteSection={handleDeleteSection} prompt_three="Completado:" handleModifySection={handleModifySection} {...section} />
                 )))}
+                                <div className="flex justify-center">
+                    <PaginationBar
+                        maintenance={sections}
+                        itemsPerPage={itemsPerPage}
+                        currentPage={currentPage}
+                        changePage={changePage}
+                    />
+                </div>
         </div>
     );
 };
