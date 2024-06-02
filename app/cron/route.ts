@@ -124,6 +124,9 @@ export async function GET() {
             return isSameDay(today, finalPeriod);
         });
 
+        console.log("Forms to start today: ", formsInit);
+        console.log("Forms to end today: ", formsEnd);
+
         if(formsInit.length === 0 && formsEnd.length === 0) {
             return new Response('No forms to start or end today', {status: 200,});
         }
