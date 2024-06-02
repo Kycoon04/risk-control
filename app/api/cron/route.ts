@@ -104,9 +104,9 @@ async function sendEmailEnd(username : string, department : string, form : strin
         }
 
 export async function GET(request: NextRequest) {
-    if (request.headers.get('Authorization') !== `${process.env.CRON_SECRET}`) {
-        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
+    // if (request.headers.get('Authorization') !== `${process.env.CRON_SECRET}`) {
+    //     return new Response('Unauthorized', {status: 401,});
+    // }
     try {
         let forms : FormCron[] = await GetallForms();
         let departXForms : DepartXFormCron[] = await GetallDepartmentsXForms();
@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
         });
 
         if(formsInit.length === 0 && formsEnd.length === 0) {
-            return NextResponse.json('No forms to start or end today');
+            return new Response('No forms to start or end today', {status: 200,});
         }
 
         const matchingDepartmentsEnd: DepartXFormCron[] = departXForms.filter((department) => {
@@ -140,8 +140,8 @@ export async function GET(request: NextRequest) {
             for (let j = 0; j < usersInDepartment.length; j++) {
                 console.log("Sending email to notifiy end :", usersInDepartment[j].name, usersInDepartment[j].email, matchingDepartmentsEnd[i].department, matchingDepartmentsEnd[i].forms);
                 await sendEmailEnd(usersInDepartment[j].nickname, String(matchingDepartmentsEnd[i].department), String(matchingDepartmentsEnd[i].forms), usersInDepartment[j].email);
-                }
             }
+        }
 
         const matchingDepartmentsInit: DepartXFormCron[] = departXForms.filter((department) => {
             return formsInit.some(form => form.id === department.forms);
@@ -155,10 +155,10 @@ export async function GET(request: NextRequest) {
             for (let j = 0; j < usersInDepartment.length; j++) {
                 console.log("Sending email to notify starting:", usersInDepartment[j].name, usersInDepartment[j].email, matchingDepartmentsInit[i].department, matchingDepartmentsInit[i].forms);
                 await sendEmailInit(usersInDepartment[j].nickname, String(matchingDepartmentsInit[i].department), String(matchingDepartmentsInit[i].forms), usersInDepartment[j].email);
-                }
             }
+        }
 
-        return NextResponse.json('Emails sent to users in departments with forms that start or end today');
+        return new Response('All the emails were send successfully', {status: 200,});
     } catch (error) {
         console.error('Error:', error);
         throw error;
