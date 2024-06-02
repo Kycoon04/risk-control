@@ -103,7 +103,7 @@ async function sendEmailEnd(username : string, department : string, form : strin
             }
         }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     // if (request.headers.get('Authorization') !== `${process.env.CRON_SECRET}`) {
     //     return new Response('Unauthorized', {status: 401,});
     // }
