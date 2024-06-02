@@ -160,7 +160,6 @@ export async function GET() {
 
         return new Response('All the emails were send successfully', {status: 200,});
     } catch (error) {
-        console.error('Error:', error);
-        throw error;
+        return new Response(`error while executing cron job ${error}`, {status: 500,});
     }
 }
