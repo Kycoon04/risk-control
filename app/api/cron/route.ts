@@ -103,7 +103,7 @@ async function sendEmailEnd(username : string, department : string, form : strin
             }
         }
 
-export async function GET() {
+export function GET() {
     return new Response('No forms to start or end today', {status: 200,});
     // // if (request.headers.get('Authorization') !== `${process.env.CRON_SECRET}`) {
     // //     return new Response('Unauthorized', {status: 401,});
