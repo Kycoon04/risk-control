@@ -14,6 +14,50 @@ export interface User {
     department: string;
 };
 
+interface Department {
+    id: number;
+    name: string;
+    description: string;
+    unit : number;
+}
+
+interface DepartXFormCron{
+    id: number;
+    department: number | string;
+    forms: number | string;
+
+}
+
+interface FormCron{
+    id: number;
+    name: string;
+    state: number;
+    inicialperiod: Date;
+    finalperiod: Date;
+    complete: string;
+}
+
+interface UserCron{
+    id: number;
+    name: string;
+    second_name: string;
+    surname: string;
+    second_surname: string;
+    email: string;
+    phone_number: string;
+    nickname: string;
+    identification: string;
+    department: number;
+}
+
+interface DepartmentCron{
+    id: number;
+    name: string;
+    description: string;
+    unit: number;
+}
+
+
 export interface Form {
     id: string;
     name: string;
