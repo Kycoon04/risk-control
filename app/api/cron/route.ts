@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import { isSameDay } from 'date-fns';
 import nodemailer from 'nodemailer';
-import { Department, FormCron, DepartXFormCron, UserCron, DepartmentCron } from "@/types";
-import { NextApiResponse } from "next";
+import { FormCron, DepartXFormCron, UserCron, DepartmentCron } from "@/types";
 
 async function GetallUsers() {
     let response = await prisma.tL_Users.findMany();
@@ -35,7 +34,7 @@ const transporter = nodemailer.createTransport({
     },
   });
 
-function getDepartmentName(departmentId : number, departments : Department[]) {
+function getDepartmentName(departmentId : number, departments : DepartmentCron[]) {
     const department = departments.find((department) => department.id === departmentId);
     return department?.name ?? '' ;
 
@@ -46,12 +45,12 @@ function getFormName(formId : number, forms : FormCron[]) {
     return formName?.name ?? '';
 }
 
-function getDepartmentId(departmentName : String, departments : Department[]) {
+function getDepartmentId(departmentName : String, departments : DepartmentCron[]) {
     const department = departments.find((department) => department.name === departmentName);
     return department?.id;
 }
 
-function getUsersInDepartment(users : any[], departments : any[], departmentName : String) {
+function getUsersInDepartment(users : any[], departments : DepartmentCron[], departmentName : String) {
     const departmentId = getDepartmentId(String(departmentName), departments);
     return users.filter((user) => user.department === departmentId);
 }

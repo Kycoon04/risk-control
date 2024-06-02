@@ -1,26 +1,6 @@
 import { ErrorOption } from "react-hook-form";
 import DepartmentCard from "./app/components/maintenance/maintenance_cards/department_card";
 
-export interface User {
-    id: string;
-    name: string;
-    second_name: string;
-    surname: string;
-    second_surname: string;
-    email: string;
-    phone_number: string;
-    nickname: string;
-    identification: string;
-    department: string;
-};
-
-interface Department {
-    id: number;
-    name: string;
-    description: string;
-    unit : number;
-}
-
 interface DepartXFormCron{
     id: number;
     department: number | string;
@@ -57,6 +37,18 @@ interface DepartmentCron{
     unit: number;
 }
 
+export interface User {
+    id: string;
+    name: string;
+    second_name: string;
+    surname: string;
+    second_surname: string;
+    email: string;
+    phone_number: string;
+    nickname: string;
+    identification: string;
+    department: string;
+};
 
 export interface Form {
     id: string;
