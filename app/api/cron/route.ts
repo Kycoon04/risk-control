@@ -125,7 +125,8 @@ export async function GET() {
         });
 
         if(formsInit.length === 0 && formsEnd.length === 0) {
-            return new Response('No forms to start or end today', {status: 200,});
+           //return new Response('No forms to start or end today', {status: 200,});
+           return NextResponse.json('No forms to start or end today')
         }
 
         const matchingDepartmentsEnd: DepartXFormCron[] = departXForms.filter((department) => {
@@ -158,7 +159,7 @@ export async function GET() {
             }
         }
 
-        return new Response('All the emails were send successfully', {status: 200,});
+        return NextResponse.json('Emails sent to users in departments with forms that start or end today')
     } catch (error) {
         return new Response(`error while executing cron job ${error}`, {status: 500,});
     }
