@@ -6,15 +6,15 @@ import Standard_button from '@/app/components/utils_forms/Button';
 import { changeStateLoad } from '@/lib/validation/changeStateLoad';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import {submitFormRoles} from '../roles/register_methods'
-
+import {useRouter} from 'next/navigation';
 const Rol_Form: React.FC = () => {
     const [name, setName] = useState("");
     const [states, setStates] = useState<string[]>(['Activo', 'Inactivo']);
     const [stateId, setStateId] = useState('1');
     const { handleSubmit, register, formState: { errors } } = changeStateLoad();
-
+    const router = useRouter();
     const submitForm = async () => {
-        submitFormRoles(name,stateId);
+        await submitFormRoles(name,stateId).then(()=>router.push('/home_page/maintenance/mainte_roles/'));
     }
     const comeBack = async () => { }
     return (
@@ -30,9 +30,7 @@ const Rol_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_roles/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

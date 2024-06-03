@@ -8,7 +8,7 @@ import { makeValidationForm } from '@/lib/validation/makeValidationForm';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import {Form,Section} from '@/types';
 import {submitForms} from '../forms/register_methods'
-
+import {useRouter} from 'next/navigation';
 const Form_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [id,setId]=useState("");
@@ -19,8 +19,9 @@ const Form_Form: React.FC = () => {
     const [finalperiod, setFinalperiod] = useState<Date>(new Date());
     const [complete, setComplete] = useState('Sin Completar');
     const { handleSubmit, register, formState: { errors } } = makeValidationForm();
+    const router = useRouter();
     const submitForm = async () => {
-        submitForms(id, name, state, inicialperiod, finalperiod,complete);
+        await submitForms(id, name, state, inicialperiod, finalperiod,complete).then(()=>router.push('/home_page/maintenance/mainte_forms/'));
     }
     const comeBack = async () => { }
     return (
@@ -39,9 +40,7 @@ const Form_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_forms/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

@@ -11,6 +11,7 @@ import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/
 import { ParamSection } from '@/types';
 import { fetchedSections } from '@/app/components/actions/actions_sections/actions';
 import {submitFormQuestion, comeBack,Sections} from '../questions/maintenance_methods';
+import {useRouter} from 'next/navigation';
 const Question_Form: React.FC = () => {
      const Question = useAuthStore(state => state.question);
     const [loading, setLoading] = useState(true);
@@ -20,7 +21,7 @@ const Question_Form: React.FC = () => {
     const [sections, setSections] = useState<ParamSection[]>([]);
     const [section, setSection] = useState(Question?.section);
     const { handleSubmit, register, formState: { errors } } = makeChange();
-    
+    const router = useRouter();
     useEffect(() => {
         if (Question) { setLoading(false);}
     }, [Question]);
@@ -31,7 +32,7 @@ const Question_Form: React.FC = () => {
         };
         initialize();
     }, []);
-    const submitForm = async () => { submitFormQuestion(id, question, description,section); }
+    const submitForm = async () => { await submitFormQuestion(id, question, description,section).then(()=>router.push('/home_page/maintenance/mainte_questions/')); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -48,9 +49,7 @@ const Question_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_questions/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

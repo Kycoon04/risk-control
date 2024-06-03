@@ -10,7 +10,7 @@ import { ParamOption } from '@/types';
 import ChoiseBox from '@/app/components/register/selectQuestion';
 import ChoiseBoxScore from '@/app/components/utils_forms/ChoiseBox_States'
 import { submitFormOption, Questions} from '../options/register_methods';
-
+import {useRouter} from 'next/navigation';
 const Option_Form: React.FC = () => {
      const Option = useAuthStore(state => state.option);
     const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ const Option_Form: React.FC = () => {
     const [scores, setScores] = useState<string[]>(['20', '40','60','80','100']);
     const [score, setScore] = useState("");
     const { handleSubmit, register, formState: { errors } } = makeValidationForm();
+    const router = useRouter();
     useEffect(() => {
         if (Option) { setLoading(false); }
     }, [Option]);
@@ -31,7 +32,7 @@ const Option_Form: React.FC = () => {
         };
         initialize();
     }, []);
-    const submitForm = async () => { submitFormOption(option,question,score); }
+    const submitForm = async () => { await submitFormOption(option,question,score).then(()=>router.push('/home_page/maintenance/mainte_options/')); }
     const comeBack = async () => { }
     return (
         <>
@@ -48,9 +49,7 @@ const Option_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_options/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

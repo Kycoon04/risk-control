@@ -9,8 +9,8 @@ import {makeValidationLoad } from '@/lib/validation/makeValidationLoad';
 import { Error,Success } from '@/app/components/notifications/alerts';
 import { ParamSection } from '@/types';
 import { fetchedSections } from '@/app/components/actions/actions_sections/actions';
-import { postQuestion } from '@/app/components/actions/actions_questions/actions';
 import {submitFormQuestion,Sections} from '../questions/register_methods'
+import {useRouter} from 'next/navigation';
 const Question_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [question, setQuestion] = useState("");
@@ -18,6 +18,7 @@ const Question_Form: React.FC = () => {
     const [sections, setSections] = useState<ParamSection[]>([]);
     const [section, setSection] = useState('1');
     const { handleSubmit, register, formState: { errors } } = makeValidationLoad();
+    const router = useRouter();
     useEffect(() => {
         const initialize = async () => {
             const fetchSections = await fetchedSections(Sections);
@@ -27,7 +28,7 @@ const Question_Form: React.FC = () => {
         initialize();
     }, []);
     const submitForm = async () => {
-        submitFormQuestion(question, description,section);
+        await submitFormQuestion(question, description,section).then(()=>router.push('/home_page/maintenance/mainte_questions/'));
     }
     const comeBack = async () => { }
     return (
@@ -45,9 +46,7 @@ const Question_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_questions/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

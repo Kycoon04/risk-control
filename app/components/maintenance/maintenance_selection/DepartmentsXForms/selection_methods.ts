@@ -8,7 +8,7 @@ export const param: ParamDepartment = { id: "", name: "", description: "", unit:
 export const loadData = async (setDepartments:Dispatch<SetStateAction<ParamDepartment[]>>,setUnfiltered:Dispatch<SetStateAction<ParamDepartment[]>>,setDepartXForms:Dispatch<SetStateAction<departXForms[]>>,form:Form,setIsLoading:Dispatch<SetStateAction<boolean>>) =>{
     setIsLoading(true);
     updateData(setDepartments,setUnfiltered,setDepartXForms,form);
-    
+    setIsLoading(false);
 }
 export const importList = (departXForm: departXForms[], departments: ParamDepartment[]): departmentSelected[] => {
         const list: departmentSelected[] = [];

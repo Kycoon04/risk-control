@@ -9,6 +9,7 @@ import { fetchUnit} from '@/app/components/actions/actions_units/actions'
 import { ParamUnit } from '@/types';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {submitFormDepartment,Units} from '../departments/register_methods'
+import {useRouter} from 'next/navigation';
 const Department_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [id,setId]=useState("");
@@ -17,7 +18,7 @@ const Department_Form: React.FC = () => {
     const [units, setUnits] = useState<ParamUnit[]>([]);
     const [unit, setUnit] = useState("1");
     const { handleSubmit, register, formState: { errors } } = makeValidationLoad();
-
+    const router = useRouter();
     useEffect(() => {
         const initialize = async () => {
             const fetchedSections = await fetchUnit(Units);
@@ -26,7 +27,7 @@ const Department_Form: React.FC = () => {
         initialize();
     }, []);
     const submitForm = async () => {
-        submitFormDepartment( name, description,unit);
+        await submitFormDepartment( name, description,unit).then(()=>router.push('/home_page/maintenance/mainte_depart/'));
     }
     const comeBack = async () => { }
     return (
@@ -44,9 +45,7 @@ const Department_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_depart/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

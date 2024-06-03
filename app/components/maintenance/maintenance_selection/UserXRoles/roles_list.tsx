@@ -24,7 +24,7 @@ const RolesList: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setRolesState(importList(roleXUser, roles));
-        }; if (roles.length > 0 && roleXUser.length > 0) {fetchData();}
+        }; if (roles.length >= 0 && roleXUser.length >= 0) {fetchData();}
     }, [roles, roleXUser]);
     useEffect(() => {
         const applyFilters = () => { setRoles( filtered(unfiltered,filters)); }; applyFilters();

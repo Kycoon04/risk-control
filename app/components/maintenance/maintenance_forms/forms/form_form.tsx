@@ -9,6 +9,7 @@ import { changeState } from '@/lib/validation/changeState';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import {submitForms,comeBack} from '../forms/maintenance_methods'
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
+import {useRouter} from 'next/navigation';
 const Form_Form: React.FC = () => {
     const Forms = useAuthStore(state => state.form);
     const [loading, setLoading] = useState(true);
@@ -21,7 +22,7 @@ const Form_Form: React.FC = () => {
     const [complete, setComplete] = useState(Forms?.complete);
     const [completes, setCompletes] = useState<string[]>(['Completado', 'Sin Completar']);
     const { handleSubmit, register, formState: { errors } } = changeState();
-
+    const router = useRouter();
     useEffect(() => {
         if (Forms) { setLoading(false); }
         const State = Forms.state == '1' ? 'Activo' : 'Inactivo';
@@ -29,7 +30,7 @@ const Form_Form: React.FC = () => {
         if (Forms?.inicialperiod) { setInicialperiod(new Date(Forms.inicialperiod));}
         if (Forms?.finalperiod) { setFinalperiod(new Date(Forms.finalperiod));}
     }, [Forms]);
-    const submitForm = async () => { submitForms(id, name, state, inicialperiod, finalperiod,complete); }
+    const submitForm = async () => { await submitForms(id, name, state, inicialperiod, finalperiod,complete).then(()=>router.push('/home_page/maintenance/mainte_forms/')); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >

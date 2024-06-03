@@ -11,7 +11,7 @@ import { ParamOption } from '@/types';
 import ChoiseBox from '@/app/components/register/selectQuestion';
 import { submitFormOption, Questions, comeBack} from '../options/maintenance_methods';
 import ChoiseBoxScore from '@/app/components/utils_forms/ChoiseBox_States'
-
+import {useRouter} from 'next/navigation';
 const Option_Form: React.FC = () => {
      const Option = useAuthStore(state => state.option);
     const [loading, setLoading] = useState(true);
@@ -22,6 +22,7 @@ const Option_Form: React.FC = () => {
     const [score, setScore] = useState(Option?.score);
     const [scores, setScores] = useState<string[]>(['20', '40','60','80','100']);
     const { handleSubmit, register, formState: { errors } } = changeState();
+    const router = useRouter();
     useEffect(() => {
         if (Option) { setLoading(false); }
     }, [Option]);
@@ -32,7 +33,7 @@ const Option_Form: React.FC = () => {
         };
         initialize();
     }, []);
-    const submitForm = async () => { submitFormOption(id,option,question,score); }
+    const submitForm = async () => { await submitFormOption(id,option,question,score).then(()=>router.push('/home_page/maintenance/mainte_options/')); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >

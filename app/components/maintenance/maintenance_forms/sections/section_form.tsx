@@ -12,6 +12,7 @@ import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
 import {submitFormSections, comeBack} from '../sections/maintenance_methods';
+import {useRouter} from 'next/navigation';
 const Section_Form: React.FC = () => {
      const Section = useAuthStore(state => state.section);
     const [loading, setLoading] = useState(true);
@@ -23,6 +24,7 @@ const Section_Form: React.FC = () => {
     const [complete, setComplete] = useState(Section?.complete);
     const [states, setStates] = useState<string[]>(['Completado', 'Sin Completar']);
     const { handleSubmit, register, formState: { errors } } = makeChange();
+    const router = useRouter();
     useEffect(() => {
         if (Section) { setLoading(false); }
     }, [Section]);
@@ -32,7 +34,7 @@ const Section_Form: React.FC = () => {
             setForms(fetchedForms.props.data);
         }; initialize();
     }, []);
-    const submitForm = async () => { submitFormSections(id, name, description,form,complete); }
+    const submitForm = async () => {await submitFormSections(id, name, description,form,complete).then(()=>router.push('/home_page/maintenance/mainte_sections/')); }
     return (
         <>
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -50,9 +52,7 @@ const Section_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_sections/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

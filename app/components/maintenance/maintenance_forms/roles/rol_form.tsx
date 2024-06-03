@@ -8,7 +8,7 @@ import { changeState } from '@/lib/validation/changeState';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/role_storage';
 import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import {submitFormRoles, comeBack} from './maintenance_methods';
-
+import {useRouter} from 'next/navigation';
 const Rol_Form: React.FC = () => {
     const Role = useAuthStore(state => state.role);
     const [loading, setLoading] = useState(true);
@@ -17,6 +17,7 @@ const Rol_Form: React.FC = () => {
     const [states, setStates] = useState<string[]>(['Activo', 'Inactivo']);
     const [stateId, setStateId] = useState('');
     const { handleSubmit, register, formState: { errors } } = changeState();
+    const router = useRouter();
     useEffect(() => {
         if (Role) {setLoading(false);}
     }, [Role]);
@@ -30,7 +31,7 @@ const Rol_Form: React.FC = () => {
         initialize();
     }, []);
     const submitForm = async () => {
-        submitFormRoles(id, name,stateId);
+       await submitFormRoles(id, name,stateId).then(()=>router.push('/home_page/maintenance/mainte_roles/'));
     }
     return (
         <div className=' py-5 drop-shadow-lg m-1 flex flex-col items-center pr-7 pl-7' >
@@ -46,9 +47,7 @@ const Rol_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_roles/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

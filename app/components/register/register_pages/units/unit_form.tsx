@@ -6,13 +6,14 @@ import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationLoad } from '@/lib/validation/makeValidationLoad';
 import {submitFormUnits} from '../units/register_methods'
+import {useRouter} from 'next/navigation';
 const Unit_Form: React.FC = () => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const { handleSubmit, register, formState: { errors } } = makeValidationLoad();
-
+    const router = useRouter();
     const submitForm = async () => {
-        submitFormUnits(name, description);
+        await submitFormUnits(name, description).then(()=>router.push('/home_page/maintenance/mainte_units/'));
     }
     const comeBack = async () => { }
     return (
@@ -29,9 +30,7 @@ const Unit_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_units/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>

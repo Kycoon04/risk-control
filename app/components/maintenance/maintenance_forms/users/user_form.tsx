@@ -10,6 +10,7 @@ import {ParamDepartment,Role} from '@/types';
 import {fetchDepartment} from '@/app/components/actions/actions_departments/actions';
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';
 import {submitFormUser,comeBack,Departments} from '../users/maintenance_methods'
+import {useRouter} from 'next/navigation';
 const User_Form: React.FC = () => {
      const User = useAuthStore(state => state.user);
     const [loading, setLoading] = useState(true);
@@ -25,8 +26,9 @@ const User_Form: React.FC = () => {
     const [departments, setDepartments] = useState<ParamDepartment[]>([]);
     const [departmentId, setDepartmentId] = useState(User.department);
     const { handleSubmit, register, formState: { errors } } = registerValidation();
+    const router = useRouter();
     useEffect(() => { if (User) {setLoading(false);} }, [User]);
-    const submitForm = async () => {submitFormUser(id,departmentId, name, second_name, surname, second_surname, email, identification, nickname, phone_number); }
+    const submitForm = async () => {await submitFormUser(id,departmentId, name, second_name, surname, second_surname, email, identification, nickname, phone_number).then(()=>router.push('/home_page/maintenance/mainte_users/')); }
     useEffect(() => {
         const initialize = async () => {
             const fetchedDepartment = await fetchDepartment(Departments);

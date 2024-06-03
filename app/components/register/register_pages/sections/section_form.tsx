@@ -5,12 +5,12 @@ import Field from '@/app/components/utils_forms/Field';
 import Text_Area from '@/app/components/utils_forms/Text_Area';
 import Standard_button from '@/app/components/utils_forms/Button';
 import { makeValidationLoad } from '@/lib/validation/makeValidationLoad';
-import { postSection} from '@/app/components/actions/actions_sections/actions'
 import { Error,Success } from '@/app/components/notifications/alerts';
 import {fetchForms } from '@/app/components/actions/actions_forms/actions';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
 import {submitFormSections} from '../sections/register_methods'
+import {useRouter} from 'next/navigation';
 const Section_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState("");
@@ -19,6 +19,7 @@ const Section_Form: React.FC = () => {
     const [forms, setForms] = useState<Form[]>([]);
     const [complete, setComplete] = useState('Sin completar');
     const { handleSubmit, register, formState: { errors } } = makeValidationLoad();
+    const router = useRouter();
     useEffect(() => {
         const initialize = async () => {
             const fetchedForms = await fetchForms();
@@ -27,7 +28,7 @@ const Section_Form: React.FC = () => {
         initialize();
     }, []);
     const submitForm = async () => {
-        submitFormSections(name,description,form,complete);
+        await submitFormSections(name,description,form,complete).then(()=>router.push('/home_page/maintenance/mainte_sections/'));
     }
     const comeBack = async () => { }
     return (
@@ -45,9 +46,7 @@ const Section_Form: React.FC = () => {
                     </Link>
                 </div>
                 <div className='flex justify-center'>
-                    <Link href={'/home_page/maintenance/mainte_sections/'}>
                         <Standard_button fuction={handleSubmit(submitForm)} titule={"Guardar"} width={"350px"}></Standard_button>
-                    </Link>
                 </div>
             </div>
         </div>
