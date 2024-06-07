@@ -379,7 +379,14 @@ export interface ParamDepartment {
     name: string;
     description: string;
     unit: string;
-
+};
+export interface ParamDepartmentfecth {
+    id: string;
+    name: string;
+    description: string;
+    unit: string;
+    page?: number;
+    limit?: number;
 };
 export interface departmentSelected {
      department:ParamDepartment;

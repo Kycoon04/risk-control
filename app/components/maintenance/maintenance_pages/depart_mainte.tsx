@@ -9,9 +9,10 @@ import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import DepartmentCard from "../maintenance_cards/department_card";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/department.storage';
-import { param, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/depart_methods'
+import { param,params, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/depart_methods'
 const DepartMaintenance: React.FC = () => {
     const [departments, setDepartments] = useState<ParamDepartment[]>([]);
+    const [Count, setCount] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamDepartment[]>([]);
     const [filters, setFilters] = useState<Partial<ParamDepartment>>(param);
@@ -25,8 +26,9 @@ const DepartMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchDepartment(param);
-            updateData(setDepartments, setUnfiltered, fetchedSections);
+            console.log(params)
+            const fetchedSections = await fetchDepartment(params);
+            updateData(setDepartments, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -38,10 +40,14 @@ const DepartMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteDepartment = async (departmentId: string) => {
         const deletionResult = await deleteDepartment(parseInt(departmentId, 10));
-        stateDeleted(deletionResult, setDepartments, setUnfiltered);
+        stateDeleted(deletionResult, setDepartments, setUnfiltered,setCount);
     };
-    const changePage = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        console.log(params)
+        const fetchedSections = await fetchDepartment(params);
+        updateData(setDepartments, setUnfiltered, fetchedSections,setCount);
+        //setCurrentPage(pageNumber);
     };
     const handleModifyDepartment = async (department: ParamDepartment) => { setDepartment(department); };
     return (
@@ -68,7 +74,7 @@ const DepartMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
-                />
+                    count={Count}/>
             </div>
         </div>
     );

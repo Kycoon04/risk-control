@@ -1,20 +1,27 @@
-import {ParamDepartment} from '@/types';
+import {ParamDepartmentfecth} from '@/types';
 
-export const fetchDepartment = async (param: ParamDepartment) => {
-    const queryParams = new URLSearchParams(
-      Object.entries(param)
-        .filter(([_, value]) => value !== undefined && value !== "")
-    ).toString();
-    const res = await fetch(`/api/departments/[id]?${queryParams}`, {
-      cache: "no-store",
-    });
-    const data = await res.json();
-    return {
-      props: {
-        data,
-      }
+export const fetchDepartment = async (param: ParamDepartmentfecth) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+console.log(queryParams)
+  const res = await fetch(`/api/departments/[id]?${queryParams}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Error fetching departments");
+  }
+
+  const data = await res.json();
+  return {
+    props: {
+      data: data.data,
+      pagination: data.pagination,
     }
   }
+}
   export const deleteDepartment = async (departmentId: number): Promise<boolean> => {
     try {
       const response = await fetch(`/api/departments/[id]?id=${departmentId}`, {

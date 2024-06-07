@@ -7,14 +7,15 @@ interface PaginationBarProps {
     itemsPerPage: number;
     currentPage: number;
     changePage: (pageNumber: number) => void;
+    count: number;
 }
 
-const PaginationBar: React.FC<PaginationBarProps> = ({ maintenance, itemsPerPage, currentPage, changePage }) => {
+const PaginationBar: React.FC<PaginationBarProps> = ({ maintenance, itemsPerPage, currentPage, changePage,count }) => {
     return (
         <div className="flex justify-center">
             <Pagination
                 className='mt-5 bg-white rounded-lg p-2'
-                count={Math.ceil(maintenance.length / itemsPerPage)}
+                count={Math.ceil(count / itemsPerPage)}
                 page={currentPage}
                 showFirstButton
                 showLastButton
