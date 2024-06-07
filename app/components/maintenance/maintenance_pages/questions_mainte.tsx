@@ -69,6 +69,7 @@ const QuestionsMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
+                    count={10}
                 />
             </div>
         </div>

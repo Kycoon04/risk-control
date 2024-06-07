@@ -9,9 +9,10 @@ import { deleteForms, fetchForms } from "../../actions/actions_forms/actions";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/form_storage';
-import { param, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/forms_methods'
+import { param,params, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/forms_methods'
 const FormsMaintenance: React.FC = () => {
     const [forms, setForms] = useState<Form[]>([]);
+    const [Count, setCount] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<Form[]>([]);
     const [filters, setFilters] = useState<Partial<Form>>(param);
@@ -25,8 +26,9 @@ const FormsMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchForms();
-            updateData(setForms, setUnfiltered, fetchedSections);
+            const fetchedSections = await fetchForms(params);
+            updateData(setForms, setUnfiltered, fetchedSections,setCount);
+            console.log(forms)
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -38,11 +40,14 @@ const FormsMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteForm = async (userId: string) => {
         const deletionResult = await deleteForms(parseInt(userId, 10));
-        stateDeleted(deletionResult, setForms, setUnfiltered);
+        stateDeleted(deletionResult, setForms, setUnfiltered,setCount);
     };
     const handleModifyForm = async (form: Form) => { setForm(form); };
-    const changePage = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchForms(params);
+        updateData(setForms, setUnfiltered, fetchedSections,setCount);
+        console.log(forms)
     };
     return (
         <div className='bg-gray-200 w-90vw md:w-90 sm:w-[90%] m-3 p-3 flex flex-col rounded-2xl items-center justify-center'>
@@ -68,6 +73,7 @@ const FormsMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
+                    count={Count}
                 />
             </div>
         </div>

@@ -7,7 +7,6 @@ import { postLogger } from "../../logger/actions";
 export async function POST(req: Request) {
     try {
         const { name, inicialperiod, finalperiod, complete, state } = await req.json();
-        console.log(req.json())
         const clientIp = req.headers.get("x-real-ip") || req.headers.get("x-forwarded-for");
         const newForms = await prisma.tL_forms.create({
             data: {
@@ -30,39 +29,64 @@ export async function POST(req: Request) {
         await postLogger(logger);
         return NextResponse.json(newForms);
     } catch (error) {
-        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
 
 export async function GET(_req: Request) {
     try {
-        const id = parseInt(getParams(_req.url, { id: 0 }).id);
+        // Obtener los parámetros desde la URL
+        const object = { id: 0, page: 1, limit: undefined };
+        const params = getParams(_req.url, object);
+        const { id, page, limit } = params;
+
+        const pageNumber = parseInt(page, 10) || 1;
+        const pageSize = limit ? parseInt(limit, 10) : undefined;
+        const skip = pageSize ? (pageNumber - 1) * pageSize : undefined;
+console.log(limit)
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
-        const response = await prisma.tL_forms.findUnique({
-            where: {
-                id: id
+        const relatedData = await prisma.tL_forms.findMany({
+            where: { id: id },
+            ...(skip !== undefined && { skip: skip }),
+            ...(pageSize !== undefined && { take: pageSize }),
+        });
+
+        const totalRecords = await prisma.tL_forms.count({
+            where: {}
+        });
+        const totalPages = pageSize ? Math.ceil(totalRecords / pageSize) : 1;
+
+        const logger = {
+            id: "",
+            usuario: "defaultUser",
+            transaction_type: "GET",
+            role: "rol",
+            transaction: "GET FORMS",
+            ip: clientIp || "192.168",
+            date: new Date().toISOString(),
+        }
+
+        await postLogger(logger);
+
+        return NextResponse.json({
+            data: relatedData,
+            pagination: {
+                totalRecords,
+                totalPages,
+                currentPage: pageNumber,
+                pageSize: pageSize || totalRecords,
             }
         });
-        if (response) {
-            const logger = {
-                id: "",
-                usuario: "defaultUser",
-                transaction_type: "GET",
-                role: "rol",
-                transaction: "GET FORMS",
-                ip: clientIp || "192.168",
-                date: new Date().toISOString(),
-            }
-            await postLogger(logger);
-            return NextResponse.json(response);
-        }
+
+
         return new NextResponse("Not found", { status: 404 });
 
     } catch (error) {
-        return new NextResponse("Unauthorized", { status: 401 });
+        console.log(error);
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
+
 
 export async function DELETE(_request: Request) {
     try {

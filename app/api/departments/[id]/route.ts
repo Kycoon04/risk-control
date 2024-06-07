@@ -40,7 +40,6 @@ export async function GET(_req: Request) {
         const { id, name, description, unit, page, limit } = parameters;
 
         const pageNumber = parseInt(page, 10) || 1;
-        console.log(page)
         const pageSize = limit ? parseInt(limit, 10) : undefined;
         const skip = pageSize ? (pageNumber - 1) * pageSize : undefined;
 

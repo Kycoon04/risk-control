@@ -56,9 +56,18 @@ export interface Form {
     state: string;
     inicialperiod: string;
     finalperiod: string;
-    complete: string
+    complete: string;
 };
-
+export interface FormFecth {
+    id: string;
+    name: string;
+    state: string;
+    inicialperiod: string;
+    finalperiod: string;
+    complete: string;
+    page?: number;
+    limit?: number;
+};
 export interface Department {
     id: string;
     name: string;

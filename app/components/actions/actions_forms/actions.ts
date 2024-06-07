@@ -1,12 +1,18 @@
 import {Form} from '@/types';
-export async function fetchForms() {
-  const res = await fetch('/api/forms', {
+export async function fetchForms(param: Form) {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  const res = await fetch(`/api/forms/[id]?${queryParams}`, {
     cache: "no-store",
   });
   const data = await res.json();
+  console.log(data)
   return {
     props: {
-      data,
+      data: data.data,
+      pagination: data.pagination,
     }
   }
 }

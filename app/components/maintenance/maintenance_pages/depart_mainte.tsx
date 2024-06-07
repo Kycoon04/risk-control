@@ -26,7 +26,6 @@ const DepartMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            console.log(params)
             const fetchedSections = await fetchDepartment(params);
             updateData(setDepartments, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
@@ -44,10 +43,9 @@ const DepartMaintenance: React.FC = () => {
     };
     const changePage = async (pageNumber: number) => {
         params.page = pageNumber;
-        console.log(params)
         const fetchedSections = await fetchDepartment(params);
         updateData(setDepartments, setUnfiltered, fetchedSections,setCount);
-        //setCurrentPage(pageNumber);
+        setCurrentPage(pageNumber);
     };
     const handleModifyDepartment = async (department: ParamDepartment) => { setDepartment(department); };
     return (
@@ -65,7 +63,7 @@ const DepartMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                currentItems.map((department) => (
+                departments.map((department) => (
                     <DepartmentCard key={department.id} prompt_one="Nombre:" prompt_two="Unidad:" prompt_three="Descripción:" handleDeleteDepartment={handleDeleteDepartment} handleModifyDepartment={handleModifyDepartment} {...department} />
                 )))}
             <div className="flex justify-center">
