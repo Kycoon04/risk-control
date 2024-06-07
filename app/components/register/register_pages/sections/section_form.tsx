@@ -11,6 +11,7 @@ import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
 import {submitFormSections} from '../sections/register_methods'
 import {useRouter} from 'next/navigation';
+import { param} from '../../../maintenance/maintenance_pages/methods_pages/forms_methods'
 const Section_Form: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState("");
@@ -22,7 +23,7 @@ const Section_Form: React.FC = () => {
     const router = useRouter();
     useEffect(() => {
         const initialize = async () => {
-            const fetchedForms = await fetchForms();
+            const fetchedForms = await fetchForms(param);
             setForms(fetchedForms.props.data);
         };
         initialize();
