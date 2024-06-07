@@ -12,6 +12,7 @@ import ChoiseBox_States from '@/app/components/utils_forms/ChoiseBox_States';
 import ChoiseBox from '@/app/components/register/selectDepart';
 import {Form,Section} from '@/types';
 import {submitFormSections, comeBack} from '../sections/maintenance_methods';
+import { param,} from '../../maintenance_pages/methods_pages/forms_methods'
 import {useRouter} from 'next/navigation';
 const Section_Form: React.FC = () => {
      const Section = useAuthStore(state => state.section);
@@ -30,7 +31,7 @@ const Section_Form: React.FC = () => {
     }, [Section]);
     useEffect(() => {
         const initialize = async () => {
-            const fetchedForms = await fetchForms();
+            const fetchedForms = await fetchForms(param);
             setForms(fetchedForms.props.data);
         }; initialize();
     }, []);
