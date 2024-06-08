@@ -34,11 +34,18 @@ export async function POST(req: Request) {
 
 export async function GET(_req: Request) {
     try {
-        const object = { id: 0, question: "", description: "", section: 0 }
-        const url = _req.url
+        // Definir el objeto de parámetros con paginación
+        const object = { id: 0, question: "", description: "", section: 0, page: 1, limit: undefined };
+        const url = _req.url;
         const clientIp = _req.headers.get("x-real-ip") || _req.headers.get("x-forwarded-for");
-        const parameters = getParams(url, object)
-        const { id, question, description, section } = parameters
+        const parameters = getParams(url, object);
+        const { id, question, description, section, page, limit } = parameters;
+
+        const pageNumber = parseInt(page, 10) || 1;
+        const pageSize = limit ? parseInt(limit, 10) : undefined;
+        const skip = pageSize ? (pageNumber - 1) * pageSize : undefined;
+
+        // Definir las condiciones de búsqueda
         const whereCondition = {
             where: {
                 id: id,
@@ -47,8 +54,22 @@ export async function GET(_req: Request) {
                 section: section,
             },
         };
-        let loggers;
-        loggers = await prisma.tL_Questions.findMany({ where: whereCondition.where });
+
+        // Obtener los registros paginados y el total de registros
+        const [loggers, totalRecords] = await Promise.all([
+            prisma.tL_Questions.findMany({
+                ...whereCondition,
+                ...(skip !== undefined && { skip: skip }),
+                ...(pageSize !== undefined && { take: pageSize }),
+            }),
+            prisma.tL_Questions.count({
+                ...whereCondition,
+            })
+        ]);
+
+        const totalPages = pageSize ? Math.ceil(totalRecords / pageSize) : 1;
+
+        // Registrar la acción
         const logger = {
             id: "",
             usuario: "defaultUser",
@@ -57,13 +78,25 @@ export async function GET(_req: Request) {
             transaction: "GET QUESTIONS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
-        }
+        };
         await postLogger(logger);
-        return NextResponse.json(loggers);
+
+        // Responder con los registros y la información de paginación
+        return NextResponse.json({
+            data: loggers,
+            pagination: {
+                totalRecords,
+                totalPages,
+                currentPage: pageNumber,
+                pageSize: pageSize || totalRecords,
+            }
+        });
     } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
+
 
 export async function DELETE(_request: Request) {
     try {

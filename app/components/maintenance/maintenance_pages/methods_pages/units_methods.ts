@@ -1,5 +1,5 @@
 "use client";
-import {ParamUnit} from "@/types";
+import {ParamUnit,ParamUnitFetch} from "@/types";
 import {fetchUnit, deleteUnit} from "../../../actions/actions_units/actions";
 import { Success, Error } from "../../../notifications/alerts";
 import { Dispatch, SetStateAction } from "react";
@@ -8,6 +8,13 @@ export const param: ParamUnit = {
         id: "",
         name: "",
         description: "",
+};
+export const params: ParamUnitFetch = {
+    id: "",
+    name: "",
+    description: "",
+    page: 1,
+    limit: 4,
 };
 export const filtered = (unfiltered:ParamUnit[],filters:Partial<ParamUnit>) => {
     const filteredUnits = unfiltered.filter(item => {
@@ -26,16 +33,17 @@ export const filtered = (unfiltered:ParamUnit[],filters:Partial<ParamUnit>) => {
     });
     return filteredUnits;
 }
-export const stateDeleted = async (deletionResult:boolean, setUnits:Dispatch<SetStateAction<ParamUnit[]>>,setUnfiltered:Dispatch<SetStateAction<ParamUnit[]>>) =>{
+export const stateDeleted = async (deletionResult:boolean, setUnits:Dispatch<SetStateAction<ParamUnit[]>>,setUnfiltered:Dispatch<SetStateAction<ParamUnit[]>>,setCount: Dispatch<SetStateAction<number>>) =>{
     if (deletionResult) {
         Success('Unidad eliminada correctamente')
-        const fetchedSections = await fetchUnit(param);
-        updateData(setUnits,setUnfiltered, fetchedSections);
+        const fetchedSections = await fetchUnit(params);
+        updateData(setUnits,setUnfiltered, fetchedSections,setCount);
     } else {
         Error('Error al intentar eliminar la unidad');
     }
 }
-export const updateData = (setUnits:Dispatch<SetStateAction<ParamUnit[]>>,setUnfiltered:Dispatch<SetStateAction<ParamUnit[]>>,fetchedSections:any) => {
+export const updateData = (setUnits:Dispatch<SetStateAction<ParamUnit[]>>,setUnfiltered:Dispatch<SetStateAction<ParamUnit[]>>,fetchedSections:any,setCount: Dispatch<SetStateAction<number>>) => {
     setUnits(fetchedSections.props.data);
     setUnfiltered(fetchedSections.props.data);
+    setCount(fetchedSections.props.pagination.totalRecords);
 }

@@ -11,7 +11,8 @@ export const fetchUnit = async (param: ParamUnit) => {
     const data = await res.json();
     return {
       props: {
-        data,
+        data: data.data,
+        pagination: data.pagination,
       }
     }
   }

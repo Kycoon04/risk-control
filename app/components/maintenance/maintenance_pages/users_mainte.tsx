@@ -7,8 +7,9 @@ import { fetchUsers, deleteUser } from "../../actions/actions_users/actions";
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/user_storage';
-import { param, filtered, stateDeleted, updateData } from "../maintenance_pages/methods_pages/users_methods"
+import { param,params, filtered, stateDeleted, updateData } from "../maintenance_pages/methods_pages/users_methods"
 const UsersMaintenance: React.FC = () => {
+    const [Count, setCount] = useState(0);
     const [users, setUsers] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<User[]>([]);
@@ -23,8 +24,8 @@ const UsersMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchUsers(param);
-            updateData(setUsers, setUnfiltered, fetchedSections);
+            const fetchedSections = await fetchUsers(params);
+            updateData(setUsers, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -36,13 +37,16 @@ const UsersMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteUser = async (userId: string) => {
         const deletionResult = await deleteUser(parseInt(userId, 10));
-        stateDeleted(deletionResult, setUsers, setUnfiltered);
+        stateDeleted(deletionResult, setUsers, setUnfiltered,setCount);
     };
     const handleModifyUser = async (user: User) => {
         setUser(user);
 
     };
-    const changePage = (pageNumber: number) => {
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchUsers(params);
+        updateData(setUsers, setUnfiltered, fetchedSections, setCount);
         setCurrentPage(pageNumber);
     };
     return (
@@ -52,7 +56,7 @@ const UsersMaintenance: React.FC = () => {
                 <Filter<User> filters={filters} setFilters={setFilters} clearFilters={clearFilters} />
                 {isLoading ? (
                     <Spinner />) : (
-                    currentItems.map((user) => (
+                    users.map((user) => (
                         <UserCard key={user.id} prompt_one="Nombre:" prompt_two="Cédula:" prompt_three="Nickname:" handleDeleteUser={handleDeleteUser} handleModifyUser={handleModifyUser} {...user} />
                     )))}
                 <div className="flex justify-center">
@@ -61,7 +65,7 @@ const UsersMaintenance: React.FC = () => {
                         itemsPerPage={itemsPerPage}
                         currentPage={currentPage}
                         changePage={changePage}
-                        count={10}
+                        count={Count}
                     />
                 </div>
             </div>

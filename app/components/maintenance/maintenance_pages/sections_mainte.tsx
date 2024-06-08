@@ -9,8 +9,9 @@ import { deleteSection, fetchSections } from "../../actions/actions_sections/act
 import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/section_storage';
-import {param,filtered,stateDeleted,updateData} from '../maintenance_pages/methods_pages/sections_methods'
-const SectionMaintenance: React.FC = () => {    
+import {param,params,filtered,stateDeleted,updateData} from '../maintenance_pages/methods_pages/sections_methods'
+const SectionMaintenance: React.FC = () => {
+    const [Count, setCount] = useState(0);
     const [sections, setSections] = useState<Section[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<Section[]>([]);
@@ -25,8 +26,8 @@ const SectionMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchSections(param);
-            updateData(setSections,setUnfiltered,fetchedSections);
+            const fetchedSections = await fetchSections(params);
+            updateData(setSections,setUnfiltered,fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -38,10 +39,14 @@ const SectionMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteSection = async (userId: string) => {
         const deletionResult = await deleteSection(parseInt(userId, 10));
-        stateDeleted(deletionResult,setSections,setUnfiltered);
+        stateDeleted(deletionResult,setSections,setUnfiltered,setCount);
     };
-    const changePage = (pageNumber: number) => {
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchSections(params);
+        updateData(setSections,setUnfiltered,fetchedSections,setCount);
         setCurrentPage(pageNumber);
+        console.log(sections)
     };
     const handleModifySection = async (section: Section) => { setSection(section); };
     return (
@@ -59,7 +64,7 @@ const SectionMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                currentItems.map((section) => (
+                sections.map((section) => (
                     <SectionCard key={section.id} prompt_one="Nombre:" prompt_two="Id:" handleDeleteSection={handleDeleteSection} prompt_three="Completado:" handleModifySection={handleModifySection} {...section} />
                 )))}
                                 <div className="flex justify-center">
@@ -68,7 +73,7 @@ const SectionMaintenance: React.FC = () => {
                         itemsPerPage={itemsPerPage}
                         currentPage={currentPage}
                         changePage={changePage}
-                        count={10}
+                        count={Count}
                     />
                 </div>
         </div>

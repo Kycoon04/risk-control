@@ -9,8 +9,9 @@ import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/unit_storage';
 import UnitCard from "../maintenance_cards/unit_card"
-import { param, filtered, stateDeleted, updateData } from "../maintenance_pages/methods_pages/units_methods"
+import { param,params, filtered, stateDeleted, updateData } from "../maintenance_pages/methods_pages/units_methods"
 const UnitsMaintenance: React.FC = () => {
+    const [Count, setCount] = useState(0);
     const [units, setUnits] = useState<ParamUnit[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamUnit[]>([]);
@@ -25,8 +26,8 @@ const UnitsMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchUnit(param);
-            updateData(setUnits, setUnfiltered, fetchedSections);
+            const fetchedSections = await fetchUnit(params);
+            updateData(setUnits, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -38,10 +39,14 @@ const UnitsMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteUnit = async (unitId: string) => {
         const deletionResult = await deleteUnit(parseInt(unitId, 10));
-        stateDeleted(deletionResult, setUnits, setUnfiltered);
+        stateDeleted(deletionResult, setUnits, setUnfiltered,setCount);
     };
-    const changePage = (pageNumber: number) => {
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchUnit(params);
+        updateData(setUnits, setUnfiltered, fetchedSections,setCount);
         setCurrentPage(pageNumber);
+        console.log(units)
     };
     const handleModifyUnit = async (unit: ParamUnit) => { setUnit(unit); };
     return (
@@ -59,7 +64,7 @@ const UnitsMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                currentItems.map((unit) => (
+                units.map((unit) => (
                     <UnitCard key={unit.id} prompt_one="Id:" prompt_two="Nombre:" prompt_three="Descripción:" handleDeleteUnit={handleDeleteUnit} handleModifyUnit={handleModifyUnit} {...unit} />
                 )))}
             <div className="flex justify-center">
@@ -68,7 +73,7 @@ const UnitsMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
-                    count={10}
+                    count={Count}
                 />
             </div>
         </div>

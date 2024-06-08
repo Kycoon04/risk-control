@@ -9,8 +9,9 @@ import { ParamQuestions } from "@/types";
 import { fetchQuestion, deleteQuestion } from "../../actions/actions_questions/actions";
 import QuestionCard from "../maintenance_cards/question_card";
 import { useAuthStore } from "../maintenance_storages/question_storage";
-import { param, filtered, updateData, stateDeleted } from "../maintenance_pages/methods_pages/questions_methods"
+import { param,params, filtered, updateData, stateDeleted } from "../maintenance_pages/methods_pages/questions_methods"
 const QuestionsMaintenance: React.FC = () => {
+    const [Count, setCount] = useState(0);
     const [questions, setQuestions] = useState<ParamQuestions[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamQuestions[]>([]);
@@ -26,8 +27,8 @@ const QuestionsMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchQuestion(param);
-            updateData(setQuestions, setUnfiltered, fetchedSections);
+            const fetchedSections = await fetchQuestion(params);
+            updateData(setQuestions, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -39,9 +40,13 @@ const QuestionsMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteQuestion = async (roleId: string) => {
         const deletionResult = await deleteQuestion(parseInt(roleId, 10));
-        stateDeleted(deletionResult, setQuestions, setUnfiltered);
+        stateDeleted(deletionResult, setQuestions, setUnfiltered,setCount);
     };
-    const changePage = (pageNumber: number) => {
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchQuestion(params);
+        updateData(setQuestions, setUnfiltered, fetchedSections,setCount);
+        console.log(questions)
         setCurrentPage(pageNumber);
     };
     const handleModifyQuestion = async (question: ParamQuestions) => { setQuestion(question); };
@@ -60,7 +65,7 @@ const QuestionsMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                currentItems.map((question) => (
+                questions.map((question) => (
                     <QuestionCard key={question.id} prompt_one="Id:" prompt_two="Pregunta:" prompt_three="Descripción:" prompt_fourth="Sección:" handleDeleteQuestion={handleDeleteQuestion} handleModifyQuestion={handleModifyQuestion} {...question} />
                 )))}
             <div className="flex justify-center">
@@ -69,7 +74,7 @@ const QuestionsMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
-                    count={10}
+                    count={Count}
                 />
             </div>
         </div>

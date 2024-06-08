@@ -12,7 +12,8 @@ import { putForms } from '@/app/components/actions/actions_forms/actions';
     const data = await res.json();
     return {
       props: {
-        data,
+        data: data.data,
+        pagination: data.pagination,
       }
     }
   }

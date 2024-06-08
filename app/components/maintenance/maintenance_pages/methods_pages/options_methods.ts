@@ -1,5 +1,5 @@
 "use client";
-import { ParamOption } from "@/types";
+import { ParamOption,ParamOptionFetch } from "@/types";
 import { Success, Error } from "../../../notifications/alerts";
 import {fetchOptions} from "../../../actions/actions_options/actions";
 import { Dispatch, SetStateAction } from "react";
@@ -10,6 +10,14 @@ export const param: ParamOption = {
     question: "",
     score: "",
 
+};
+export const params: ParamOptionFetch = {
+    id: "",
+    option: "",
+    question: "",
+    score: "",
+    page: 1,
+    limit: 4,
 };
 export const filtered = (unfiltered:ParamOption[], filters:Partial<ParamOption>) =>{
     const filteredOptions = unfiltered.filter(item => {
@@ -28,16 +36,18 @@ export const filtered = (unfiltered:ParamOption[], filters:Partial<ParamOption>)
     return filteredOptions;
 }
 
-export const stateDeleted = async (deletionResult:boolean, setOptions:Dispatch<SetStateAction<ParamOption[]>>, setUnfiltered:Dispatch<SetStateAction<ParamOption[]>> ) => {
+export const stateDeleted = async (deletionResult:boolean, setOptions:Dispatch<SetStateAction<ParamOption[]>>, setUnfiltered:Dispatch<SetStateAction<ParamOption[]>>,setCount: Dispatch<SetStateAction<number>> ) => {
     if (deletionResult) {
         Success('Opción de pregunta eliminada correctamente')
         const fetchedOptions = await fetchOptions(param);
-        updateData(setOptions,setUnfiltered,fetchedOptions);
+        updateData(setOptions,setUnfiltered,fetchedOptions,setCount);
     } else {
         Error('Error al intentar eliminar la opción de pregunta');
     }
 }
-export const updateData = (setOptions:Dispatch<SetStateAction<ParamOption[]>>, setUnfiltered:Dispatch<SetStateAction<ParamOption[]>>, fetchedOptions:any) =>{
+export const updateData = (setOptions:Dispatch<SetStateAction<ParamOption[]>>, setUnfiltered:Dispatch<SetStateAction<ParamOption[]>>, fetchedOptions:any,setCount: Dispatch<SetStateAction<number>>) =>{
     setOptions(fetchedOptions.props.data);
     setUnfiltered(fetchedOptions.props.data);
+    console.log(fetchedOptions.props.pagination.totalRecords)
+    setCount(fetchedOptions.props.pagination.totalRecords);
 }

@@ -49,7 +49,20 @@ export interface User {
     identification: string;
     department: string;
 };
-
+export interface UserFecth {
+    id: string;
+    name: string;
+    second_name: string;
+    surname: string;
+    second_surname: string;
+    email: string;
+    phone_number: string;
+    nickname: string;
+    identification: string;
+    department: string;
+    page?: number;
+    limit?: number;
+};
 export interface Form {
     id: string;
     name: string;
@@ -109,6 +122,16 @@ export interface Section {
     complete: string,
 };
 
+export interface SectionFetch {
+    id: string,
+    name: string,
+    description: string,
+    forms: string,
+    complete: string,
+    page?: number;
+    limit?: number;
+};
+
 export interface RoleXUser {
     id: string;
     user: string;
@@ -160,7 +183,13 @@ export interface Role {
     name: string;
     active: string;
 };
-
+export interface RoleFecht {
+    id: string;
+    name: string;
+    active: string;
+    page?: number;
+    limit?: number;
+};
 export interface TlQuestions { // Ask about the file type ""
     id: string,
     question: string,
@@ -262,7 +291,20 @@ export interface ParamOption {
     question: string;
     score: string;
 };
-
+export interface ParamOptionFetch {
+    id: string;
+    option: string;
+    question: string;
+    score: string;
+    page?: number;
+    limit?: number;
+};
+export interface ParamOption {
+    id: string;
+    option: string;
+    question: string;
+    score: string;
+};
 export interface graphicData {
     labels: string[];
     datasets: {
@@ -328,7 +370,14 @@ export interface ParamQuestions {
     description: string;
     section: string;
 };
-
+export interface ParamQuestionsFetch {
+    id: string;
+    question: string;
+    description: string;
+    section: string;
+    page?: number;
+    limit?: number;
+};
 export interface Answers {
     user: string | undefined;
     option: string | null;
@@ -485,4 +534,11 @@ export interface ParamUnit {
     id: string;
     name: string;
     description: string;
+};
+export interface ParamUnitFetch {
+    id: string;
+    name: string;
+    description: string;
+    page?: number;
+    limit?: number;
 };

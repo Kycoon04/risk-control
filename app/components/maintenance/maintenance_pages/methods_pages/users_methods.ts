@@ -1,5 +1,5 @@
 "use client";
-import { RoleXUser, User } from "@/types";
+import { RoleXUser, User,UserFecth } from "@/types";
 import { fetchUsers } from "../../../actions/actions_users/actions";
 import { Success, Error } from "../../../notifications/alerts";
 import { Dispatch, SetStateAction } from "react";
@@ -14,6 +14,20 @@ export const param: User = {
         identification: "",
         nickname: "",
         phone_number: ""
+};
+export const params: UserFecth = {
+    id: "",
+    department: "",
+    name: "",
+    second_name: "",
+    surname: "",
+    second_surname: "",
+    email: "",
+    identification: "",
+    nickname: "",
+    phone_number: "",
+    page: 1,
+    limit: 4,
 };
 export const filtered = (unfiltered:User[],filters:Partial<User>) => {
     const filteredLoggers = unfiltered.filter(item => {
@@ -32,16 +46,17 @@ export const filtered = (unfiltered:User[],filters:Partial<User>) => {
     });
     return filteredLoggers;
 }
-export const stateDeleted = async (deletionResult:boolean,setUsers:Dispatch<SetStateAction<User[]>>,setUnfiltered: Dispatch<SetStateAction<User[]>>) => {
+export const stateDeleted = async (deletionResult:boolean,setUsers:Dispatch<SetStateAction<User[]>>,setUnfiltered: Dispatch<SetStateAction<User[]>>,setCount: Dispatch<SetStateAction<number>>) => {
     if (deletionResult) {
         Success('Usuario eliminado correctamente')
-        const fetchedSections = await fetchUsers(param);
-        updateData(setUsers,setUnfiltered,fetchedSections);
+        const fetchedSections = await fetchUsers(params);
+        updateData(setUsers,setUnfiltered,fetchedSections,setCount);
     } else {
         Error('Error al intentar eliminar el usuario');
     }
 }
-export const updateData = (setUsers:Dispatch<SetStateAction<User[]>>,setUnfiltered: Dispatch<SetStateAction<User[]>>,fetchedSections:any) => {
+export const updateData = (setUsers:Dispatch<SetStateAction<User[]>>,setUnfiltered: Dispatch<SetStateAction<User[]>>,fetchedSections:any,setCount: Dispatch<SetStateAction<number>>) => {
     setUsers(fetchedSections.props.data);
     setUnfiltered(fetchedSections.props.data);
+    setCount(fetchedSections.props.pagination.totalRecords);
 }

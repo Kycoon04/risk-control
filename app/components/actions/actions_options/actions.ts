@@ -11,7 +11,8 @@ export const fetchOptions = async (param: ParamOption) => {
     const data = await res.json();
     return {
       props: {
-        data,
+        data: data.data,
+        pagination: data.pagination,
       }
     }
   }

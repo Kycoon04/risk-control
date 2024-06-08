@@ -9,8 +9,9 @@ import Spinner from "../../notifications/Spinner";
 import Filter from "../../utils_comp/Filters/filter";
 import OptionCard from "../maintenance_cards/option_card";
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/option_storage';
-import { param, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/options_methods'
+import { param,params, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/options_methods'
 const OptionsMaintenance: React.FC = () => {
+    const [Count, setCount] = useState(0);
     const [options, setOptions] = useState<ParamOption[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<ParamOption[]>([]);
@@ -25,8 +26,8 @@ const OptionsMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchOptions(param);
-            updateData(setOptions, setUnfiltered, fetchedSections);
+            const fetchedSections = await fetchOptions(params);
+            updateData(setOptions, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -38,9 +39,12 @@ const OptionsMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteOption = async (optionId: string) => {
         const deletionResult = await deleteOption(parseInt(optionId, 10));
-        stateDeleted(deletionResult, setOptions, setUnfiltered);
+        stateDeleted(deletionResult, setOptions, setUnfiltered,setCount);
     };
-    const changePage = (pageNumber: number) => {
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchOptions(params);
+        updateData(setOptions, setUnfiltered, fetchedSections,setCount);
         setCurrentPage(pageNumber);
     };
     const handleModifyOption = async (option: ParamOption) => { setOption(option); };
@@ -59,7 +63,7 @@ const OptionsMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                currentItems.map((option) => (
+                    options.map((option) => (
                     <OptionCard key={option.id} prompt_one="Id Pregunta:" prompt_two="Puntaje:" prompt_three="Opción:" handleDeleteOption={handleDeleteOption} handleModifyOption={handleModifyOption} {...option} />
                 )))}
             <div className="flex justify-center">
@@ -68,7 +72,7 @@ const OptionsMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
-                    count={10}
+                    count={Count}
                 />
             </div>
         </div>

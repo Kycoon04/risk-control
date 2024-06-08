@@ -1,5 +1,5 @@
 'use client'
-import {RoleXUser} from '@/types';
+import {RoleXUser,Role} from '@/types';
 
 export const fetchUserRole = async (param: RoleXUser) => {
   const queryParams = new URLSearchParams(
@@ -90,14 +90,19 @@ export const deleteRole = async (roleId: number): Promise<boolean> => {
   }
 }
 
-export const fetchRoleAll = async () => {
-  const res = await fetch(`/api/roles/[id]`, {
+export const fetchRoleAll = async (param: Role) => {
+  const queryParams = new URLSearchParams(
+    Object.entries(param)
+      .filter(([_, value]) => value !== undefined && value !== "")
+  ).toString();
+  const res = await fetch(`/api/roles/[id]?${queryParams}`, {
     cache: "no-store",
   });
   const data = await res.json();
   return {
     props: {
-      data,
+      data: data.data,
+      pagination: data.pagination,
     }
   }
 }

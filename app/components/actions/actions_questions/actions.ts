@@ -12,7 +12,8 @@ export const fetchQuestion = async (param: ParamQuestions) => {
     const data = await res.json();
     return {
       props: {
-        data,
+        data: data.data,
+        pagination: data.pagination,
       }
     }
   }

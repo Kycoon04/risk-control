@@ -43,11 +43,16 @@ export async function GET(_req: Request) {
         const object = {
             id: 0, name: "", second_name: "", surname: "",
             second_surname: "", email: "", phone_number: "", nickname: "", identification: "",
-            department: 0
+            department: 0, page: 1, limit: undefined
         };
         const url = _req.url;
-        const parameters = getParams(url, object)
-        const { id, name, second_name, surname, second_surname, email, phone_number, nickname, identification, department } = parameters
+        const parameters = getParams(url, object);
+        const { id, name, second_name, surname, second_surname, email, phone_number, nickname, identification, department, page, limit } = parameters;
+
+        const pageNumber = parseInt(page, 10) || 1;
+        const pageSize = limit ? parseInt(limit, 10) : undefined;
+        const skip = pageSize ? (pageNumber - 1) * pageSize : undefined;
+
         const whereCondition = {
             where: {
                 id: id,
@@ -62,8 +67,20 @@ export async function GET(_req: Request) {
                 department: department
             },
         };
-        let loggers;
-        loggers = await prisma.tL_Users.findMany({ where: whereCondition.where });
+
+        const [users, totalRecords] = await Promise.all([
+            prisma.tL_Users.findMany({
+                ...whereCondition,
+                ...(skip !== undefined && { skip }),
+                ...(pageSize !== undefined && { take: pageSize }),
+            }),
+            prisma.tL_Users.count({
+                ...whereCondition,
+            })
+        ]);
+
+        const totalPages = pageSize ? Math.ceil(totalRecords / pageSize) : 1;
+
         const logger = {
             id: "",
             usuario: "defaultUser",
@@ -72,7 +89,7 @@ export async function GET(_req: Request) {
             transaction: "GET USERS",
             ip: clientIp || "192.168",
             date: new Date().toISOString(),
-        }
+        };
         await postLogger(logger);
 
         const token = sign(
@@ -83,16 +100,23 @@ export async function GET(_req: Request) {
             },
             "secret"
         );
-        const response = NextResponse.json({
+
+        return new NextResponse(JSON.stringify({
+            data: users,
+            pagination: {
+                totalRecords,
+                totalPages,
+                currentPage: pageNumber,
+                pageSize: pageSize || totalRecords,
+            },
             token,
-        });
-        console.log("token", token)
-        return new NextResponse(JSON.stringify(loggers), {
+        }), {
             headers: {
                 'Set-Cookie': `myTokenName=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000; Path=/`
             }
         });
     } catch (error) {
+        console.log(error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

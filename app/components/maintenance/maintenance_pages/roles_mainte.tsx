@@ -9,8 +9,9 @@ import { Role } from "@/types";
 import { fetchRoleAll, deleteRole } from "../../actions/actions_roles/actions";
 import RoleCard from "../maintenance_cards/role_card"
 import { useAuthStore } from '@/app/components/maintenance/maintenance_storages/role_storage';
-import { param, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/roles_methods'
+import { param,params, filtered, stateDeleted, updateData } from '../maintenance_pages/methods_pages/roles_methods'
 const RolesMaintenance: React.FC = () => {
+    const [Count, setCount] = useState(0);
     const [roles, setRoles] = useState<Role[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [unfiltered, setUnfiltered] = useState<Role[]>([]);
@@ -25,8 +26,8 @@ const RolesMaintenance: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const fetchedSections = await fetchRoleAll();
-            updateData(setRoles, setUnfiltered, fetchedSections);
+            const fetchedSections = await fetchRoleAll(params);
+            updateData(setRoles, setUnfiltered, fetchedSections,setCount);
             setIsLoading(false);
         }; fetchData();
     }, []);
@@ -38,9 +39,12 @@ const RolesMaintenance: React.FC = () => {
     }, [filters, unfiltered]);
     const handleDeleteRole = async (roleId: string) => {
         const deletionResult = await deleteRole(parseInt(roleId, 10));
-        stateDeleted(deletionResult, setRoles, setUnfiltered);
+        stateDeleted(deletionResult, setRoles, setUnfiltered,setCount);
     };
-    const changePage = (pageNumber: number) => {
+    const changePage = async (pageNumber: number) => {
+        params.page = pageNumber;
+        const fetchedSections = await fetchRoleAll(params);
+        updateData(setRoles, setUnfiltered, fetchedSections,setCount);
         setCurrentPage(pageNumber);
     };
     const handleModifyRole = async (role: Role) => { setRole(role); };
@@ -59,7 +63,7 @@ const RolesMaintenance: React.FC = () => {
             </div>
             {isLoading ? (
                 <Spinner />) : (
-                currentItems.map((role) => (
+                roles.map((role) => (
                     <RoleCard key={role.id} prompt_one="Id:" prompt_two="Nombre:" prompt_three="Estado:" handleDeleteRole={handleDeleteRole} handleModifyRole={handleModifyRole} {...role} />
                 )))}
             <div className="flex justify-center">
@@ -68,7 +72,7 @@ const RolesMaintenance: React.FC = () => {
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     changePage={changePage}
-                    count={10}
+                    count={Count}
                 />
             </div>
         </div>
