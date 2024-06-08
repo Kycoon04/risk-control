@@ -32,7 +32,6 @@ const ResponseAverage: React.FC = () => {
                 });
             });
             const departAverage: number[] = list.map(unit => unit.count);
-            console.log(departAverage);
             return departAverage;
         };
         if (!isLoading && Answers.length > 0 && listUnits.length > 0) { 

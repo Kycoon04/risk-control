@@ -75,7 +75,8 @@ export const fetchSections = async (param: paramsSection) => {
   const data = await res.json();
   return {
     props: {
-      data,
+      data: data.data,
+      pagination: data.pagination,
     }
   }
 }

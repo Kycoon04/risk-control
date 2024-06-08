@@ -71,9 +71,9 @@ export async function GET(_req: Request) {
         const parameters = getParams(url, object);
         const { name, description, forms, page, limit } = parameters;
 
-        const pageNumber = parseInt(page, 10) || 1;
+        const pageNumber = page ? parseInt(page, 10) : undefined;
         const pageSize = limit ? parseInt(limit, 10) : undefined;
-        const skip = pageSize ? (pageNumber - 1) * pageSize : undefined;
+        const skip = pageSize ? ((pageNumber || 1) - 1) * pageSize : undefined;
 
         // Definir las condiciones de búsqueda
         const whereCondition = {

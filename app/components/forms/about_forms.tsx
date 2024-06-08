@@ -8,7 +8,6 @@ const Componente: React.FC = () => {
     const [barData, setBarData] = useGraphicData();
     const { isLoading, sections, Answers } = useDataPreparation();
     const forms = useAuthStore((state) => state.form);
-
     useEffect(() => {
         const generateRandomData = () => {
             const sectionScores: { [section: string]: number[] } = {};
