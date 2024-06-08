@@ -4,6 +4,7 @@ import {fetchRoleAll} from "../../../actions/actions_roles/actions";
 import { fetchRoleXIdUser} from '@/app/components/actions/actions_rolesxuser/actions';
 import { Success, Error } from "../../../notifications/alerts";
 import { Dispatch, SetStateAction } from "react";
+import { params} from '../../maintenance_pages/methods_pages/roles_methods'
 export const param: Role = { id: "", name: "", active: "" };
 export const loadData = (setRoles:Dispatch<SetStateAction<Role[]>>,setUnfiltered:Dispatch<SetStateAction<Role[]>>,setRoleXUser:Dispatch<SetStateAction<RoleXUser[]>>,user:User,setIsLoading:Dispatch<SetStateAction<boolean>>) =>{
     setIsLoading(true);
@@ -51,7 +52,7 @@ export const stateAdded = async (AddedResult:boolean,setRoles:Dispatch<SetStateA
     }
 }
 export const updateData = async (setRoles:Dispatch<SetStateAction<Role[]>>,setUnfiltered:Dispatch<SetStateAction<Role[]>>,setRoleXUser:Dispatch<SetStateAction<RoleXUser[]>>,user:User) => {
-    const fetchedSections = await fetchRoleAll();
+    const fetchedSections = await fetchRoleAll(param);
     setRoles(fetchedSections.props.data);
     setUnfiltered(fetchedSections.props.data);
     const fetchedDepartXForm = await fetchRoleXIdUser(user.id);
