@@ -10,6 +10,7 @@ import {ParamDepartment,Role} from '@/types';
 import {fetchRoleAll,postRoleXUser } from '../actions/actions_roles/actions';
 import {fetchDepartment} from '../actions/actions_departments/actions'
 import {submitFormUser,Departments} from '../register/register_methods'
+export const param: Role = { id: "", name: "", active: "" };
 const Header = () => {
     const [nickname, setNickname] = useState('');
     const [name, setName] = useState('');
@@ -29,7 +30,7 @@ const Header = () => {
         const initialize = async () => {
             const fetchedDepartment = await fetchDepartment(Departments);
             setDepartments(fetchedDepartment.props.data);
-            const fetchedRole = await fetchRoleAll();
+            const fetchedRole = await fetchRoleAll(param);
             console.log(fetchedRole.props.data)
             setRoles(fetchedRole.props.data);
         };
