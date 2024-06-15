@@ -1,18 +1,22 @@
-import {User,Department, Form, QuestionsExcel, Section, TlQuestions} from "@/types";
+import {User,Department, Form, QuestionsExcel, Section, TlQuestions, Unit} from "@/types";
 import {generateExcelUsers, generateExcelForms, generateExcelDepartments, generateExcelQuestionsXsections} from '@/app/reports/generateExcel';
 
 
 
 export const handlerUsers = async (userName : string)=>{
+    console.log('Este es el users fetch');
     const usersFetch  = await fetch('/api/users/[id]', {
         cache: "no-store",
     });
     const departmentsFetch  = await fetch('/api/departments/[id]', {
         cache: "no-store",
     });
-
-    const departments: Department[] = await departmentsFetch.json();
-    const users: User[] = await usersFetch.json();
+    
+    const departmentsResponse = await departmentsFetch.json();
+    const usersResponse = await usersFetch.json();
+    
+    const departments : Department[] = departmentsResponse.data;
+    const users : User[] = usersResponse.data;
 
     users.forEach(user => {
         const department = departments.find(department => department.id === user.department);
@@ -32,8 +36,11 @@ export const handlerDepartments = async (userName: string)=>{
         cache: "no-store",
     });
 
-    const units: Department[] = await unitsFetch.json();
-    const departments: Department[] = await departmentsFetch.json();
+    const unitsResponse = await unitsFetch.json();
+    const departmentsResponse = await departmentsFetch.json();
+    
+    const units : Unit[] = unitsResponse.data;
+    const departments : Department[] = departmentsResponse.data;
 
     departments.forEach(department => {
         const unit = units.find(unit => unit.id === department.unit);
@@ -64,9 +71,12 @@ export const handlerQuestionsXsections = async (userName : string)=>{
     });
 
 
-    const sections : Section[] = await sectionsFetch.json();
-    const questions : TlQuestions[] = await questionsFetch.json();
-    const forms: Form[] = await formsFetch.json();
+    const sectionsResponse = await sectionsFetch.json();
+    const questionsResponse = await questionsFetch.json();
+    const forms:Form[] = await formsFetch.json();
+
+    const questions : TlQuestions[] = questionsResponse.data;
+    const sections : Section[] = sectionsResponse.data;
     
     const questionsXsections : QuestionsExcel[] = questions.map(question => {
         const section = sections.find(section => section.id === question.section);

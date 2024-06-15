@@ -535,6 +535,12 @@ export interface ParamUnit {
     name: string;
     description: string;
 };
+
+export interface Unit {
+    id: string;
+    name: string;
+    description: string;
+};
 export interface ParamUnitFetch {
     id: string;
     name: string;
