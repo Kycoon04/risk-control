@@ -1,8 +1,8 @@
 "use client";
 import Link from 'next/link';
 import { departmentSelected } from "@/types";
-import { MdOutlineDomainAdd } from "react-icons/md";
-import { BsFillXSquareFill } from "react-icons/bs";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { MdCheckBox } from "react-icons/md";
 import { fetchDepartment  } from '../../../actions/actions_departments/actions';
 import {Error,Success} from '../../../notifications/alerts';
 interface Card extends departmentSelected {
@@ -38,11 +38,11 @@ const DepartmentCard: React.FC<Card> = (promp: Card) => {
 
                 {promp.state == 'No Agregado' ? (
                     <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onModifyClick}>
-                         <MdOutlineDomainAdd className="text-white font text-4xl hover:text-slate-300" />
+                         <MdCheckBoxOutlineBlank className="text-white font text-4xl hover:text-slate-300" />
                     </div>
                 ) : (
                     <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onDeleteClick}>
-                        <BsFillXSquareFill className="text-white font text-4xl hover:text-slate-300" />
+                        <MdCheckBox className="text-white font text-4xl hover:text-slate-300" />
                     </div>
                 )}
             </div>

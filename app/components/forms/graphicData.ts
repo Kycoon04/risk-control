@@ -15,10 +15,10 @@ export const useGraphicData = (): [graphicData, React.Dispatch<React.SetStateAct
         datasets: [
             {
                 label: 'Nota de las secciones',
-                backgroundColor: 'rgba(58, 29, 99,0.6)',
-                borderColor: '#3a1d63',
+                backgroundColor: 'rgba(150, 0, 198 ,0.6)',
+                borderColor: 'rgba(150, 0, 198 ,0.6)',
                 borderWidth: 0.5,
-                hoverBackgroundColor: 'rgba(58, 29, 99, 0.4)',
+                hoverBackgroundColor: 'rgba(150, 0, 198 ,0.4)',
                 hoverBorderColor: '#fff',
                 pointBackgroundColor: 'white',
                 pointBorderColor: 'white',

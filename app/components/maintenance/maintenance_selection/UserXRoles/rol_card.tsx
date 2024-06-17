@@ -1,8 +1,8 @@
 "use client";
 import Link from 'next/link';
 import { roleSelected } from "@/types";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
-import { BsFillXSquareFill } from "react-icons/bs";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
+import { MdCheckBox } from "react-icons/md";
 interface Card extends roleSelected {
     prompt_one: string;
     prompt_two: string;
@@ -43,11 +43,11 @@ const RoleCard: React.FC<Card> = (promp: Card) => {
             <div className="w-full md:w-auto flex justify-center md:justify-start">
                 {promp.state == 'No Agregado' ? (
                     <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onModifyClick}>
-                         <AiOutlineUsergroupAdd className="text-white font text-4xl hover:text-slate-300" />
+                         < MdCheckBoxOutlineBlank className="text-white font text-4xl hover:text-slate-300" />
                     </div>
                 ) : (
                     <div className='bg-purple-400 flex gap-5 rounded-2xl text-white cursor-pointer m-2 justify-center p-3' onClick={onDeleteClick}>
-                        <BsFillXSquareFill className="text-white font text-4xl hover:text-slate-300" />
+                        < MdCheckBox className="text-white font text-4xl hover:text-slate-300" />
                     </div>
                 )}
             </div>
